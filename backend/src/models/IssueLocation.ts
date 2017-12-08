@@ -1,10 +1,9 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-import { User } from './User';
+import { Issue } from './Issue';
 
 @Entity()
-export class Location {
-
+export class IssueLocation {
     @PrimaryGeneratedColumn()
     public id: number;
 
@@ -14,7 +13,6 @@ export class Location {
     @Column('double precision')
     public latitude: number;
 
-    @OneToOne((type) => User, (user) => user.location)
-    public user: User;
-
+    @OneToOne((type) => Issue, (issue) => issue.location)
+    public issue: Issue;
 }

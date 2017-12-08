@@ -3,8 +3,8 @@ import { createConnection, Repository } from 'typeorm';
 
 import { Config } from '../config/Config';
 
-import { Location } from '../models/Location';
 import { User } from '../models/User';
+import { UserLocation } from '../models/UserLocation';
 
 export interface UserRepository {
     create(user: User): Promise<User>;
@@ -15,12 +15,12 @@ export interface UserRepository {
 @injectable()
 export class UserRepositoryImplDb implements UserRepository {
     private userRepository: Repository<User>;
-    private locationRepository: Repository<Location>;
+    private locationRepository: Repository<UserLocation>;
 
     constructor() {
         createConnection(Config.ConnectionOptions).then(async (connection) => {
             this.userRepository = connection.getRepository(User);
-            this.locationRepository = connection.getRepository(Location);
+            this.locationRepository = connection.getRepository(UserLocation);
         });
     }
 
