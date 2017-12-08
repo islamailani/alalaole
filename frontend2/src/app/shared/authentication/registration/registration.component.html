@@ -36,7 +36,7 @@
     <input class="colored-text" #search matInput placeholder="Location" />
 </mat-form-field>
 <agm-map class="map" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
-    <agm-marker  (dragEnd)="markerClicked($event)" [markerDraggable]="true" ></agm-marker>
+    <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)" [markerDraggable]="true" ></agm-marker>
     <agm-circle [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" [radius]="500" [circleDraggable]="true"
         [editable]="true"></agm-circle>
 </agm-map>

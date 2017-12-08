@@ -15,6 +15,7 @@ import { TopBarComponent } from './main/top-bar/top-bar.component';
 import { RegistrationComponent } from './shared/authentication/registration/registration.component';
 
 import { AgmCoreModule } from '@agm/core';
+import { MyIssuesComponent } from './main/issues/my-issues.component';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { AgmCoreModule } from '@agm/core';
     LoginComponent,
     MainComponent,
     TopBarComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    MyIssuesComponent
   ],
   imports: [
     AgmCoreModule.forRoot({

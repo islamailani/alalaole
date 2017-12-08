@@ -1,0 +1,56 @@
+.issue{
+    box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+    height: 350px;
+    margin-top:50px;
+    >div, .map{
+        display: inline-block;
+    }
+    .map{
+        height: inherit;
+        float: right;
+    }
+    .issue-info-container{
+        padding:30px;
+        .plus-one{
+            float:right;
+            font-size:25px;
+            background-color:rgb(184, 255, 184);
+            width: 40px;
+            text-align: center;
+            border:1px solid rgb(184, 255, 184);
+            border-radius: 10px 0px 0px 10px;
+            color:white;
+        }
+        .minus-one{
+            float: right;
+            background-color:rgb(255, 184, 184);
+            font-size:25px;
+            width: 40px;
+            text-align: center;
+            border:1px solid rgb(255, 184, 184);
+            border-radius: 0px 10px 10px 0px;
+            color:white;
+        }
+        .description{
+            margin-top:15px;
+            font-size:14px;
+            color:grey;
+        }
+        .score{
+            color:white;
+            background-color: grey;
+            padding:5px;
+        }
+    }
+    .image-container {
+        height: 100%;
+        .image-holder{
+            height: 50%;
+            img{
+                object-fit: cover;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+}

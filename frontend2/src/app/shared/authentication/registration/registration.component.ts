@@ -61,9 +61,12 @@ export class RegistrationComponent implements OnInit {
         if (place.geometry === undefined || place.geometry === null) {
           return;
         }
+        console.log(place.geometry.location.lat());
         this.initialLocation.latitude = place.geometry.location.lat();
         this.initialLocation.longitude = place.geometry.location.lng();
         this.agmMap.triggerResize();
+        this.agmMap.triggerResize();
+        // console.log(this.agmMarker.longitude);
       });
     });
   }

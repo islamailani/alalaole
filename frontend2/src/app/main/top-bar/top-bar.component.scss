@@ -4,7 +4,11 @@
     width: 100%;
     height: 75px;
     background:linear-gradient(to right, $primary_color , $secondary_color);
+    >div,img{
+        display: inline-block;
+    }
     .profile-icons-holder{
+        margin-top:23px;
         >p, div{
             color:white;
             display: inline;
@@ -12,6 +16,15 @@
         mat-icon{
             color: white;
             vertical-align: sub;
+        }
+    }
+    .menu-list{
+        li{
+            letter-spacing: 2px;
+            display: inline;
+            color:white;
+            padding:20px;
+            font-size:18px;
         }
     }
 }
