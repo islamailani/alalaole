@@ -7,7 +7,7 @@ import container from './inversify.config';
 import TYPES from './types';
 import { logger } from './utils/Logger';
 
-import { RegisterableController } from './controllers/RegisterableController';
+import { Controller } from './controllers/Controller';
 import { HttpError } from './utils/HttpError';
 
 const app: express.Application = express();
@@ -18,7 +18,7 @@ app.use((req: express.Request, res: express.Response, next: express.NextFunction
     next();
 });
 
-const controllers: RegisterableController[] = container.getAll<RegisterableController>(TYPES.Controller);
+const controllers: Controller[] = container.getAll<Controller>(TYPES.Controller);
 controllers.forEach((controller) => controller.register(app));
 
 app.use((err: Error | HttpError, req: express.Request, res: express.Response, next: express.NextFunction) => {
