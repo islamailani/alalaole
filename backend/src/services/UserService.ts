@@ -22,7 +22,7 @@ export class UserServiceImpl implements UserService {
 
     public async createUser(user: User): Promise<User> {
         if (await this.userRepository.findByEmail(user.email)) {
-            throw new HttpError('User already existent', 400);
+            throw new HttpError('User already existent', 409);
         }
         user.password = bcrypt.hashSync(user.password);
         const newUser = await this.userRepository.create(user);
@@ -38,10 +38,10 @@ export class UserServiceImpl implements UserService {
                 await this.userRepository.update(foundUser);
                 return new LoginDetails(token);
             } else {
-                throw new HttpError('Wrong credentials !', 403);
+                throw new HttpError('Wrong credentials !', 401);
             }
         } else {
-            throw new HttpError('Wrong credentials !', 403);
+            throw new HttpError('Wrong credentials !', 401);
         }
     }
 
