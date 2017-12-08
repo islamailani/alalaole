@@ -13,6 +13,11 @@ import { HttpError } from './utils/HttpError';
 const app: express.Application = express();
 app.use(bodyParser.json());
 
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+    res.setHeader('Content-Type', 'application/json');
+    next();
+});
+
 const controllers: RegisterableController[] = container.getAll<RegisterableController>(TYPES.Controller);
 controllers.forEach((controller) => controller.register(app));
 
