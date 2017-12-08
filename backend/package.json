@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node_modules/.bin/ts-node src/index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -14,15 +15,21 @@
     "@types/lodash": "^4.14.88",
     "@types/node": "^8.0.57",
     "@types/tape": "^4.2.31",
+    "@types/uuid": "^3.4.3",
     "@types/winston": "^2.3.7",
+    "bcrypt": "^1.0.3",
+    "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "inversify": "^4.6.0",
+    "pg": "^7.4.0",
     "reflect-metadata": "^0.1.10",
     "typeorm": "^0.1.7",
+    "uuid": "^3.1.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {
+    "@types/bcrypt-nodejs": "0.0.30",
     "ts-node": "^3.3.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.2"

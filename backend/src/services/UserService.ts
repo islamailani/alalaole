@@ -1,96 +1,51 @@
-import { injectable, inject } from 'inversify';
-import { Address } from '../model/Address';
-import { AddressRepository } from '../repository/AddressRepository';
+import * as bcrypt from 'bcrypt-nodejs';
+import { inject, injectable } from 'inversify';
+import * as uuid from 'uuid';
+
 import TYPES from '../types';
-import 'reflect-metadata';
-import { AddressDTO } from '../model/AddressSchema';
-import * as _ from 'lodash';
+import { HttpError } from '../utils/HttpError';
+
+import { LoginDetails } from '../models/LoginDetails';
+import { User } from '../models/User';
+
+import { UserRepositoryImplDb } from '../repository/UserRepository';
 
 export interface UserService {
-    getAddresses(): Promise<Address[]>;
-    createAddress(address: Address): Promise<Address>;
-    updateAddress(address: Address): Promise<Address>;
-    getAddress(id: string): Promise<Address>;
+    createUser(user: User): Promise<User>;
+    loginUser(user: User): Promise<LoginDetails>;
 }
 
 @injectable()
-export class AddressServiceImpl implements AddressService {
-    @inject(TYPES.AddressRepository)
-    private addressRepositoryMongo: AddressRepository;
+export class UserServiceImpl implements UserService {
+    @inject(TYPES.UserRepository)
+    private userRepository: UserRepositoryImplDb;
 
-    @inject(TYPES.AddressRepository2)
-    private addressRepositoryDb: AddressRepository;
-
-    public async getAddresses(): Promise<Array<Address>> {
-        // grab addresses from mongo
-        const addressesMongo: Array<Address> = await this.addressRepositoryMongo.findAll().then((a) => a.map((dto: AddressDTO) => {
-            return this.toAddressDTO(dto);
-        }));
-
-        // grab addresses from db
-        const addressesDb: Array<Address> = await this.addressRepositoryDb.findAll().then((a2) => a2.map((dto: AddressDTO) => {
-            return this.toAddressDTO(dto);
-        }));
-
-        return _.uniqBy(addressesMongo.concat(addressesDb), 'id');
-    }
-
-    public async createAddress(address: Address): Promise<Address> {
-        const addressDTO: AddressDTO = this.toAddress(address);
-
-        const createdDTO: AddressDTO = await this.addressRepositoryMongo.create(addressDTO);
-
-        // duplicates the address in the DB
-        await this.addressRepositoryDb.create(await createdDTO);
-
-        return await this.toAddressDTO(createdDTO);
-    }
-
-    public async updateAddress(address: Address): Promise<Address> {
-        const addressDTO: AddressDTO = this.toAddress(address);
-
-        const updated: AddressDTO = await this.addressRepositoryMongo.update(addressDTO);
-
-        // update db address
-        await this.addressRepositoryDb.update(updated);
-
-        return await this.toAddressDTO(updated);
-    }
-
-    public async getAddress(id: string): Promise<Address> {
-        let address = await this.addressRepositoryMongo.find(id).then((a) => {
-            return this.toAddressDTO(a);
-        });
-
-        if (!address) {
-            address = await this.addressRepositoryDb.find(id).then((a) => {
-                return this.toAddressDTO(a);
-            });
+    public async createUser(user: User): Promise<User> {
+        if (await this.userRepository.findByEmail(user.email)) {
+            throw new HttpError('User already existent', 400);
         }
-
-        return address;
+        user.password = bcrypt.hashSync(user.password);
+        const newUser = await this.userRepository.create(user);
+        return newUser;
     }
 
-    private toAddress(address: Address): AddressDTO {
-        return {
-            address1: address.getAddress1,
-            address2: address.getAddress2,
-            city: address.getCity,
-            state: address.getState,
-            zip: address.getZip,
-            country: address.getCountry,
-            _id: address.getId
-        };
+    public async loginUser(user: User): Promise<LoginDetails> {
+        const foundUser = await this.userRepository.findByEmail(user.email);
+        if (foundUser) {
+            if (bcrypt.compareSync(user.password, foundUser.password)) {
+                const token = this.generateToken();
+                foundUser.token = token;
+                await this.userRepository.update(foundUser);
+                return new LoginDetails(token);
+            } else {
+                throw new HttpError('Wrong credentials !', 403);
+            }
+        } else {
+            throw new HttpError('Wrong credentials !', 403);
+        }
     }
 
-    private toAddressDTO(addressDTO: AddressDTO): Address {
-        return new Address(
-            addressDTO.address1,
-            addressDTO.address2,
-            addressDTO.city,
-            addressDTO.state,
-            addressDTO.zip,
-            addressDTO.country,
-            addressDTO._id.toString());
+    private generateToken(): string {
+        return uuid.v4();
     }
 }
