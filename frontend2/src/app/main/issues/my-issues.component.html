@@ -1,23 +1,62 @@
 <div class="issue col-md-12 no-padding">
     <div class="col-md-6 issue-info-container">
-        <h2 class="display-inline score">31</h2>
+        <mat-icon class="upvote">keyboard_arrow_up</mat-icon>
+        <p class="display-inline score">31</p>
+        <mat-icon class="downvote">keyboard_arrow_down</mat-icon>
+
         <h2 class="colored-text display-inline">first Issue</h2>
-        <span class="minus-one display-inline">-</span>
-        <span class="plus-one display-inline">+</span>
+        <!-- <span class="minus-one display-inline">-</span>
+            <span class="plus-one display-inline">+</span> -->
         <p class="description"> loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
             lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
-            lorem loremlorem lorem loremlorem lorem lorem lorem lorem lorem lorem lorem lorem lorem </p>
+        </p>
+        <div class="col-md-12 no-padding image-container">
+            <div class="image-holder">
+                <img src="https://maps.uiowa.edu/sites/maps.uiowa.edu/files/styles/large/public/0075.JPG?itok=IGUEOtaX" />
+            </div>
+            <div class="image-holder float-right">
+                <img src="http://www.bd.gov.hk/images/services/english/safety/01home_banner.jpg" />
+            </div>
+        </div>
+        <p class="comments">21 comments</p>
+        <button class="float-right go-to-issue-btn simple-button-style">See more
+            <mat-icon class=" float-right">arrow_forward</mat-icon>
+        </button>
     </div>
-    <agm-map class="map col-md-6 no-padding" [latitude]="2" [longitude]="2">
+    <agm-map class="map col-md-6 no-padding" [latitude]="41" [longitude]="32">
         <!-- <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)" -->
         <!-- [markerDraggable]="true"></agm-marker> -->
     </agm-map>
-    <!-- <div class="col-md-2 no-padding image-container float-right">
-        <div class="image-holder">
-            <img src="https://maps.uiowa.edu/sites/maps.uiowa.edu/files/styles/large/public/0075.JPG?itok=IGUEOtaX" />
+
+</div>
+<div class="issue col-md-12 no-padding">
+    <div class="col-md-6 issue-info-container">
+        <mat-icon class="upvote">keyboard_arrow_up</mat-icon>
+        <p class="display-inline score">31</p>
+        <mat-icon class="downvote">keyboard_arrow_down</mat-icon>
+
+        <h2 class="colored-text display-inline">first Issue</h2>
+        <!-- <span class="minus-one display-inline">-</span>
+                <span class="plus-one display-inline">+</span> -->
+        <p class="description"> loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
+            lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
+        </p>
+        <div class="col-md-12 no-padding image-container">
+            <div class="image-holder">
+                <img src="https://maps.uiowa.edu/sites/maps.uiowa.edu/files/styles/large/public/0075.JPG?itok=IGUEOtaX" />
+            </div>
+            <div class="image-holder float-right">
+                <img src="http://www.bd.gov.hk/images/services/english/safety/01home_banner.jpg" />
+            </div>
         </div>
-        <div class="image-holder">
-            <img src="http://www.bd.gov.hk/images/services/english/safety/01home_banner.jpg" />
-        </div>
-    </div> -->
+        <p class="comments">21 comments</p>
+        <button class="float-right go-to-issue-btn simple-button-style">See more
+            <mat-icon class=" float-right">arrow_forward</mat-icon>
+        </button>
+    </div>
+    <agm-map class="map col-md-6 no-padding" [latitude]="41" [longitude]="32">
+        <!-- <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)" -->
+        <!-- [markerDraggable]="true"></agm-marker> -->
+    </agm-map>
+
 </div>
