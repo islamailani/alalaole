@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './shared/authentication/login/login.component';
 import { MainComponent } from './main/main.component';
 import { RegistrationComponent } from './shared/authentication/registration/registration.component';
+import { MyIssuesComponent } from './main/issues/my-issues.component';
 
 
 const routes: Routes = [
@@ -16,7 +17,13 @@ const routes: Routes = [
     },
     {
         component: MainComponent,
-        path: 'home'
+        path: 'home',
+        children: [
+            {
+                component: MyIssuesComponent,
+                path: 'my-issues'
+            }
+        ]
     }
 ];
 
