@@ -8,7 +8,7 @@ import { User } from '../models/User';
 
 export interface UserRepository {
     create(user: User): Promise<User>;
-    find(id: number): Promise<User>;
+    findByEmail(email: string): Promise<User>;
 }
 
 @injectable()
@@ -30,7 +30,7 @@ export class UserRepositoryImplDb implements UserRepository {
         return newUser;
     }
 
-    public async find(id: number): Promise<User> {
-
+    public async findByEmail(email: string): Promise<User> {
+        return await this.userRepository.findOne({ email });
     }
 }
