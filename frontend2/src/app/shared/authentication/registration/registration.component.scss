@@ -1,0 +1,43 @@
+@import "../../../../assets/variables";
+
+.login-box{
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    width: 400px;
+    height: 650px;
+    margin-top: -200px;
+    margin-bottom: 200px;
+    font-family: 'Ubuntu', sans-serif;
+    box-shadow: -2px 0px 15px -5px rgba(0,0,0,0.5);
+    padding: 30px;
+    .mat-form-field{
+        margin-top: 20px;
+    }
+    .forgot-password-text{
+        margin-top:10px;
+        font-size:12px;
+    }
+}
+
+.map{
+    margin-top: -200px;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    margin-left: 400px;
+    width: 400px;
+    height: 650px;
+    box-shadow: 2px 0px 15px -5px rgba(0,0,0,0.5);
+}
+.map-input{
+    margin-top: -200px;
+    position: absolute;
+    top: 50%;
+    left: 25%;
+    margin-left: 400px;
+    z-index: 999;
+    width: 400px;
+    padding: 10px 15px 0px 10px;
+    color: $primary_color;
+}

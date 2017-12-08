@@ -10,13 +10,26 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MainComponent } from './main/main.component';
+import { TopBarComponent } from './main/top-bar/top-bar.component';
+import { RegistrationComponent } from './shared/authentication/registration/registration.component';
+
+import { AgmCoreModule } from '@agm/core';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    MainComponent,
+    TopBarComponent,
+    RegistrationComponent
   ],
   imports: [
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyCo7q0OQ_G2atP-FrlEHVEIEuYk2V-PxuM',
+      libraries: ['geometry', 'places']
+    }),
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,

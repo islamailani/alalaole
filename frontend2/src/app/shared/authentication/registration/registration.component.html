@@ -1,0 +1,42 @@
+<div class="login-box">
+    <div class="col-md-12">
+        <img class="img-responsive col-md-3 col-sm-4 col-4 no-padding" src="" />
+        <p class="display-inline col-sm-8 col-8 colored-text"> - Register</p>
+        <div class="login-form-group">
+            <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && login()">
+                <mat-form-field class="full-width cl">
+                    <input class="colored-text" matInput formControlName="email" placeholder="Email" />
+                    <mat-error>Please enter a valid email address</mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <input type="password" class="colored-text" matInput formControlName="password" placeholder="Password" />
+                    <mat-error>This field is required</mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width cl">
+                    <input class="colored-text" matInput formControlName="name" placeholder="Name" />
+                    <mat-error>Please enter a valid name</mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width cl">
+                    <input class="colored-text" matInput formControlName="gender" placeholder="Gender" />
+                    <mat-error>Please enter a valid gender</mat-error>
+                </mat-form-field>
+                <mat-form-field class="full-width cl">
+                    <input class="colored-text" matInput formControlName="age" placeholder="Age" />
+                    <mat-error>Please enter a valid gender</mat-error>
+                </mat-form-field>
+                <button type="submit" md-button class="full-width button-gradient">Sign up
+                    <mat-icon class=" float-right">arrow_forward</mat-icon>
+                </button>
+            </form>
+        </div>
+        <p class="colored-text forgot-password-text">Forgot Password?</p>
+    </div>
+</div>
+<mat-form-field class="map-input">
+    <input class="colored-text" #search matInput placeholder="Location" />
+</mat-form-field>
+<agm-map class="map" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+    <agm-marker  (dragEnd)="markerClicked($event)" [markerDraggable]="true" ></agm-marker>
+    <agm-circle [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" [radius]="500" [circleDraggable]="true"
+        [editable]="true"></agm-circle>
+</agm-map>

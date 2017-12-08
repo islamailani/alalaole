@@ -3,7 +3,7 @@
 $primary_color:red;
 $secondary_color:orange;
 body{
-    font-family: 'Ubuntu', sans-serif;
+    font-family: 'Ubuntu', sans-serif !important;
 }
 .full-width{
     width: 100%;
@@ -26,4 +26,8 @@ body{
 
 .colored-text{
     color: $primary_color;
+}
+
+.clickable{
+    cursor: pointer;
 }

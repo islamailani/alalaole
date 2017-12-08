@@ -1,0 +1,17 @@
+@import "../../../assets/variables";
+
+.top-bar-container{
+    width: 100%;
+    height: 75px;
+    background:linear-gradient(to right, $primary_color , $secondary_color);
+    .profile-icons-holder{
+        >p, div{
+            color:white;
+            display: inline;
+        }
+        mat-icon{
+            color: white;
+            vertical-align: sub;
+        }
+    }
+}
