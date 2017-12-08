@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Location } from './Location';
 
 export enum Gender {
@@ -12,12 +12,18 @@ export class User {
     public id: number;
 
     @Column()
+    public password: string;
+
+    @Column()
     public email: string;
 
     @Column()
     public name: string;
 
-    @OneToOne((type) => Location, (location) => location.user)
+    @OneToOne((type) => Location, (location) => location.user, {
+        cascadeInsert: true
+    })
+    @JoinColumn()
     public location: Location;
 
     @Column()
@@ -28,4 +34,21 @@ export class User {
 
     @Column()
     public gender: Gender;
+
+    constructor(
+        password: string,
+        email: string,
+        name: string,
+        location: Location,
+        radius: number,
+        age: number,
+        gender: Gender) {
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.location = location;
+        this.radius = radius;
+        this.age = age;
+        this.gender = gender;
+    }
 }

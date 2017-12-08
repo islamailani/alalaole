@@ -1,4 +1,5 @@
 import * as express from 'express';
 
-export interface Controller {
+export interface RegisterableController {
     register(app: express.Application): void;
+}

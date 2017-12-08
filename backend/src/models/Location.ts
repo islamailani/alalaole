@@ -8,14 +8,13 @@ export class Location {
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @Column('double')
+    @Column('double precision')
     public longitude: number;
 
-    @Column('double')
+    @Column('double precision')
     public latitude: number;
 
     @OneToOne((type) => User, (user) => user.location)
-    @JoinColumn()
     public user: User;
 
 }
