@@ -35,6 +35,9 @@ export class User {
     @Column()
     public gender: Gender;
 
+    @Column({ nullable: true })
+    public token?: string;
+
     constructor(
         password: string,
         email: string,

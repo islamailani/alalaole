@@ -15,6 +15,7 @@
     "@types/lodash": "^4.14.88",
     "@types/node": "^8.0.57",
     "@types/tape": "^4.2.31",
+    "@types/uuid": "^3.4.3",
     "@types/winston": "^2.3.7",
     "bcrypt": "^1.0.3",
     "bcrypt-nodejs": "0.0.3",
@@ -24,6 +25,7 @@
     "pg": "^7.4.0",
     "reflect-metadata": "^0.1.10",
     "typeorm": "^0.1.7",
+    "uuid": "^3.1.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {
