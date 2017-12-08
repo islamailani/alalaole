@@ -14,4 +14,8 @@ export class Photo {
 
     @ManyToOne((type) => Issue, (issue) => issue.photos)
     public issue: Issue;
+
+    constructor(path: string) {
+        this.path = path;
+    }
 }

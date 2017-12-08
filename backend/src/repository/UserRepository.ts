@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { createConnection, Repository } from 'typeorm';
+import { createConnection, getManager, Repository } from 'typeorm';
 
 import { Config } from '../config/Config';
 
@@ -10,6 +10,7 @@ export interface UserRepository {
     create(user: User): Promise<User>;
     findByEmail(email: string): Promise<User>;
     update(user: User): Promise<User>;
+    findByToken(token: string): Promise<User>;
 }
 
 @injectable()
@@ -18,10 +19,8 @@ export class UserRepositoryImplDb implements UserRepository {
     private locationRepository: Repository<UserLocation>;
 
     constructor() {
-        createConnection(Config.ConnectionOptions).then(async (connection) => {
-            this.userRepository = connection.getRepository(User);
-            this.locationRepository = connection.getRepository(UserLocation);
-        });
+        this.userRepository = getManager().getRepository(User);
+        this.locationRepository = getManager().getRepository(UserLocation);
     }
 
     public async create(user: User): Promise<User> {
@@ -37,5 +36,9 @@ export class UserRepositoryImplDb implements UserRepository {
 
     public async update(user: User): Promise<User> {
         return await this.userRepository.save(user);
+    }
+
+    public async findByToken(token: string): Promise<User> {
+        return await this.userRepository.findOne({ token });
     }
 }

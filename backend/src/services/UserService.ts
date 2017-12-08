@@ -8,17 +8,18 @@ import { HttpError } from '../utils/HttpError';
 import { LoginDetails } from '../models/LoginDetails';
 import { User } from '../models/User';
 
-import { UserRepositoryImplDb } from '../repository/UserRepository';
+import { UserRepository } from '../repository/UserRepository';
 
 export interface UserService {
     createUser(user: User): Promise<User>;
     loginUser(user: User): Promise<LoginDetails>;
+    findByToken(token: string): Promise<User>;
 }
 
 @injectable()
 export class UserServiceImpl implements UserService {
     @inject(TYPES.UserRepository)
-    private userRepository: UserRepositoryImplDb;
+    private userRepository: UserRepository;
 
     public async createUser(user: User): Promise<User> {
         if (await this.userRepository.findByEmail(user.email)) {
@@ -43,6 +44,10 @@ export class UserServiceImpl implements UserService {
         } else {
             throw new HttpError('Wrong credentials !', 401);
         }
+    }
+    public async findByToken(token: string): Promise<User> {
+        const user = await this.userRepository.findByToken(token);
+        return user ? user : null;
     }
 
     private generateToken(): string {

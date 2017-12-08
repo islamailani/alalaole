@@ -1,4 +1,5 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Issue } from './Issue';
 import { UserLocation } from './UserLocation';
 
 export enum Gender {
@@ -45,6 +46,9 @@ export class User {
 
     @Column({ default: 0 })
     public role: Role;
+
+    @OneToMany((type) => Issue, (issue) => issue.user)
+    public issues: Issue[];
 
     constructor(
         password: string,
