@@ -18,4 +18,7 @@ export class Vote {
     @OneToOne((type) => Issue, (issue) => issue.votes)
     @JoinColumn()
     public issue: Issue;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    public createdAt: Date;
 }

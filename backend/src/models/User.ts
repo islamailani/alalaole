@@ -58,6 +58,9 @@ export class User {
     @OneToMany((type) => Comment, (comment) => comment.issue)
     public comments: Comment[];
 
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    public createdAt: Date;
+
     constructor(
         password: string,
         email: string,

@@ -41,6 +41,9 @@ export class Issue {
     @ManyToOne((type) => User, (user) => user.issues)
     public user: User;
 
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    public createdAt: Date;
+
     public score: number;
 
     public voteStatus: VoteStatus;

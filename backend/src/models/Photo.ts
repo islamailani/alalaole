@@ -15,6 +15,9 @@ export class Photo {
     @ManyToOne((type) => Issue, (issue) => issue.photos)
     public issue: Issue;
 
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    public createdAt: Date;
+
     constructor(path: string) {
         this.path = path;
     }

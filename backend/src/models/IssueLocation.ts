@@ -15,4 +15,7 @@ export class IssueLocation {
 
     @OneToOne((type) => Issue, (issue) => issue.location)
     public issue: Issue;
+
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    public createdAt: Date;
 }

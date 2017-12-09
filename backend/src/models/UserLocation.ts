@@ -17,4 +17,6 @@ export class UserLocation {
     @OneToOne((type) => User, (user) => user.location)
     public user: User;
 
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    public createdAt: Date;
 }

@@ -19,6 +19,9 @@ export class Comment {
     @ManyToOne((type) => Issue, (issue) => issue.comments)
     public issue: Issue;
 
+    @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
+    public createdAt: Date;
+
     constructor(text: string) {
         this.text = text;
     }
