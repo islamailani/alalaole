@@ -1,7 +1,6 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "variables";
 
-$primary_color:red;
-$secondary_color:orange;
 body{
     font-family: 'Ubuntu', sans-serif !important;
 }
@@ -46,8 +45,8 @@ body{
 }
 
 .simple-button-style{
-    border: 1px solid red;
-    color: red;
+    border: 1px solid $primary_color;
+    color: $primary_color;
     background-color: transparent;
     border-radius: 0px;
     outline: none;

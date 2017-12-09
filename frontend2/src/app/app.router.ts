@@ -5,6 +5,7 @@ import { MainComponent } from './main/main.component';
 import { RegistrationComponent } from './shared/authentication/registration/registration.component';
 import { MyIssuesComponent } from './main/my-issues/my-issues.component';
 import { CreateIssueComponent } from './main/create-issue/create-issue.component';
+import { IssuesComponent } from './main/issues/issues.component';
 
 
 const routes: Routes = [
@@ -27,6 +28,10 @@ const routes: Routes = [
             {
                 component: CreateIssueComponent,
                 path: 'create-issue'
+            },
+            {
+                component: IssuesComponent,
+                path: 'issues'
             }
         ]
     }

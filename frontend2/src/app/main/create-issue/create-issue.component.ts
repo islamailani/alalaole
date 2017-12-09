@@ -2,6 +2,8 @@ import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { MapsAPILoader, AgmMap, AgmMarker } from '@agm/core';
+import { IssuesService } from '../issues.service';
+import { CreateIssue } from '../../shared/models/Issues';
 
 @Component({
   selector: 'app-create-issue',
@@ -20,9 +22,20 @@ export class CreateIssueComponent implements OnInit {
     longitude: 21.226788,
     latitude: 45.760696
   };
+  createIssue: CreateIssue = {
+    title: '',
+    description: '',
+    location: {
+      longitude: null,
+      latitude: null
+    },
+    photos: ['']
+  };
+
   constructor(
     public router: Router,
     private mapsAPILoader: MapsAPILoader,
+    private issuesService: IssuesService
   ) { }
 
   ngOnInit() {
@@ -62,7 +75,15 @@ export class CreateIssueComponent implements OnInit {
   _handleReaderLoaded(readerEvt) {
     const binaryString = readerEvt.target.result;
     this.base64textImages.push(btoa(binaryString));
-    console.log('1');
+  }
+
+  createNewIssue() {
+    this.createIssue.location.latitude = this.initialLocation.latitude;
+    this.createIssue.location.longitude = this.initialLocation.longitude;
+    this.base64textImages.map(x => this.createIssue.photos.push(x));
+    this.issuesService.createIssue(this.createIssue).subscribe(res => {
+      console.log(res);
+    });
   }
 
 }

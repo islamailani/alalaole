@@ -6,6 +6,7 @@ import { MapsAPILoader, AgmMap } from '@agm/core';
 import { } from 'googlemaps';
 import { AgmCircle } from '@agm/core/directives/circle';
 import { AgmMarker } from '@agm/core/directives/marker';
+import { AuthService } from '../auth.service';
 
 
 @Component({
@@ -15,7 +16,7 @@ import { AgmMarker } from '@agm/core/directives/marker';
   providers: [FormBuilder]
 })
 export class RegistrationComponent implements OnInit {
-
+  selectedGender;
   @ViewChild('search')
   public searchElementRef: ElementRef;
   @ViewChild('images')
@@ -27,6 +28,14 @@ export class RegistrationComponent implements OnInit {
   @ViewChild(AgmCircle)
   public agmCircle: AgmCircle;
   public registerForm: FormGroup;
+  genders = [{
+    id: 1,
+    name: 'Male'
+  },
+  {
+    id: 2,
+    name: 'Female'
+  }];
   public registerUser: RegisterUser = {
     email: '',
     password: '',
@@ -36,7 +45,7 @@ export class RegistrationComponent implements OnInit {
       latitude: 0
     },
     age: null,
-    gender: '',
+    gender: null,
     radius: null
   };
   initialLocation = {
@@ -48,11 +57,11 @@ export class RegistrationComponent implements OnInit {
     private mapsAPILoader: MapsAPILoader,
     private formBuilder: FormBuilder,
     private router: Router,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.bindForm();
     this.agmMarker.longitude = this.initialLocation.longitude;
     this.agmMarker.latitude = this.initialLocation.latitude;
     this.agmMap.zoom = 15;
@@ -73,33 +82,40 @@ export class RegistrationComponent implements OnInit {
     });
   }
 
-  public bindForm(): void {
-    this.registerForm = this.formBuilder.group({
-      email: [this.registerUser.email, Validators.compose([Validators.email, Validators.required])],
-      password: [this.registerUser.password, Validators.required],
-      name: [this.registerUser.name, Validators.required],
-      age: [this.registerUser.age, Validators.required],
-      gender: [this.registerUser.gender, Validators.required],
-      location: {
-        latitude: [this.registerUser.location.latitude, Validators.required],
-        longitude: [this.registerUser.location.longitude, Validators.required]
-      },
-      radius: [this.registerUser.radius, Validators.required]
+  public register(): void {
+    this.registerUser.radius = this.agmCircle.radius / 1000;
+    this.registerUser.location.longitude = this.initialLocation.longitude;
+    this.registerUser.location.latitude = this.initialLocation.latitude;
+    this.genders.map(x => {
+      if (x.name === this.selectedGender) {
+        this.registerUser.gender = x.id;
+      }
     });
+    console.log(this.registerUser);
+    this.authService.register(this.registerUser)
+      .subscribe(res => {
+        console.log(res);
+        // sessionStorage.setItem('user', JSON.stringify(res));
+        // localStorage.setItem('AuthToken', res.token.value);
+        // this.router.navigate(['users', 'all']);
+      });
   }
 
-  public login(): void {
-    // this.authService.login(this.loginForm.value)
-    //   .subscribe(res => {
-    //     sessionStorage.setItem('user', JSON.stringify(res));
-    //     localStorage.setItem('AuthToken', res.token.value);
-    //     this.router.navigate(['users', 'all']);
-    //   });
-  }
 
   markerClicked($event) {
     this.initialLocation.latitude = $event.coords.lat;
     this.initialLocation.longitude = $event.coords.lng;
   }
+
+  radiusChanged($event) {
+    this.agmCircle.radius = $event;
+    this.registerUser.radius = $event;
+  }
+
+  radiusMoved($event) {
+    this.initialLocation.latitude = $event.coords.lat;
+    this.initialLocation.longitude = $event.coords.lng;
+  }
+
 
 }

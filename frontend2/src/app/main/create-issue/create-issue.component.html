@@ -4,11 +4,11 @@
     <div class="col-md-4 form-create-issue">
         <p class="grey-text">Make sure you fill the information below corectly, otherwise we will be force to ban you.</p>
         <mat-form-field class="full-width">
-            <input class="colored-text" matInput placeholder="Title" />
+            <input class="colored-text" [(ngModel)]="createIssue.title" matInput placeholder="Title" />
             <mat-error>Please enter a valid title</mat-error>
         </mat-form-field>
         <mat-form-field class="full-width">
-            <textarea matInput placeholder="Description"></textarea>
+            <textarea matInput [(ngModel)]="createIssue.description" placeholder="Description"></textarea>
         </mat-form-field>
         <div class="fileUpload btn">
             <span>Upload Images
@@ -16,7 +16,8 @@
             </span>
             <input class="upload" type="file" name="img" accept="image/*" (change)="submitIssue($event)" multiple>
         </div>
-        <button class="simple-button-style submit-btn float-right">Submit
+        <p class="uploded-images" *ngIf="base64textImages.length!=0">{{base64textImages.length}} images</p>
+        <button (click)="createNewIssue()" class="simple-button-style submit-btn float-right">Submit
             <mat-icon class=" float-right">arrow_forward</mat-icon>
         </button>
     </div>

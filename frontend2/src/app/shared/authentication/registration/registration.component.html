@@ -3,26 +3,29 @@
         <img class="img-responsive col-md-3 col-sm-4 col-4 no-padding" src="" />
         <p class="display-inline col-sm-8 col-8 colored-text"> - Register</p>
         <div class="login-form-group">
-            <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && login()">
+            <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
                 <mat-form-field class="full-width cl">
-                    <input class="colored-text" matInput formControlName="email" placeholder="Email" />
+                    <input class="colored-text" matInput [(ngModel)]="registerUser.email" name="email" placeholder="Email" required/>
                     <mat-error>Please enter a valid email address</mat-error>
                 </mat-form-field>
                 <mat-form-field class="full-width">
-                    <input type="password" class="colored-text" matInput formControlName="password" placeholder="Password" />
+                    <input type="password" class="colored-text" matInput [(ngModel)]="registerUser.password" name="password" placeholder="Password"
+                        required />
                     <mat-error>This field is required</mat-error>
                 </mat-form-field>
                 <mat-form-field class="full-width cl">
-                    <input class="colored-text" matInput formControlName="name" placeholder="Name" />
+                    <input class="colored-text" matInput [(ngModel)]="registerUser.name" name="name" placeholder="Name" required />
                     <mat-error>Please enter a valid name</mat-error>
                 </mat-form-field>
-                <mat-form-field class="full-width cl">
-                    <input class="colored-text" matInput formControlName="gender" placeholder="Gender" />
-                    <mat-error>Please enter a valid gender</mat-error>
+                <mat-form-field class="full-width">
+                    <mat-select [(ngModel)]="selectedGender" name="gender" placeholder="Gender" required>
+                        <mat-option *ngFor="let gender of genders" [value]="gender.name">{{gender.name}}</mat-option>
+                    </mat-select>
+                    <mat-error>Please select a gender</mat-error>
                 </mat-form-field>
                 <mat-form-field class="full-width cl">
-                    <input class="colored-text" matInput formControlName="age" placeholder="Age" />
-                    <mat-error>Please enter a valid gender</mat-error>
+                    <input class="colored-text" matInput [(ngModel)]="registerUser.age" name="age" placeholder="Age" required type="number" />
+                    <mat-error>Please enter a valid age</mat-error>
                 </mat-form-field>
                 <button type="submit" md-button class="full-width button-gradient">Sign up
                     <mat-icon class=" float-right">arrow_forward</mat-icon>
@@ -32,11 +35,10 @@
         <p class="colored-text forgot-password-text">Forgot Password?</p>
     </div>
 </div>
-<mat-form-field class="map-input">
-    <input class="colored-text" #search matInput placeholder="Location" />
-</mat-form-field>
+<input class="colored-text map-input" #search  placeholder="Location" />
 <agm-map class="map" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
-    <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)" [markerDraggable]="true" ></agm-marker>
-    <agm-circle [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" [radius]="500" [circleDraggable]="true"
-        [editable]="true"></agm-circle>
+    <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+        [markerDraggable]="true"></agm-marker>
+    <agm-circle (dragEnd)="radiusMoved($event)" (radiusChange)="radiusChanged($event)" [latitude]="initialLocation.latitude"
+        [longitude]="initialLocation.longitude" [radius]="500" [circleDraggable]="true" [editable]="true"></agm-circle>
 </agm-map>

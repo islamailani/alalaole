@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 import { MainComponent } from './main/main.component';
 import { TopBarComponent } from './main/top-bar/top-bar.component';
 import { RegistrationComponent } from './shared/authentication/registration/registration.component';
@@ -17,6 +18,12 @@ import { RegistrationComponent } from './shared/authentication/registration/regi
 import { AgmCoreModule } from '@agm/core';
 import { MyIssuesComponent } from './main/my-issues/my-issues.component';
 import { CreateIssueComponent } from './main/create-issue/create-issue.component';
+import { AuthService } from './shared/authentication/auth.service';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BaseUrlInterceptor } from './shared/authentication/http-interceptors/base-url.interceptor';
+import { AuthorizationInterceptor } from './shared/authentication/http-interceptors/authorization.interceptor';
+import { IssuesComponent } from './main/issues/issues.component';
+import { IssuesService } from './main/issues.service';
 
 
 @NgModule({
@@ -27,7 +34,8 @@ import { CreateIssueComponent } from './main/create-issue/create-issue.component
     TopBarComponent,
     RegistrationComponent,
     MyIssuesComponent,
-    CreateIssueComponent
+    CreateIssueComponent,
+    IssuesComponent
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -41,9 +49,24 @@ import { CreateIssueComponent } from './main/create-issue/create-issue.component
     ReactiveFormsModule,
     MatFormFieldModule,
     MatIconModule,
+    HttpClientModule,
     MatInputModule,
+    MatSelectModule
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    IssuesService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: BaseUrlInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthorizationInterceptor,
+      multi: true
+    },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

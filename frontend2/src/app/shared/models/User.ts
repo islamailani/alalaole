@@ -3,7 +3,7 @@ export interface RegisterUser {
     email: string;
     name: string;
     radius: number;
-    gender: string;
+    gender: number;
     age: number;
     location: {
         longitude: number;
