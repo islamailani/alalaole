@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import TYPES from '../types';
 import { Controller } from './Controller';
 
+import authorize from '../middlewares/AuthorizationMiddleware';
 import { Issue } from '../models/Issue';
 import { Photo } from '../models/Photo';
 import { IssueService } from '../services/IssueService';
@@ -18,7 +19,7 @@ export class IssueController implements Controller {
 
     public register(app: express.Application): void {
         app.route('/issues')
-            .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const issue = new Issue(
                     req.body.title,
                     req.body.description,
