@@ -100,13 +100,15 @@ export class IssueController implements Controller {
                 );
                 issue.user = req.user;
                 const photos: number[] = req.body.photos;
-                const photosCreated: Array<Promise<Photo | void>> = [];
-                photos.forEach((id: number) => {
-                    photosCreated.push(this.issueService.getPhoto(id));
-                });
-                const photoPromise = await Promise.all(photosCreated).catch((err) => next(err));
-                if (photoPromise) {
-                    issue.photos = photoPromise as Photo[];
+                if (photos) {
+                    const photosCreated: Array<Promise<Photo | void>> = [];
+                    photos.forEach((id: number) => {
+                        photosCreated.push(this.issueService.getPhoto(id));
+                    });
+                    const photoPromise = await Promise.all(photosCreated).catch((err) => next(err));
+                    if (photoPromise) {
+                        issue.photos = photoPromise as Photo[];
+                    }
                 }
                 const createdIssue = await this.issueService.createIssue(issue).catch((err) => next(err));
                 res.send({ message: 'Created', status: 200 });

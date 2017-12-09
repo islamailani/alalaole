@@ -16,59 +16,59 @@ export enum Role {
 export class User {
 
     @PrimaryGeneratedColumn()
-    public id: number;
-
-    @Column({ select: false })
-    public password: string;
+    public id?: number;
 
     @Column()
-    public email: string;
+    public password?: string;
 
     @Column()
-    public name: string;
+    public email?: string;
+
+    @Column()
+    public name?: string;
 
     @OneToOne((type) => UserLocation, (location) => location.user,
         {
             cascadeInsert: true
         })
     @JoinColumn()
-    public location: UserLocation;
+    public location?: UserLocation;
 
     @Column('double precision')
-    public radius: number;
+    public radius?: number;
 
     @Column()
-    public age: number;
+    public age?: number;
 
     @Column()
-    public gender: Gender;
+    public gender?: Gender;
 
-    @Column({ nullable: true, select: false })
+    @Column({ nullable: true })
     public token?: string;
 
     @Column({ default: 0 })
-    public role: Role;
+    public role?: Role;
 
     @OneToMany((type) => Issue, (issue) => issue.user)
-    public issues: Issue[];
+    public issues?: Issue[];
 
     @OneToMany((type) => Vote, (vote) => vote.user)
-    public votes: Vote[];
+    public votes?: Vote[];
 
     @OneToMany((type) => Comment, (comment) => comment.issue)
-    public comments: Comment[];
+    public comments?: Comment[];
 
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-    public createdAt: Date;
+    public createdAt?: Date;
 
     constructor(
         password: string,
         email: string,
-        name: string,
-        location: UserLocation,
-        radius: number,
-        age: number,
-        gender: Gender) {
+        name?: string,
+        location?: UserLocation,
+        radius?: number,
+        age?: number,
+        gender?: Gender) {
         this.password = password;
         this.email = email;
         this.name = name;
@@ -76,5 +76,9 @@ export class User {
         this.radius = radius;
         this.age = age;
         this.gender = gender;
+    }
+
+    public toNameObject(): User {
+        return Object.create({ name: this.name });
     }
 }

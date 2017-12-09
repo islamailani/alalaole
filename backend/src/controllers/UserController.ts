@@ -34,12 +34,7 @@ export class UserController implements Controller {
             .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const user = new User(
                     req.body.password,
-                    req.body.email,
-                    req.body.name,
-                    req.body.location,
-                    req.body.radius,
-                    req.body.age,
-                    req.body.gender
+                    req.body.email
                 );
                 const createdUser = await this.userService.loginUser(user).catch((err) => next(err));
                 res.json(createdUser);
