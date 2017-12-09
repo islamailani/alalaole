@@ -68,8 +68,7 @@ export class IssueController implements Controller {
                 if (!req.user) {
                     issues = await this.issueService.getIssues(0);
                 } else {
-                    // issues = await this.issueService.getIssuesInProximity(0, req.user);
-                    issues = await this.issueService.getIssues(0);
+                    issues = await this.issueService.getIssuesInProximity(0, req.user);
                 }
 
                 issues.map((issue) => {
