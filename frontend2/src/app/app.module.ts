@@ -15,7 +15,8 @@ import { TopBarComponent } from './main/top-bar/top-bar.component';
 import { RegistrationComponent } from './shared/authentication/registration/registration.component';
 
 import { AgmCoreModule } from '@agm/core';
-import { MyIssuesComponent } from './main/issues/my-issues.component';
+import { MyIssuesComponent } from './main/my-issues/my-issues.component';
+import { CreateIssueComponent } from './main/create-issue/create-issue.component';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { MyIssuesComponent } from './main/issues/my-issues.component';
     MainComponent,
     TopBarComponent,
     RegistrationComponent,
-    MyIssuesComponent
+    MyIssuesComponent,
+    CreateIssueComponent
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -39,7 +41,7 @@ import { MyIssuesComponent } from './main/issues/my-issues.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MatIconModule,
-    MatInputModule
+    MatInputModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

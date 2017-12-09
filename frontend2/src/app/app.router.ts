@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './shared/authentication/login/login.component';
 import { MainComponent } from './main/main.component';
 import { RegistrationComponent } from './shared/authentication/registration/registration.component';
-import { MyIssuesComponent } from './main/issues/my-issues.component';
+import { MyIssuesComponent } from './main/my-issues/my-issues.component';
+import { CreateIssueComponent } from './main/create-issue/create-issue.component';
 
 
 const routes: Routes = [
@@ -22,6 +23,10 @@ const routes: Routes = [
             {
                 component: MyIssuesComponent,
                 path: 'my-issues'
+            },
+            {
+                component: CreateIssueComponent,
+                path: 'create-issue'
             }
         ]
     }
