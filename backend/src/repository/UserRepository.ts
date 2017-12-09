@@ -11,6 +11,7 @@ export interface UserRepository {
     findByEmail(email: string): Promise<User>;
     update(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
+    removeToken(user: User): Promise<void>;
 }
 
 @injectable()
@@ -40,5 +41,10 @@ export class UserRepositoryImplDb implements UserRepository {
 
     public async findByToken(token: string): Promise<User> {
         return await this.userRepository.findOne({ where: { token }, relations: ['location'] });
+    }
+
+    public async removeToken(user: User): Promise<void> {
+        user.token = null;
+        await this.userRepository.save(user);
     }
 }

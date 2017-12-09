@@ -14,6 +14,7 @@ export interface UserService {
     createUser(user: User): Promise<User>;
     loginUser(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
+    logOutUser(user: User): Promise<void>;
 }
 
 @injectable()
@@ -50,6 +51,10 @@ export class UserServiceImpl implements UserService {
     public async findByToken(token: string): Promise<User> {
         const user = await this.userRepository.findByToken(token);
         return user ? user : null;
+    }
+
+    public async logOutUser(user: User): Promise<void> {
+        return await this.userRepository.removeToken(user);
     }
 
     private generateToken(): string {
