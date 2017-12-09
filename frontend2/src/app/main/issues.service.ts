@@ -15,6 +15,10 @@ export class IssuesService {
         return this.http.get(`/issues`);
     }
 
+    getMyIssues() {
+        return this.http.get(`/myissues`);
+    }
+
     getIssueById(id: number) {
         return this.http.get(`/issues/${id}`);
     }

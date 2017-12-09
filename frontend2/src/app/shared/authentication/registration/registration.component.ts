@@ -93,15 +93,12 @@ export class RegistrationComponent implements OnInit {
         this.registerUser.gender = x.id;
       }
     });
-    console.log(this.registerUser);
     this.authService.register(this.registerUser)
       .subscribe(res => {
-        console.log(res);
         this.handleResponse('Registration completed, wait for aproval!');
         this.router.navigate(['/']);
       },
       err => {
-        console.log(err);
         this.handleResponse(`Error! ${err.statusText}`);
       });
   }

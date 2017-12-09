@@ -785,6 +785,9 @@ var IssuesService = (function () {
     IssuesService.prototype.getIssues = function () {
         return this.http.get("/issues");
     };
+    IssuesService.prototype.getMyIssues = function () {
+        return this.http.get("/myissues");
+    };
     IssuesService.prototype.getIssueById = function (id) {
         return this.http.get("/issues/" + id);
     };
@@ -1041,13 +1044,10 @@ var MyIssuesComponent = (function () {
     }
     MyIssuesComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.issuesService.getIssues().subscribe(function (res) {
-            console.log(res);
+        this.issuesService.getMyIssues().subscribe(function (res) {
             res.map(function (x) {
                 x.photos.map(function (y) { return y.path = __WEBPACK_IMPORTED_MODULE_3__shared_Global__["a" /* root */] + y.path; });
-                console.log(x.photos);
             });
-            console.log(res);
             _this.issues = res;
         });
     };
@@ -1164,7 +1164,7 @@ var ProfileComponent = (function () {
 /***/ "../../../../../src/app/main/top-bar/top-bar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-12 top-bar-container\">\n    <div>\n        <ul class=\"menu-list\">\n            <li class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','issues']\">\n                ISSUES\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','my-issues']\">\n                MY ISSUES\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','create-issue']\">\n                + ADD NEW ISSUE\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','admin-dashboard']\">\n                ADMIN DASHBOARD\n            </li>\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <p>gherasimraul@yahoo.com</p>\n        <mat-icon [matMenuTriggerFor]=\"appMenu\" class=\"clickable\">more_vert</mat-icon>\n        <mat-menu #appMenu=\"matMenu\">\n            <button mat-menu-item [routerLink]=\"['','profile']\"> PROFILE </button>\n            <button mat-menu-item (click)=\"signOut()\"> SIGN OUT </button>\n        </mat-menu>\n\n    </div>\n\n</div>"
+module.exports = "<div class=\"col-md-12 top-bar-container\">\n    <div>\n        <ul class=\"menu-list\">\n            <li class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','issues']\">\n                ISSUES\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','my-issues']\">\n                MY ISSUES\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','create-issue']\">\n                + ADD NEW ISSUE\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','admin-dashboard']\" *ngIf=\"currentUser.role === 1\">\n                ADMIN DASHBOARD\n            </li>\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <p>{{currentUser.email}}</p>\n        <mat-icon [matMenuTriggerFor]=\"appMenu\" class=\"clickable\">more_vert</mat-icon>\n        <mat-menu #appMenu=\"matMenu\">\n            <button mat-menu-item [routerLink]=\"['','profile']\"> PROFILE </button>\n            <button mat-menu-item (click)=\"signOut()\"> SIGN OUT </button>\n        </mat-menu>\n\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -1212,6 +1212,8 @@ var TopBarComponent = (function () {
         this.authService = authService;
     }
     TopBarComponent.prototype.ngOnInit = function () {
+        this.currentUser = JSON.parse(localStorage.getItem('user'));
+        // console.log(this.currentUser);
     };
     TopBarComponent.prototype.signOut = function () {
         this.authService.signOut().subscribe(function (res) {
@@ -1319,7 +1321,7 @@ var AuthorizationInterceptor = (function () {
         this.injector = injector;
     }
     AuthorizationInterceptor.prototype.intercept = function (req, next) {
-        if (req.url.indexOf('/auth') > -1 && req.url.indexOf('logout') === 0) {
+        if (req.url.indexOf('/auth') > -1 || req.url.indexOf('logout') === 0) {
             return next.handle(req);
         }
         var auth = this.injector.get(__WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */]);
@@ -1603,14 +1605,11 @@ var RegistrationComponent = (function () {
                 _this.registerUser.gender = x.id;
             }
         });
-        console.log(this.registerUser);
         this.authService.register(this.registerUser)
             .subscribe(function (res) {
-            console.log(res);
             _this.handleResponse('Registration completed, wait for aproval!');
             _this.router.navigate(['/']);
         }, function (err) {
-            console.log(err);
             _this.handleResponse("Error! " + err.statusText);
         });
     };

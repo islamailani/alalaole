@@ -13,13 +13,13 @@
             <li class="clickable " [routerLink]="['','create-issue']">
                 + ADD NEW ISSUE
             </li>
-            <li class="clickable " [routerLink]="['','admin-dashboard']">
+            <li class="clickable " [routerLink]="['','admin-dashboard']" *ngIf="currentUser.role === 1">
                 ADMIN DASHBOARD
             </li>
         </ul>
     </div>
     <div class="profile-icons-holder float-right">
-        <p>gherasimraul@yahoo.com</p>
+        <p>{{currentUser.email}}</p>
         <mat-icon [matMenuTriggerFor]="appMenu" class="clickable">more_vert</mat-icon>
         <mat-menu #appMenu="matMenu">
             <button mat-menu-item [routerLink]="['','profile']"> PROFILE </button>

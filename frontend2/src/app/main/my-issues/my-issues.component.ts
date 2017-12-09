@@ -18,13 +18,10 @@ export class MyIssuesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.issuesService.getIssues().subscribe((res: Issue[]) => {
-      console.log(res);
+    this.issuesService.getMyIssues().subscribe((res: Issue[]) => {
       res.map(x => {
         x.photos.map(y => y.path = root + y.path);
-        console.log(x.photos);
       });
-      console.log(res);
       this.issues = res;
     });
   }
