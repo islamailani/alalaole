@@ -5,5 +5,5 @@ export interface CreateIssue {
         longitude: number,
         latitude: number
     };
-    photos: [string];
+    photos: number[];
 }
