@@ -5,7 +5,6 @@ import { QueryFailedError } from 'typeorm';
 import container from '../inversify.config';
 import TYPES from '../types';
 
-import { UserService } from '../services/UserService';
 import { HttpError } from '../utils/HttpError';
 import { logger } from '../utils/Logger';
 

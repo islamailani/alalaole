@@ -11,8 +11,10 @@ import { Controller } from './controllers/Controller';
 import { HttpError } from './utils/HttpError';
 
 import { Config } from './config/Config';
+
 import authenticate from './middlewares/AuthenticationMiddleware';
 import handleErrors from './middlewares/ErrorHandlingMiddleware';
+import jsonResponse from './middlewares/JsonResponseMiddleware';
 
 createConnection(Config.ConnectionOptions).then(async (connection) => {
 
@@ -20,11 +22,7 @@ createConnection(Config.ConnectionOptions).then(async (connection) => {
     app.use(bodyParser.json());
 
     app.use(authenticate);
-
-    app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        res.setHeader('Content-Type', 'application/json');
-        next();
-    });
+    app.use(jsonResponse);
 
     const controllers: Controller[] = container.getAll<Controller>(TYPES.Controller);
     controllers.forEach((controller) => controller.register(app));
