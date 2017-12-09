@@ -1,0 +1,33 @@
+<h2 class="colored-text headline">Admin Dashboard</h2>
+
+<div class="col-md-12 create-issue">
+    <div class="col-md-6 users">
+        <p>
+            <i class="colored-text">Users waiting for aproval:</i>
+        </p>
+        <div class="user-pannel col-md-12">
+            <p>
+                <span class="my-label">Name:</span> Raul boosu</p>
+            <p>
+                <span class="my-label">Email:</span> Raul@google.com</p>
+            <p>
+                <span class="my-label">Gender:</span> om</p>
+            <p>
+                <span class="my-label">Age:</span> 12</p>
+            <button class="simple-button-style">
+                See Location
+            </button>
+            <button class="button-gradient">
+                Decline
+            </button>
+            <button class="simple-button-style">
+                Approve
+            </button>
+        </div>
+    </div>
+    <agm-map class="map col-md-6 no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+        <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+            [markerDraggable]="true"></agm-marker>
+    </agm-map>
+</div>
+

@@ -8,6 +8,7 @@ import { CreateIssueComponent } from './main/create-issue/create-issue.component
 import { IssuesComponent } from './main/issues/issues.component';
 import { IssuesViewComponent } from './main/issue-view/issue-view.component';
 import { HomeComponent } from './main/home/home.component';
+import { AdminDashboardComponent } from './main/admin-dashboard/admin-dashboard.component';
 
 
 const routes: Routes = [
@@ -42,6 +43,10 @@ const routes: Routes = [
             {
                 component: IssuesViewComponent,
                 path: 'issues/:id'
+            },
+            {
+                component: AdminDashboardComponent,
+                path: 'admin-dashboard'
             }
         ]
     }

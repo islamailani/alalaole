@@ -7,6 +7,7 @@ import { } from 'googlemaps';
 import { AgmCircle } from '@agm/core/directives/circle';
 import { AgmMarker } from '@agm/core/directives/marker';
 import { AuthService } from '../auth.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -58,7 +59,8 @@ export class RegistrationComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private cd: ChangeDetectorRef,
-    private authService: AuthService
+    private authService: AuthService,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -95,9 +97,8 @@ export class RegistrationComponent implements OnInit {
     this.authService.register(this.registerUser)
       .subscribe(res => {
         console.log(res);
-        // sessionStorage.setItem('user', JSON.stringify(res));
-        // localStorage.setItem('AuthToken', res.token.value);
-        // this.router.navigate(['users', 'all']);
+        this.handleResponse('Registration completed, wait for aproval!');
+        this.router.navigate(['/']);
       });
   }
 
@@ -115,6 +116,16 @@ export class RegistrationComponent implements OnInit {
   radiusMoved($event) {
     this.initialLocation.latitude = $event.coords.lat;
     this.initialLocation.longitude = $event.coords.lng;
+  }
+
+  notify(status: any, text: any) {
+    this.snackbar.open(status, text, {
+      duration: 3000
+    });
+  }
+
+  public handleResponse(text) {
+    this.notify(text, ' ');
   }
 
 
