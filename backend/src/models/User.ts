@@ -32,7 +32,7 @@ export class User {
     @JoinColumn()
     public location: UserLocation;
 
-    @Column()
+    @Column('double precision')
     public radius: number;
 
     @Column()
