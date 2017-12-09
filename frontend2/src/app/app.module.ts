@@ -31,6 +31,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './main/home/home.component';
 import { RouterModule } from '@angular/router';
 import { AdminDashboardComponent } from './main/admin-dashboard/admin-dashboard.component';
+import { ProfileComponent } from './main/profile/profile.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { AdminDashboardComponent } from './main/admin-dashboard/admin-dashboard.
     IssuesComponent,
     IssuesViewComponent,
     HomeComponent,
-    AdminDashboardComponent
+    AdminDashboardComponent,
+    ProfileComponent
   ],
   imports: [
     AgmCoreModule.forRoot({

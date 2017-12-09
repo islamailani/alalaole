@@ -22,8 +22,8 @@
         <p>gherasimraul@yahoo.com</p>
         <mat-icon [matMenuTriggerFor]="appMenu" class="clickable">more_vert</mat-icon>
         <mat-menu #appMenu="matMenu">
-            <button mat-menu-item> Profile </button>
-            <button mat-menu-item> Sign Out </button>
+            <button mat-menu-item [routerLink]="['profile']"> PROFILE </button>
+            <button mat-menu-item> SIGN OUT </button>
         </mat-menu>
 
     </div>
