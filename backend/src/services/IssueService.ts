@@ -17,9 +17,11 @@ export interface IssueService {
     createIssue(issue: Issue): Promise<Issue>;
     savePhoto(path: string): Promise<Photo>;
     getIssues(from?: number): Promise<Issue[]>;
-    getIssuesInProximity(from: number, user: User): Promise<Issue[]>;
+    getIssuesInProximityOfUser(from: number, user: User): Promise<Issue[]>;
+    getIssuesInProximity(from: number, lat: number, long: number, km: number): Promise<Issue[]>;
     getIssue(id: number): Promise<Issue>;
     getPhoto(id: number): Promise<Photo>;
+    getUserIssues(user: User): Promise<Issue[]>;
 }
 
 @injectable()
@@ -44,11 +46,19 @@ export class IssueServiceImpl implements IssueService {
         return await this.issueRepository.getAll(from);
     }
 
-    public async getIssuesInProximity(from: number = 0, user: User): Promise<Issue[]> {
+    public async getIssuesInProximityOfUser(from: number = 0, user: User): Promise<Issue[]> {
         return await this.issueRepository.getAllInProximity(0, user.location.latitude, user.location.longitude, user.radius);
+    }
+
+    public async getIssuesInProximity(from: number = 0, lat: number, long: number, km: number): Promise<Issue[]> {
+        return await this.issueRepository.getAllInProximity(0, lat, long, km);
     }
 
     public async getIssue(id: number): Promise<Issue> {
         return await this.issueRepository.getById(id);
+    }
+
+    public async getUserIssues(user: User): Promise<Issue[]> {
+        return await this.issueRepository.getByUser(user);
     }
 }

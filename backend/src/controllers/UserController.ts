@@ -4,6 +4,7 @@ import { inject, injectable } from 'inversify';
 import TYPES from '../types';
 import { Controller } from './Controller';
 
+import authorize from '../middlewares/AuthorizationMiddleware';
 import { User } from '../models/User';
 import { UserService } from '../services/UserService';
 
@@ -38,6 +39,11 @@ export class UserController implements Controller {
                 );
                 const createdUser = await this.userService.loginUser(user).catch((err) => next(err));
                 res.json(createdUser);
+            });
+        app.route('/auth/logout')
+            .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                await this.userService.logOutUser(req.user);
+                res.json({ message: 'Ok', status: 200 });
             });
     }
 }

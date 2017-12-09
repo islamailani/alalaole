@@ -29,7 +29,8 @@ export class User {
 
     @OneToOne((type) => UserLocation, (location) => location.user,
         {
-            cascadeInsert: true
+            cascadeInsert: true,
+            cascadeUpdate: true
         })
     @JoinColumn()
     public location?: UserLocation;
