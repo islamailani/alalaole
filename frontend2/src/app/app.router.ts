@@ -27,7 +27,7 @@ const routes: Routes = [
     },
     {
         component: MainComponent,
-        path: 'home',
+        path: '',
         children: [
             {
                 component: MyIssuesComponent,

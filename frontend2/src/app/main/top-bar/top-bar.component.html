@@ -4,16 +4,16 @@
             <li class="clickable logo" style="margin-right:10px;">
                 ala alaʻole
             </li>
-            <li class="clickable" [routerLink]="['issues']">
+            <li class="clickable" [routerLink]="['','issues']">
                 ISSUES
             </li>
-            <li class="clickable" [routerLink]="['my-issues']">
+            <li class="clickable" [routerLink]="['','my-issues']">
                 MY ISSUES
             </li>
-            <li class="clickable " [routerLink]="['create-issue']">
+            <li class="clickable " [routerLink]="['','create-issue']">
                 + ADD NEW ISSUE
             </li>
-            <li class="clickable " [routerLink]="['admin-dashboard']">
+            <li class="clickable " [routerLink]="['','admin-dashboard']">
                 ADMIN DASHBOARD
             </li>
         </ul>
@@ -22,8 +22,8 @@
         <p>gherasimraul@yahoo.com</p>
         <mat-icon [matMenuTriggerFor]="appMenu" class="clickable">more_vert</mat-icon>
         <mat-menu #appMenu="matMenu">
-            <button mat-menu-item [routerLink]="['profile']"> PROFILE </button>
-            <button mat-menu-item> SIGN OUT </button>
+            <button mat-menu-item [routerLink]="['','profile']"> PROFILE </button>
+            <button mat-menu-item (click)="signOut()"> SIGN OUT </button>
         </mat-menu>
 
     </div>

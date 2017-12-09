@@ -32,7 +32,7 @@ export class IssuesComponent implements OnInit {
   }
 
   navigateToIssue(issue: Issue) {
-    this.router.navigate(['home', 'issues', issue.id]);
+    this.router.navigate(['issues', issue.id]);
   }
 
   upVoteIssue(issue: Issue) {

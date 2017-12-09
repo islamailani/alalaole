@@ -10,3 +10,21 @@ export interface RegisterUser {
         latitude: number;
     };
 }
+
+export interface LoginUser {
+    id: number;
+    createdAt: string;
+    password: string;
+    email: string;
+    name: string;
+    radius: number;
+    gender: number;
+    age: number;
+    role: number;
+    location: {
+        createdAt: string;
+        id: number;
+        longitude: number;
+        latitude: number;
+    };
+}

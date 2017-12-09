@@ -99,6 +99,10 @@ export class RegistrationComponent implements OnInit {
         console.log(res);
         this.handleResponse('Registration completed, wait for aproval!');
         this.router.navigate(['/']);
+      },
+      err => {
+        console.log(err);
+        this.handleResponse(`Error! ${err.statusText}`);
       });
   }
 
