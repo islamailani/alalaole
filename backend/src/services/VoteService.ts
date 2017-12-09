@@ -27,7 +27,7 @@ export class VoteServiceImpl implements VoteService {
         vote.user = user;
         vote.issue = issue;
         vote.score = 1;
-        return await this.voteRepository.save(vote);
+        return await this.voteRepository.save(vote).catch((err) => { throw err; });
     }
 
     public async downVoteIssue(user: User, issue: Issue): Promise<Vote> {
@@ -35,6 +35,6 @@ export class VoteServiceImpl implements VoteService {
         vote.user = user;
         vote.issue = issue;
         vote.score = -1;
-        return await this.voteRepository.save(vote);
+        return await this.voteRepository.save(vote).catch((err) => { throw err; });
     }
 }

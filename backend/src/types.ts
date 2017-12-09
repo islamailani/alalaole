@@ -7,6 +7,7 @@ const TYPES = {
     VoteService: Symbol('VoteService'),
     CommentService: Symbol('CommentService'),
     CommentRepository: Symbol('CommentRepository'),
+    BroadcastingService: Symbol('BroadcastingService'),
     Controller: Symbol('Controller')
 };
 

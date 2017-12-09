@@ -4,6 +4,8 @@ import TYPES from './types';
 
 import { Controller } from './controllers/Controller';
 
+import { BroadcastingService } from './services/BroadcastingService';
+
 import { UserController } from './controllers/UserController';
 import { UserRepository, UserRepositoryImplDb } from './repository/UserRepository';
 import { UserService, UserServiceImpl } from './services/UserService';
@@ -19,6 +21,9 @@ import { CommentRepository, CommentRespositoryImpl } from './repository/CommentR
 import { CommentService, CommentServiceImpl } from './services/CommentService';
 
 const container = new Container();
+
+container.bind<BroadcastingService>(TYPES.BroadcastingService).to(BroadcastingService);
+
 container.bind<Controller>(TYPES.Controller).to(UserController);
 container.bind<Controller>(TYPES.Controller).to(IssueController);
 

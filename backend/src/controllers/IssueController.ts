@@ -12,6 +12,7 @@ import { Comment } from '../models/Comment';
 import { Issue, VoteStatus } from '../models/Issue';
 import { Photo } from '../models/Photo';
 
+import { BroadcastingService, SubscriptionType } from '../services/BroadcastingService';
 import { CommentService } from '../services/CommentService';
 import { IssueService } from '../services/IssueService';
 import { VoteService } from '../services/VoteService';
@@ -22,14 +23,17 @@ export class IssueController implements Controller {
     private issueService: IssueService;
     private voteService: VoteService;
     private commentService: CommentService;
+    private broadcastingService: BroadcastingService;
 
     constructor(
         @inject(TYPES.IssueService) issueService: IssueService,
         @inject(TYPES.VoteService) voteService: VoteService,
-        @inject(TYPES.CommentService) commentService: CommentService) {
+        @inject(TYPES.CommentService) commentService: CommentService,
+        @inject(TYPES.BroadcastingService) broadcastingService: BroadcastingService) {
         this.issueService = issueService;
         this.voteService = voteService;
         this.commentService = commentService;
+        this.broadcastingService = broadcastingService;
     }
 
     public register(app: express.Application): void {
@@ -163,7 +167,8 @@ export class IssueController implements Controller {
                     const comment = new Comment(req.body.text);
                     comment.user = req.user;
                     comment.issue = issue;
-                    const createdComment = await this.commentService.addComment(comment);
+                    const createdComment = await this.commentService.addComment(comment).catch((err) => next(err)) as Comment;
+                    this.broadcastingService.broadcastToSubscribers(SubscriptionType.Comments, issue.id, JSON.stringify(createdComment));
                     res.send({ id: createdComment.id, text: createdComment.text });
                 } else {
                     res.send({ message: 'Not Found', status: 404 });
