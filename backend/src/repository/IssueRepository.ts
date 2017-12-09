@@ -10,7 +10,7 @@ export interface IssueRepository {
     create(issue: Issue): Promise<Issue>;
     createPhoto(photo: Photo): Promise<Photo>;
     getAll(from: number): Promise<Issue[]>;
-    getAllInCircle(from: number, centerX: number, centerY: number, radius: number);
+    getAllInProximity(from: number, centerX: number, centerY: number, km: number);
 }
 
 @injectable()
@@ -41,12 +41,20 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .getMany();
     }
 
-    public async getAllInCircle(from: number, centerX: number, centerY: number, radius: number) {
+    public async getAllInProximity(from: number, lat: number, long: number, km: number) {
         return await this.issueRepository
             .createQueryBuilder('i')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
-            .where('((location.latitude - :centerX)^2 + (location.longitude - :centerY)^2) < :radius ^ 2', { centerX, centerY, radius })
+            .where(`
+                (acos(
+                    sin(radians(location.latitude))
+                     * sin(radians(:lat))
+                     + cos(radians(location.latitude))
+                     * cos(radians(:lat))
+                     * cos(radians(:long) - (radians(location.longitude))))
+                     * 6371
+                ) < :km`, { lat, long, km })
             .skip(from)
             .take(30)
             .getMany();

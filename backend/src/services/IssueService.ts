@@ -49,7 +49,7 @@ export class IssueServiceImpl implements IssueService {
         if (!user) {
             return await this.issueRepository.getAll(from);
         } else {
-            return await this.issueRepository.getAllInCircle(0, user.location.latitude, user.location.longitude, user.radius);
+            return await this.issueRepository.getAllInProximity(0, user.location.latitude, user.location.longitude, user.radius);
         }
     }
 }
