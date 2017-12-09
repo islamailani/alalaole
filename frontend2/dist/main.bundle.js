@@ -259,7 +259,7 @@ var routes = [
     },
     {
         component: __WEBPACK_IMPORTED_MODULE_3__main_main_component__["a" /* MainComponent */],
-        path: 'home',
+        path: '',
         children: [
             {
                 component: __WEBPACK_IMPORTED_MODULE_5__main_my_issues_my_issues_component__["a" /* MyIssuesComponent */],
@@ -880,7 +880,7 @@ var IssuesComponent = (function () {
         });
     };
     IssuesComponent.prototype.navigateToIssue = function (issue) {
-        this.router.navigate(['home', 'issues', issue.id]);
+        this.router.navigate(['issues', issue.id]);
     };
     IssuesComponent.prototype.upVoteIssue = function (issue) {
         var _this = this;
@@ -990,7 +990,7 @@ var MainComponent = (function () {
 /***/ "../../../../../src/app/main/my-issues/my-issues.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- my issues -->\n<h2 class=\"colored-text headline\">Issues</h2>\n<div class=\"issue col-md-12 no-padding\" *ngFor=\"let issue of issues\">\n    <div class=\"col-md-6 issue-info-container\">\n        <mat-icon class=\"upvote\">keyboard_arrow_up</mat-icon>\n        <p class=\"display-inline score\">{{issue.score}}</p>\n        <mat-icon class=\"downvote\">keyboard_arrow_down</mat-icon>\n\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <!-- <span class=\"minus-one display-inline\">-</span>\n            <span class=\"plus-one display-inline\">+</span> -->\n        <p class=\"description\">{{issue.description}}\n        </p>\n        <div class=\"col-md-12 no-padding image-container\" *ngIf=\"issue.photos.length!==0\">\n            <div class=\"image-holder\">\n                <img src=\"{{issue.photos[0]?.path}}\" />\n            </div>\n            <div class=\"image-holder float-right\">\n                <img src=\"{{issue.photos[1]?.path}}\" />\n            </div>\n        </div>\n        <div class=\"info-holder\">\n            <p class=\"comments\">{{issue.commentNumber}} comments</p>\n            <button (click)=\"navigateToIssue(issue)\" class=\"float-right go-to-issue-btn simple-button-style\">See more\n                <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n            </button>\n        </div>\n    </div>\n    <agm-map [zoom]=\"15\" class=\"map col-md-6 no-padding\" [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\">\n        <agm-marker [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\" [markerDraggable]=\"false\"></agm-marker>\n    </agm-map>\n\n</div>"
+module.exports = "<!-- my issues -->\n<h2 class=\"colored-text headline\">My Issues</h2>\n<div class=\"issue col-md-12 no-padding\" *ngFor=\"let issue of issues\">\n    <div class=\"col-md-6 issue-info-container\">\n        <mat-icon class=\"upvote\">keyboard_arrow_up</mat-icon>\n        <p class=\"display-inline score\">{{issue.score}}</p>\n        <mat-icon class=\"downvote\">keyboard_arrow_down</mat-icon>\n\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <!-- <span class=\"minus-one display-inline\">-</span>\n            <span class=\"plus-one display-inline\">+</span> -->\n        <p class=\"description\">{{issue.description}}\n        </p>\n        <div class=\"col-md-12 no-padding image-container\" *ngIf=\"issue.photos.length!==0\">\n            <div class=\"image-holder\">\n                <img src=\"{{issue.photos[0]?.path}}\" />\n            </div>\n            <div class=\"image-holder float-right\">\n                <img src=\"{{issue.photos[1]?.path}}\" />\n            </div>\n        </div>\n        <div class=\"info-holder\">\n            <p class=\"comments\">{{issue.commentNumber}} comments</p>\n            <button (click)=\"navigateToIssue(issue)\" class=\"float-right go-to-issue-btn simple-button-style\">See more\n                <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n            </button>\n        </div>\n    </div>\n    <agm-map [zoom]=\"15\" class=\"map col-md-6 no-padding\" [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\">\n        <agm-marker [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\" [markerDraggable]=\"false\"></agm-marker>\n    </agm-map>\n\n</div>"
 
 /***/ }),
 
@@ -1164,7 +1164,7 @@ var ProfileComponent = (function () {
 /***/ "../../../../../src/app/main/top-bar/top-bar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-12 top-bar-container\">\n    <div>\n        <ul class=\"menu-list\">\n            <li class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['issues']\">\n                ISSUES\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['my-issues']\">\n                MY ISSUES\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['create-issue']\">\n                + ADD NEW ISSUE\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['admin-dashboard']\">\n                ADMIN DASHBOARD\n            </li>\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <p>gherasimraul@yahoo.com</p>\n        <mat-icon [matMenuTriggerFor]=\"appMenu\" class=\"clickable\">more_vert</mat-icon>\n        <mat-menu #appMenu=\"matMenu\">\n            <button mat-menu-item [routerLink]=\"['profile']\"> PROFILE </button>\n            <button mat-menu-item> SIGN OUT </button>\n        </mat-menu>\n\n    </div>\n\n</div>"
+module.exports = "<div class=\"col-md-12 top-bar-container\">\n    <div>\n        <ul class=\"menu-list\">\n            <li class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','issues']\">\n                ISSUES\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','my-issues']\">\n                MY ISSUES\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','create-issue']\">\n                + ADD NEW ISSUE\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','admin-dashboard']\">\n                ADMIN DASHBOARD\n            </li>\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <p>gherasimraul@yahoo.com</p>\n        <mat-icon [matMenuTriggerFor]=\"appMenu\" class=\"clickable\">more_vert</mat-icon>\n        <mat-menu #appMenu=\"matMenu\">\n            <button mat-menu-item [routerLink]=\"['','profile']\"> PROFILE </button>\n            <button mat-menu-item (click)=\"signOut()\"> SIGN OUT </button>\n        </mat-menu>\n\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -1193,6 +1193,7 @@ module.exports = module.exports.toString();
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TopBarComponent; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__shared_authentication_auth_service__ = __webpack_require__("../../../../../src/app/shared/authentication/auth.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1204,15 +1205,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var TopBarComponent = (function () {
-    function TopBarComponent(router) {
+    function TopBarComponent(router, authService) {
         this.router = router;
+        this.authService = authService;
     }
     TopBarComponent.prototype.ngOnInit = function () {
     };
     TopBarComponent.prototype.signOut = function () {
-        // this.authService.signOut();
-        // this.router.navigate(['']);
+        this.authService.signOut().subscribe(function (res) {
+        });
+        this.router.navigate(['']);
     };
     TopBarComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -1220,7 +1224,8 @@ var TopBarComponent = (function () {
             template: __webpack_require__("../../../../../src/app/main/top-bar/top-bar.component.html"),
             styles: [__webpack_require__("../../../../../src/app/main/top-bar/top-bar.component.scss")]
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_2__shared_authentication_auth_service__["a" /* AuthService */]])
     ], TopBarComponent);
     return TopBarComponent;
 }());
@@ -1270,6 +1275,9 @@ var AuthService = (function () {
             email: email, password: password
         });
     };
+    AuthService.prototype.signOut = function () {
+        return this.http.post("/auth/logout", {});
+    };
     AuthService.prototype.register = function (registerUser) {
         return this.http.post("/auth/register", registerUser);
     };
@@ -1311,7 +1319,7 @@ var AuthorizationInterceptor = (function () {
         this.injector = injector;
     }
     AuthorizationInterceptor.prototype.intercept = function (req, next) {
-        if (req.url.indexOf('/auth') > -1) {
+        if (req.url.indexOf('/auth') > -1 && req.url.indexOf('logout') === 0) {
             return next.handle(req);
         }
         var auth = this.injector.get(__WEBPACK_IMPORTED_MODULE_1__auth_service__["a" /* AuthService */]);
@@ -1400,6 +1408,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_forms__ = __webpack_require__("../../../forms/esm5/forms.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__auth_service__ = __webpack_require__("../../../../../src/app/shared/authentication/auth.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material_snack_bar__ = __webpack_require__("../../../material/esm5/snack-bar.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1413,11 +1422,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LoginComponent = (function () {
-    function LoginComponent(formBuilder, router, authService) {
+    function LoginComponent(formBuilder, router, authService, snackbar) {
         this.formBuilder = formBuilder;
         this.router = router;
         this.authService = authService;
+        this.snackbar = snackbar;
         this.credentials = {
             email: '',
             password: ''
@@ -1438,9 +1449,21 @@ var LoginComponent = (function () {
         this.authService.login(this.loginForm.value)
             .subscribe(function (res) {
             console.log(res);
+            localStorage.setItem('user', JSON.stringify(res));
             localStorage.setItem('AuthToken', res.token);
-            _this.router.navigate(['home', 'my-issues']);
+            _this.router.navigate(['my-issues']);
+        }, function (err) {
+            console.log(err);
+            _this.handleResponse("Error! " + err.statusText);
         });
+    };
+    LoginComponent.prototype.notify = function (status, text) {
+        this.snackbar.open(status, text, {
+            duration: 3000
+        });
+    };
+    LoginComponent.prototype.handleResponse = function (text) {
+        this.notify(text, ' ');
     };
     LoginComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
@@ -1451,7 +1474,8 @@ var LoginComponent = (function () {
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_forms__["a" /* FormBuilder */],
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */],
-            __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */]])
+            __WEBPACK_IMPORTED_MODULE_3__auth_service__["a" /* AuthService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material_snack_bar__["a" /* MatSnackBar */]])
     ], LoginComponent);
     return LoginComponent;
 }());
@@ -1585,6 +1609,9 @@ var RegistrationComponent = (function () {
             console.log(res);
             _this.handleResponse('Registration completed, wait for aproval!');
             _this.router.navigate(['/']);
+        }, function (err) {
+            console.log(err);
+            _this.handleResponse("Error! " + err.statusText);
         });
     };
     RegistrationComponent.prototype.markerClicked = function ($event) {

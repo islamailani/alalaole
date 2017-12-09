@@ -18,6 +18,10 @@ export class AuthService {
         });
     }
 
+    signOut() {
+        return this.http.post(`/auth/logout`, {  });
+    }
+
     register(registerUser: RegisterUser) {
         return this.http.post(`/auth/register`, registerUser);
     }

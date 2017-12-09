@@ -10,9 +10,11 @@ export class AuthorizationInterceptor implements HttpInterceptor {
     constructor(private injector: Injector) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        if (req.url.indexOf('/auth') > -1) {
+        if (req.url.indexOf('/auth') > -1 && req.url.indexOf('logout') === 0) {
             return next.handle(req);
         }
+
+
         const auth: AuthService = this.injector.get(AuthService);
         const authRequest = req.clone({
             headers: req.headers.set('x-api-token', auth.getToken())
