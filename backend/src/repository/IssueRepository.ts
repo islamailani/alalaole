@@ -50,7 +50,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .getMany();
     }
 
-    public async getAllInProximity(from: number, lat: number, long: number, km: number) {
+    public async getAllInProximity(from: number, lat: number, long: number, km: number): Promise<Issue[]> {
         return await this.issueRepository
             .createQueryBuilder('i')
             .leftJoinAndSelect('i.location', 'location')
@@ -72,8 +72,16 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .getMany();
     }
 
-    public async getById(id: number) {
-        return await this.issueRepository.findOneById(id, { relations: ['user'] });
+    public async getById(id: number): Promise<Issue> {
+        return await this.issueRepository
+            .createQueryBuilder('i')
+            .where('i.id = :id', { id })
+            .leftJoinAndSelect('i.comments', 'comments')
+            .leftJoinAndSelect('i.user', 'user')
+            .leftJoinAndSelect('i.votes', 'votes')
+            .leftJoinAndSelect('votes.user', 'u')
+            .orderBy('comments.createdAt', 'DESC')
+            .getOne();
     }
 
 }

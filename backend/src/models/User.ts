@@ -18,7 +18,7 @@ export class User {
     @PrimaryGeneratedColumn()
     public id: number;
 
-    @Column()
+    @Column({ select: false })
     public password: string;
 
     @Column()
@@ -43,7 +43,7 @@ export class User {
     @Column()
     public gender: Gender;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true, select: false })
     public token?: string;
 
     @Column({ default: 0 })

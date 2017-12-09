@@ -23,7 +23,6 @@ export class VoteRepositoryImpl implements VoteRepository {
         const foundVote = await this.voteRepository.findOne({ where: { issue: vote.issue.id, user: vote.user.id }, relations: ['user', 'issue'] });
         if (foundVote) {
             foundVote.score = vote.score;
-            console.log(foundVote);
             return await this.voteRepository.save(foundVote);
         } else {
             return await this.voteRepository.save(vote);

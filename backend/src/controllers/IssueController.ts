@@ -109,8 +109,26 @@ export class IssueController implements Controller {
             });
         app.route('/issues/:id')
             .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                const issue = this.issueService.getIssue(req.params.id).catch((err) => next(err));
-                res.send(issue);
+                const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
+                if (issue) {
+                    if (issue.votes.length > 0) {
+                        issue.score = issue.votes.reduce((acc, current) => acc += current.score, 0);
+                        const userVote = issue.votes.find((vote) => vote.user.id === req.user.id);
+                        issue.voteStatus = userVote ? userVote.score : VoteStatus.NotVoted;
+                    } else {
+                        issue.score = 0;
+                        issue.voteStatus = VoteStatus.NotVoted;
+                    }
+                    if (issue.comments.length > 0) {
+                        issue.commentNumber = issue.comments.length;
+                    } else {
+                        issue.commentNumber = 0;
+                    }
+                    delete issue.votes;
+                    res.send(issue);
+                } else {
+                    res.status(404).send({ message: 'Not Found', status: 404 });
+                }
             });
         app.route('/issues/:id/upvote')
             .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
