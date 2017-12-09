@@ -12,7 +12,7 @@ import { UserRepository } from '../repository/UserRepository';
 
 export interface UserService {
     createUser(user: User): Promise<User>;
-    loginUser(user: User): Promise<LoginDetails>;
+    loginUser(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
 }
 
@@ -31,14 +31,15 @@ export class UserServiceImpl implements UserService {
         return newUser;
     }
 
-    public async loginUser(user: User): Promise<LoginDetails> {
+    public async loginUser(user: User): Promise<User> {
         const foundUser = await this.userRepository.findByEmail(user.email);
         if (foundUser) {
             if (bcrypt.compareSync(user.password, foundUser.password)) {
                 const token = this.generateToken();
                 foundUser.token = token;
-                await this.userRepository.update(foundUser);
-                return new LoginDetails(token);
+                const loggedUser = await this.userRepository.update(foundUser);
+                delete loggedUser.password;
+                return loggedUser;
             } else {
                 throw new HttpError('Wrong credentials !', 401);
             }
