@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGene
 import { IssueLocation } from './IssueLocation';
 import { Photo } from './Photo';
 import { User } from './User';
+import { Vote } from './Vote';
 
 @Entity()
 export class Issue {
@@ -15,6 +16,9 @@ export class Issue {
 
     @Column()
     public description: string;
+
+    @OneToMany((type) => Vote, (vote) => vote.issue)
+    public votes: Vote[];
 
     @OneToMany((type) => Photo, (photo) => photo.issue)
     public photos: Photo[];

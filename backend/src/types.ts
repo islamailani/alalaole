@@ -3,6 +3,8 @@ const TYPES = {
     UserService: Symbol('UserService'),
     IssueService: Symbol('IssueService'),
     IssueRepository: Symbol('IssueRepository'),
+    VoteRepository: Symbol('VoteRepository'),
+    VoteService: Symbol('VoteService'),
     Controller: Symbol('Controller')
 };
 

@@ -13,6 +13,7 @@ import { HttpError } from './utils/HttpError';
 import { Config } from './config/Config';
 
 import authenticate from './middlewares/AuthenticationMiddleware';
+import CORS from './middlewares/CORSMiddleware';
 import handleErrors from './middlewares/ErrorHandlingMiddleware';
 import jsonResponse from './middlewares/JsonResponseMiddleware';
 
@@ -23,6 +24,7 @@ createConnection(Config.ConnectionOptions).then(async (connection) => {
 
     app.use(authenticate);
     app.use(jsonResponse);
+    app.use(CORS);
 
     const controllers: Controller[] = container.getAll<Controller>(TYPES.Controller);
     controllers.forEach((controller) => controller.register(app));

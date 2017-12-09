@@ -27,6 +27,7 @@ export class UserServiceImpl implements UserService {
         }
         user.password = bcrypt.hashSync(user.password);
         const newUser = await this.userRepository.create(user);
+        delete newUser.password;
         return newUser;
     }
 

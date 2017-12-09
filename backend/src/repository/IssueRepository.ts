@@ -10,7 +10,9 @@ export interface IssueRepository {
     create(issue: Issue): Promise<Issue>;
     createPhoto(photo: Photo): Promise<Photo>;
     getAll(from: number): Promise<Issue[]>;
-    getAllInProximity(from: number, centerX: number, centerY: number, km: number);
+    getAllInProximity(from: number, centerX: number, centerY: number, km: number): Promise<Issue[]>;
+    getById(id: number): Promise<Issue>;
+    getPhotoById(id: number): Promise<Photo>;
 }
 
 @injectable()
@@ -29,6 +31,10 @@ export class IssueRepositoryImplDb implements IssueRepository {
 
     public async createPhoto(photo: Photo): Promise<Photo> {
         return await this.photoRepository.save(photo);
+    }
+
+    public async getPhotoById(id: number): Promise<Photo> {
+        return await this.photoRepository.findOneById(id);
     }
 
     public async getAll(from: number): Promise<Issue[]> {
@@ -58,6 +64,10 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .skip(from)
             .take(30)
             .getMany();
+    }
+
+    public async getById(id: number) {
+        return await this.issueRepository.findOneById(id);
     }
 
 }

@@ -9,13 +9,17 @@ import { HttpError } from '../utils/HttpError';
 import { Issue } from '../models/Issue';
 import { Photo } from '../models/Photo';
 import { User } from '../models/User';
+import { Vote } from '../models/Vote';
 
 import { IssueRepository } from '../repository/IssueRepository';
 
 export interface IssueService {
     createIssue(issue: Issue): Promise<Issue>;
-    savePhoto(base64Photo: string, issue: Issue): Promise<Photo>;
-    getIssues(from?: number, user?: User): Promise<Issue[]>;
+    savePhoto(path: string): Promise<Photo>;
+    getIssues(from?: number): Promise<Issue[]>;
+    getIssuesInProximity(from: number, user: User): Promise<Issue[]>;
+    getIssue(id: number): Promise<Issue>;
+    getPhoto(id: number): Promise<Photo>;
 }
 
 @injectable()
@@ -27,29 +31,24 @@ export class IssueServiceImpl implements IssueService {
         return await this.issueRepository.create(issue);
     }
 
-    public async savePhoto(base64Photo: string, issue: Issue): Promise<Photo> {
-        const matches = base64Photo.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
-
-        if (matches.length !== 3) {
-            throw new Error('Invalid input string');
-        }
-
-        const name = uuid.v4();
-        const extension = matches[1].replace('image/', '');
-        const fileName = `${name}.${extension}`;
-        const photoData = new Buffer(matches[2], 'base64');
-        fs.appendFileSync(__dirname + `/../../public/images/${fileName}`, photoData);
-
+    public async savePhoto(fileName: string): Promise<Photo> {
         const photo = new Photo(`/public/images/${fileName}`);
-        photo.issue = issue;
         return await this.issueRepository.createPhoto(photo);
     }
 
-    public async getIssues(from: number = 0, user?: User): Promise<Issue[]> {
-        if (!user) {
-            return await this.issueRepository.getAll(from);
-        } else {
-            return await this.issueRepository.getAllInProximity(0, user.location.latitude, user.location.longitude, user.radius);
-        }
+    public async getPhoto(id: number): Promise<Photo> {
+        return await this.issueRepository.getPhotoById(id);
+    }
+
+    public async getIssues(from: number = 0): Promise<Issue[]> {
+        return await this.issueRepository.getAll(from);
+    }
+
+    public async getIssuesInProximity(from: number = 0, user: User): Promise<Issue[]> {
+        return await this.issueRepository.getAllInProximity(0, user.location.latitude, user.location.longitude, user.radius);
+    }
+
+    public async getIssue(id: number): Promise<Issue> {
+        return await this.issueRepository.getById(id);
     }
 }
