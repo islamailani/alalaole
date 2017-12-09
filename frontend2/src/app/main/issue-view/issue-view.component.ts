@@ -37,11 +37,14 @@ export class IssuesViewComponent implements OnInit {
                 id: null,
                 text: '',
                 createdAt: '',
-                userName: ''
+                user: {
+                    name: ''
+                }
             }
         ],
         createdAt: ''
     };
+    comment: string;
     constructor(
         public router: Router,
         private activatedRoute: ActivatedRoute,
@@ -59,6 +62,12 @@ export class IssuesViewComponent implements OnInit {
             });
         });
         // this.issuesService.
+    }
+
+    postComment() {
+        this.issuesService.postComment(this.issue, this.comment).subscribe(res => {
+            console.log(res);
+        });
     }
 
 }
