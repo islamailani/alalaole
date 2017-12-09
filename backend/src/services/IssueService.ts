@@ -22,6 +22,8 @@ export interface IssueService {
     getIssue(id: number): Promise<Issue>;
     getPhoto(id: number): Promise<Photo>;
     getUserIssues(user: User): Promise<Issue[]>;
+    verifyIssueForArchiving(issue: Issue): Promise<boolean>;
+    archiveIssue(issue: Issue): Promise<void>;
 }
 
 @injectable()
@@ -60,5 +62,22 @@ export class IssueServiceImpl implements IssueService {
 
     public async getUserIssues(user: User): Promise<Issue[]> {
         return await this.issueRepository.getByUser(user);
+    }
+
+    public async verifyIssueForArchiving(issue: Issue): Promise<boolean> {
+        issue = await this.getIssue(issue.id);
+        const upvotes = issue.votes.filter((vote) => vote.score === 1).length;
+        const downvotes = issue.votes.filter((vote) => vote.score === -1).length;
+        const shouldArchive = (downvotes * 2 > upvotes) || (downvotes === 2 && upvotes === 0);
+        if (shouldArchive) {
+            this.archiveIssue(issue);
+        }
+        return shouldArchive;
+    }
+
+    public async archiveIssue(issue: Issue): Promise<void> {
+        issue.archived = true;
+        await this.issueRepository.create(issue);
+        return;
     }
 }

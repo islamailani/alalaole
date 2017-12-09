@@ -174,8 +174,11 @@ export class IssueController implements Controller {
                         next(new HttpError('You canot vote on your own issue', 400));
                     } else {
                         await this.voteService.upVoteIssue(req.user, issue).catch((err) => next(err));
+                        await this.issueService.verifyIssueForArchiving(issue);
                         res.send({ message: 'Ok', status: 200 });
                     }
+                } else {
+                    res.send({ message: 'Not Found', status: 404 });
                 }
             });
         app.route('/issues/:id/downvote')
@@ -186,6 +189,7 @@ export class IssueController implements Controller {
                         next(new HttpError('You canot vote on your own issue', 400));
                     } else {
                         await this.voteService.downVoteIssue(req.user, issue).catch((err) => next(err));
+                        await this.issueService.verifyIssueForArchiving(issue);
                         res.send({ message: 'Ok', status: 200 });
                     }
                 } else {
