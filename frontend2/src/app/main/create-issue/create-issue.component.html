@@ -1,0 +1,28 @@
+<h2 class="colored-text headline">Create Issue</h2>
+
+<div class="col-md-12 create-issue">
+    <div class="col-md-4 form-create-issue">
+        <p class="grey-text">Make sure you fill the information below corectly, otherwise we will be force to ban you.</p>
+        <mat-form-field class="full-width">
+            <input class="colored-text" matInput placeholder="Title" />
+            <mat-error>Please enter a valid title</mat-error>
+        </mat-form-field>
+        <mat-form-field class="full-width">
+            <textarea matInput placeholder="Description"></textarea>
+        </mat-form-field>
+        <div class="fileUpload btn">
+            <span>Upload Images
+                <mat-icon>file_upload</mat-icon>
+            </span>
+            <input class="upload" type="file" name="img" accept="image/*" (change)="submitIssue($event)" multiple>
+        </div>
+        <button class="simple-button-style submit-btn float-right">Submit
+            <mat-icon class=" float-right">arrow_forward</mat-icon>
+        </button>
+    </div>
+    <input class="colored-text map-input" #search placeholder="Location" />
+    <agm-map class="map col-md-8 no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+        <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+            [markerDraggable]="true"></agm-marker>
+    </agm-map>
+</div>

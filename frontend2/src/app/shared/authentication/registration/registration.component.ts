@@ -18,6 +18,8 @@ export class RegistrationComponent implements OnInit {
 
   @ViewChild('search')
   public searchElementRef: ElementRef;
+  @ViewChild('images')
+  public imagesElRef: ElementRef;
   @ViewChild(AgmMap)
   public agmMap: AgmMap;
   @ViewChild(AgmMarker)

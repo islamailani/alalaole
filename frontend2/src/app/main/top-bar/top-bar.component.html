@@ -1,12 +1,15 @@
 <div class="col-md-12 top-bar-container">
-    <div >
-        <img src=""/>
+    <div>
+        <img src="" />
         <ul class="menu-list">
-            <li class="clickable">
+            <li class="clickable" [routerLink]="['issues']">
                 ISSUES
             </li>
-            <li class="clickable">
+            <li class="clickable" [routerLink]="['my-issues']">
                 MY ISSUES
+            </li>
+            <li class="clickable add-issue-tab" [routerLink]="['create-issue']">
+                + ADD NEW ISSUE
             </li>
         </ul>
     </div>
