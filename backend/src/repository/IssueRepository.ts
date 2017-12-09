@@ -67,7 +67,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
     }
 
     public async getById(id: number) {
-        return await this.issueRepository.findOneById(id);
+        return await this.issueRepository.findOneById(id, { relations: ['user'] });
     }
 
 }

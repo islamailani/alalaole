@@ -10,8 +10,10 @@ import { UserService, UserServiceImpl } from './services/UserService';
 
 import { IssueController } from './controllers/IssueController';
 import { IssueRepository, IssueRepositoryImplDb } from './repository/IssueRepository';
-import { VoteRepository, VoteRepositoryImpl } from './repository/VoteRepository';
 import { IssueService, IssueServiceImpl } from './services/IssueService';
+
+import { VoteRepository, VoteRepositoryImpl } from './repository/VoteRepository';
+import { VoteService, VoteServiceImpl } from './services/VoteService';
 
 const container = new Container();
 container.bind<Controller>(TYPES.Controller).to(UserController);
@@ -24,5 +26,6 @@ container.bind<IssueRepository>(TYPES.IssueRepository).to(IssueRepositoryImplDb)
 container.bind<IssueService>(TYPES.IssueService).to(IssueServiceImpl);
 
 container.bind<VoteRepository>(TYPES.VoteRepository).to(VoteRepositoryImpl);
+container.bind<VoteService>(TYPES.VoteService).to(VoteServiceImpl);
 
 export default container;

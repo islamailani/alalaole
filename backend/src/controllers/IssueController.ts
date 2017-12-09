@@ -12,13 +12,19 @@ import { Issue } from '../models/Issue';
 import { Photo } from '../models/Photo';
 
 import { IssueService } from '../services/IssueService';
+import { VoteService } from '../services/VoteService';
+import { HttpError } from '../utils/HttpError';
 
 @injectable()
 export class IssueController implements Controller {
     private issueService: IssueService;
+    private voteService: VoteService;
 
-    constructor( @inject(TYPES.IssueService) issueService: IssueService) {
+    constructor(
+        @inject(TYPES.IssueService) issueService: IssueService,
+        @inject(TYPES.VoteService) voteService: VoteService) {
         this.issueService = issueService;
+        this.voteService = voteService;
     }
 
     public register(app: express.Application): void {
@@ -39,7 +45,7 @@ export class IssueController implements Controller {
         const upload = multer({ storage, fileFilter });
 
         app.route('/issues/photo/upload')
-            .post(upload.array('photos', 12), async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+            .post([authorize, upload.array('photos', 12)], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const photosCreated: Array<Promise<Photo>> = [];
                 const files = req.files as Express.Multer.File[];
                 for (const file of files) {
@@ -65,32 +71,45 @@ export class IssueController implements Controller {
                 );
                 issue.user = req.user;
                 const photos: number[] = req.body.photos;
-                const photosCreated: Array<Promise<Photo>> = [];
+                const photosCreated: Array<Promise<Photo | void>> = [];
                 photos.forEach((id: number) => {
                     photosCreated.push(this.issueService.getPhoto(id));
                 });
-                issue.photos = await Promise.all(photosCreated);
-                const createdIssue = await this.issueService.createIssue(issue);
+                const photoPromise = await Promise.all(photosCreated).catch((err) => next(err));
+                if (photoPromise) {
+                    issue.photos = photoPromise as Photo[];
+                }
+                const createdIssue = await this.issueService.createIssue(issue).catch((err) => next(err));
                 res.send({ message: 'Created', status: 200 });
             });
         app.route('/issues/:id')
             .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                const issue = this.issueService.getIssue(req.params.id);
+                const issue = this.issueService.getIssue(req.params.id).catch((err) => next(err));
                 res.send(issue);
             });
         app.route('/issues/:id/upvote')
-            .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                const issue = await this.issueService.getIssue(req.params.id);
-                // const
-                // if (issue.user === req.user) {
-
-                // }
-                res.send(issue);
+            .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
+                if (issue) {
+                    if (issue.user.id === req.user.id) {
+                        next(new HttpError('You canot vote on your own issue', 400));
+                    } else {
+                        await this.voteService.upVoteIssue(req.user, issue).catch((err) => next(err));
+                        res.send({ message: 'Ok', status: 200 });
+                    }
+                }
             });
         app.route('/issues/:id/downvote')
-            .post(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                const issue = this.issueService.getIssue(req.params.id);
-                res.send(issue);
+            .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
+                if (issue) {
+                    if (issue.user.id === req.user.id) {
+                        next(new HttpError('You canot vote on your own issue', 400));
+                    } else {
+                        await this.voteService.downVoteIssue(req.user, issue).catch((err) => next(err));
+                        res.send({ message: 'Ok', status: 200 });
+                    }
+                }
             });
     }
 }
