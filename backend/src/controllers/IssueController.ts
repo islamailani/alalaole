@@ -17,6 +17,7 @@ import { CommentService } from '../services/CommentService';
 import { IssueService } from '../services/IssueService';
 import { VoteService } from '../services/VoteService';
 import { HttpError } from '../utils/HttpError';
+import { Vote } from '../models/Vote';
 
 @injectable()
 export class IssueController implements Controller {
@@ -64,17 +65,25 @@ export class IssueController implements Controller {
             });
         app.route('/issues')
             .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                console.log(req.query);
                 let issues: Issue[] = [];
                 if (!req.user) {
-                    issues = await this.issueService.getIssues(0);
+                    if (req.query.latitude && req.query.longitude) {
+                        issues = await this.issueService.getIssuesInProximity(0, req.query.latitude, req.query.longitude, 20);
+                    } else {
+                        issues = await this.issueService.getIssues(0);
+                    }
                 } else {
-                    issues = await this.issueService.getIssuesInProximity(0, req.user);
+                    issues = await this.issueService.getIssuesInProximityOfUser(0, req.user);
                 }
-
+                const user = req.user;
                 issues.map((issue) => {
                     if (issue.votes.length > 0) {
                         issue.score = issue.votes.reduce((acc, current) => acc += current.score, 0);
-                        const userVote = issue.votes.find((vote) => vote.user.id === req.user.id);
+                        let userVote: Vote = null;
+                        if (user) {
+                            userVote = issue.votes.find((vote) => vote.user.id === req.user.id);
+                        }
                         issue.voteStatus = userVote ? userVote.score : VoteStatus.NotVoted;
                     } else {
                         issue.score = 0;

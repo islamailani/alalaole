@@ -11,7 +11,7 @@ export interface IssueRepository {
     create(issue: Issue): Promise<Issue>;
     createPhoto(photo: Photo): Promise<Photo>;
     getAll(from: number): Promise<Issue[]>;
-    getAllInProximity(from: number, centerX: number, centerY: number, km: number): Promise<Issue[]>;
+    getAllInProximity(from: number, lat: number, long: number, km: number): Promise<Issue[]>;
     getById(id: number): Promise<Issue>;
     getPhotoById(id: number): Promise<Photo>;
     getByUser(user: User): Promise<Issue[]>;
