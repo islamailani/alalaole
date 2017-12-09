@@ -7,7 +7,7 @@ export class BaseUrlInterceptor implements HttpInterceptor {
 
     constructor() { }
 
-    private baseUrl = 'http://192.168.0.102:3000';
+    private baseUrl = 'http://dariuscostolas.me:3000';
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const reqUrl = `${this.baseUrl}${req.url}`;

@@ -9,10 +9,10 @@ import { MapsAPILoader, AgmMap } from '@agm/core';
     styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-    // @ViewChild('search')
-    // public searchElementRef: ElementRef;
-    // @ViewChild(AgmMap)
-    // public agmMap: AgmMap;
+    @ViewChild('search')
+    public searchElementRef: ElementRef;
+    @ViewChild(AgmMap)
+    public agmMap: AgmMap;
     initialLocation = {
         longitude: 21.226788,
         latitude: 45.760696
@@ -23,19 +23,19 @@ export class ProfileComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        // this.mapsAPILoader.load().then(() => {
-        //     const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
-        //     autocomplete.addListener('place_changed', () => {
-        //         const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-        //         if (place.geometry === undefined || place.geometry === null) {
-        //             return;
-        //         }
-        //         this.initialLocation.latitude = place.geometry.location.lat();
-        //         this.initialLocation.longitude = place.geometry.location.lng();
-        //         this.agmMap.triggerResize();
-        //         // console.log(this.agmMarker.longitude);
-        //     });
-        // });
+        this.mapsAPILoader.load().then(() => {
+            const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
+            autocomplete.addListener('place_changed', () => {
+                const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+                if (place.geometry === undefined || place.geometry === null) {
+                    return;
+                }
+                this.initialLocation.latitude = place.geometry.location.lat();
+                this.initialLocation.longitude = place.geometry.location.lng();
+                this.agmMap.triggerResize();
+                // console.log(this.agmMarker.longitude);
+            });
+        });
     }
 
 }

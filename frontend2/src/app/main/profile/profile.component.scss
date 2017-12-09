@@ -1,0 +1,57 @@
+@import "../../../assets/variables";
+.save-btn{
+    margin-top:-45px;
+}
+.create-issue{
+    box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+    margin-top:50px;
+    height: 400px;
+    padding: 0px;
+    >div,map{
+        display: inline-block;
+    }
+    .users{
+        padding:50px;
+        .user-pannel{
+            .my-label{
+                color:grey;
+                font-style: italic;
+            }
+            button{
+                margin-top:20px;
+                margin-bottom:20px;
+                margin-right:20px;
+            }
+        }
+    }
+    .map{
+        height: inherit;
+        width: 100%;
+        float: right;
+    }
+    .map-input{
+        margin-top: -200px;
+        position: absolute;
+        top: 210px;
+        left: 50%;
+        margin-left: 250px;
+        z-index: 999;
+        width: 400px;
+        padding: 10px 10px 10px 10px;
+        color: $primary_color;
+        background-color: white;
+        box-shadow: 0px 5px 15px -5px rgba(0,0,0,0.75);
+        border:none;    
+        &:focus{
+            outline: none;
+        }    
+    }
+
+    
+      
+}
+.headline{
+    margin-top:50px;
+    border-top:2px solid $primary_color;
+    padding-top:10px; 
+}
