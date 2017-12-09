@@ -29,6 +29,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IssuesViewComponent } from './main/issue-view/issue-view.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './main/home/home.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -61,7 +62,8 @@ import { HomeComponent } from './main/home/home.component';
     MatSelectModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
-    MatMenuModule
+    MatMenuModule,
+    RouterModule
   ],
   providers: [
     AuthService,

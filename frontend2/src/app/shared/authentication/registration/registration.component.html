@@ -1,6 +1,6 @@
 <div class="login-box">
     <div class="col-md-12">
-        <img class="img-responsive col-md-3 col-sm-4 col-4 no-padding" src="" />
+        <p class="display-inline col-sm-8 col-8 colored-text logo clickable" [routerLink]="['/']"> ala alaʻole</p>
         <p class="display-inline col-sm-8 col-8 colored-text"> - Register</p>
         <div class="login-form-group">
             <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
@@ -32,10 +32,10 @@
                 </button>
             </form>
         </div>
-        <p class="colored-text forgot-password-text">Forgot Password?</p>
+        <p class="colored-text forgot-password-text" [routerLink]="['/login']">Already have an acount? Back to Login</p>
     </div>
 </div>
-<input class="colored-text map-input" #search  placeholder="Location" />
+<input class="colored-text map-input" #search placeholder="Location" />
 <agm-map class="map" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
     <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
         [markerDraggable]="true"></agm-marker>
