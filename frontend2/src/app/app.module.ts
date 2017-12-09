@@ -28,6 +28,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { IssuesViewComponent } from './main/issue-view/issue-view.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { HomeComponent } from './main/home/home.component';
 
 
 @NgModule({
@@ -40,7 +41,8 @@ import { MatMenuModule } from '@angular/material/menu';
     MyIssuesComponent,
     CreateIssueComponent,
     IssuesComponent,
-    IssuesViewComponent
+    IssuesViewComponent,
+    HomeComponent
   ],
   imports: [
     AgmCoreModule.forRoot({

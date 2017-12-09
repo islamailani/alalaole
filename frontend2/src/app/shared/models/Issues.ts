@@ -25,3 +25,30 @@ export interface Issue {
         }];
     commentNumber: number;
 }
+
+export interface IssueView {
+    id: number;
+    description: string;
+    score: number;
+    title: string;
+    location: {
+        longitude: number,
+        latitude: number
+    };
+    comments: [
+        {
+            id: number;
+            text: string;
+            createdAt: string;
+            userName: string;
+        }
+    ];
+    photos: [
+        {
+            id: number;
+            path: string;
+        }];
+    commentNumber: number;
+    voteStatus: number;
+    createdAt: string;
+}

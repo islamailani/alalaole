@@ -6,11 +6,10 @@
 <div class="col-md-12 issue row ">
     <div class="col-md-6 issue-info-container">
         <mat-icon class="upvote">keyboard_arrow_up</mat-icon>
-        <p class="display-inline score">31</p>
+        <p class="display-inline score">{{issue.score}}</p>
         <mat-icon class="downvote">keyboard_arrow_down</mat-icon>
-        <h2 class="colored-text display-inline">first Issue</h2>
-        <p class="description"> loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
-            lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
+        <h2 class="colored-text display-inline">{{issue.title}}</h2>
+        <p class="description"> {{issue.description}}
         </p>
         <div class="col-md-12 comments-container">
             <p class="colored-text">Comments</p>
@@ -33,11 +32,8 @@
                 [markerDraggable]="true"></agm-marker>
         </agm-map>
         <div class=" no-padding image-container">
-            <div class="image-holder">
-                <img src="https://maps.uiowa.edu/sites/maps.uiowa.edu/files/styles/large/public/0075.JPG?itok=IGUEOtaX" />
-            </div>
-            <div class="image-holder float-right">
-                <img src="http://www.bd.gov.hk/images/services/english/safety/01home_banner.jpg" />
+            <div class="image-holder" *ngFor="let photo of issue.photos">
+                <img src="{{photo.path}}" />
             </div>
         </div>
     </div>

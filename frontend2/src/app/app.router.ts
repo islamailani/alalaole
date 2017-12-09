@@ -7,9 +7,14 @@ import { MyIssuesComponent } from './main/my-issues/my-issues.component';
 import { CreateIssueComponent } from './main/create-issue/create-issue.component';
 import { IssuesComponent } from './main/issues/issues.component';
 import { IssuesViewComponent } from './main/issue-view/issue-view.component';
+import { HomeComponent } from './main/home/home.component';
 
 
 const routes: Routes = [
+    {
+        component: HomeComponent,
+        path: ''
+    },
     {
         component: LoginComponent,
         path: 'login'

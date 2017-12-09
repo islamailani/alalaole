@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Router } from '@angular/router';
+import { Issue, IssueView } from '../../shared/models/Issues';
+import { IssuesService } from '../issues.service';
+import { ActivatedRoute } from '@angular/router';
+import { root } from '../../shared/Global';
 
 @Component({
     selector: 'app-issue-view',
@@ -12,11 +16,49 @@ export class IssuesViewComponent implements OnInit {
         longitude: 21.226788,
         latitude: 45.760696
     };
+    issue: IssueView = {
+        id: null,
+        title: '',
+        description: '',
+        location: {
+            longitude: null,
+            latitude: null
+        },
+        score: null,
+        voteStatus: null,
+        photos: [
+            {
+                id: null,
+                path: ''
+            }],
+        commentNumber: null,
+        comments: [
+            {
+                id: null,
+                text: '',
+                createdAt: '',
+                userName: ''
+            }
+        ],
+        createdAt: ''
+    };
     constructor(
         public router: Router,
+        private activatedRoute: ActivatedRoute,
+        private issuesService: IssuesService
     ) { }
 
     ngOnInit() {
+        this.activatedRoute.params.subscribe(param => {
+            this.issuesService.getIssueById(param['id']).subscribe((res: IssueView) => {
+                this.initialLocation.latitude = res.location.latitude;
+                this.initialLocation.longitude = res.location.longitude;
+                res.photos.map(y => y.path = root + y.path);
+                console.log(res);
+                this.issue = res;
+            });
+        });
+        // this.issuesService.
     }
 
 }

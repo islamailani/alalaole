@@ -15,6 +15,10 @@ export class IssuesService {
         return this.http.get(`/issues`);
     }
 
+    getIssueById(id: number) {
+        return this.http.get(`/issues/${id}`);
+    }
+
     uploadPhoto(formData: FormData) {
         return this.http.post(`/issues/photo/upload`, formData);
     }

@@ -1,0 +1,52 @@
+@import "../../../assets/variables";
+
+.container{
+    height: 100vh;
+    padding: 0px;
+    width: 100vw;
+    .map{
+        height: inherit;
+        width: inherit;
+    }
+    .logo{
+        position: absolute;
+        margin-top:-220px;
+        top: 50%;
+        left: 50%;
+        margin-left:-300px;
+        z-index: 999;
+        width: 600px;
+        height: 200px;
+        background-color: white;
+    }
+    .map-input{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left:-300px;
+        z-index: 999;
+        width: 600px;
+        padding: 10px 10px 10px 10px;
+        color: $primary_color;
+        background-color: white;
+        box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+        border:none;    
+        &:focus{
+            outline: none;
+        }    
+    }
+    .issue-container{
+        padding:50px;
+        .issue{
+            height: 375px;
+            box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.75);
+            .map{
+                padding:0px;
+                height: 375px;
+                width: 100%;
+                float: right;
+            }
+        }
+    }
+    
+}

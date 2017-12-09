@@ -1,0 +1,25 @@
+<div class="container">
+    <div class="logo">
+        acilea vine un logo jmecher
+    </div>
+    <input class="colored-text map-input" #search placeholder="Location" />
+    <agm-map class="map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+        <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+            [markerDraggable]="true"></agm-marker>
+    </agm-map>
+
+    <div class="col-md-12 issue-container">
+        <div class="col-md-12 issue row no-padding">
+            <div class="col-md-6">
+
+            </div>
+            <div class="col-md-6 no-padding">
+                <agm-map class="map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+                    <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+                        [markerDraggable]="true"></agm-marker>
+                </agm-map>
+            </div>
+        </div>
+    </div>
+
+</div>
