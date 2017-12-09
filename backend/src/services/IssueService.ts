@@ -49,7 +49,6 @@ export class IssueServiceImpl implements IssueService {
         if (!user) {
             return await this.issueRepository.getAll(from);
         } else {
-            console.log(user);
             return await this.issueRepository.getAllInCircle(0, user.location.latitude, user.location.longitude, user.radius);
         }
     }
