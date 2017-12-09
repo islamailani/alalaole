@@ -5,6 +5,10 @@ import { Photo } from './Photo';
 import { User } from './User';
 import { Vote } from './Vote';
 
+export enum VoteStatus {
+    DownVote = -1, NotVoted = 0, Upvoted = 1
+}
+
 @Entity()
 export class Issue {
 
@@ -32,6 +36,10 @@ export class Issue {
 
     @ManyToOne((type) => User, (user) => user.issues)
     public user: User;
+
+    public score: number;
+
+    public voteStatus: VoteStatus;
 
     constructor(title: string, description: string, location: IssueLocation) {
         this.title = title;

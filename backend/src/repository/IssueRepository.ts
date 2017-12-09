@@ -42,6 +42,8 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .createQueryBuilder('i')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.location', 'location')
+            .leftJoinAndSelect('i.votes', 'votes')
+            .leftJoinAndSelect('votes.user', 'u')
             .skip(from)
             .take(30)
             .getMany();

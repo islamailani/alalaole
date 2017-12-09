@@ -25,6 +25,7 @@ createConnection(Config.ConnectionOptions).then(async (connection) => {
     app.use(authenticate);
     app.use(jsonResponse);
     app.use(CORS);
+    app.use('/public', express.static('public'));
 
     const controllers: Controller[] = container.getAll<Controller>(TYPES.Controller);
     controllers.forEach((controller) => controller.register(app));

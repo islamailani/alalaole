@@ -8,7 +8,7 @@ import { Controller } from './Controller';
 
 import authorize from '../middlewares/AuthorizationMiddleware';
 
-import { Issue } from '../models/Issue';
+import { Issue, VoteStatus } from '../models/Issue';
 import { Photo } from '../models/Photo';
 
 import { IssueService } from '../services/IssueService';
@@ -55,12 +55,25 @@ export class IssueController implements Controller {
             });
         app.route('/issues')
             .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                let issues = [];
-                if (req.user) {
+                let issues: Issue[] = [];
+                if (!req.user) {
                     issues = await this.issueService.getIssues(0);
                 } else {
-                    issues = await this.issueService.getIssuesInProximity(0, req.user);
+                    // issues = await this.issueService.getIssuesInProximity(0, req.user);
+                    issues = await this.issueService.getIssues(0);
                 }
+
+                issues.map((issue) => {
+                    if (issue.votes.length > 0) {
+                        issue.score = issue.votes.reduce((acc, current) => acc += current.score, 0);
+                        issue.voteStatus = issue.votes.find((vote) => vote.user.id === req.user.id).score;
+                    } else {
+                        issue.score = 0;
+                        issue.voteStatus = VoteStatus.NotVoted;
+                    }
+                    delete issue.votes;
+                    return issues;
+                });
                 res.send(issues);
             })
             .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
