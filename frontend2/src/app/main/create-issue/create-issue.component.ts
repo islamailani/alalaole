@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { MapsAPILoader, AgmMap, AgmMarker } from '@agm/core';
 import { IssuesService } from '../issues.service';
 import { CreateIssue } from '../../shared/models/Issues';
+import { RequestOptions } from '@angular/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-issue',
@@ -17,7 +19,7 @@ export class CreateIssueComponent implements OnInit {
   public agmMap: AgmMap;
   @ViewChild(AgmMarker)
   public agmMarker: AgmMarker;
-  base64textImages = [];
+  noOfImages = 0;
   initialLocation = {
     longitude: 21.226788,
     latitude: 45.760696
@@ -29,13 +31,15 @@ export class CreateIssueComponent implements OnInit {
       longitude: null,
       latitude: null
     },
-    photos: ['']
+    photos: []
   };
+  uploadingPhotos = false;
 
   constructor(
     public router: Router,
     private mapsAPILoader: MapsAPILoader,
-    private issuesService: IssuesService
+    private issuesService: IssuesService,
+    private snackbar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -65,25 +69,35 @@ export class CreateIssueComponent implements OnInit {
   }
 
   submitIssue($event) {
+    const formData = new FormData();
     for (let i = 0; i < $event.target.files.length; i++) {
-      const reader = new FileReader();
-      reader.onload = this._handleReaderLoaded.bind(this);
-      reader.readAsBinaryString($event.target.files[i]);
+      formData.append('photos', $event.target.files[i]);
+      this.noOfImages++;
     }
-  }
-
-  _handleReaderLoaded(readerEvt) {
-    const binaryString = readerEvt.target.result;
-    this.base64textImages.push(btoa(binaryString));
+    this.uploadingPhotos = true;
+    this.issuesService.uploadPhoto(formData).subscribe((res: number[]) => {
+      this.createIssue.photos = res;
+      this.uploadingPhotos = false;
+    });
   }
 
   createNewIssue() {
+    // console.log('intra');
     this.createIssue.location.latitude = this.initialLocation.latitude;
     this.createIssue.location.longitude = this.initialLocation.longitude;
-    this.base64textImages.map(x => this.createIssue.photos.push(x));
-    this.issuesService.createIssue(this.createIssue).subscribe(res => {
-      console.log(res);
+    this.issuesService.createIssue(this.createIssue).subscribe((res: any) => {
+      this.handleResponse(res.message);
     });
+  }
+
+  notify(status: any, text: any) {
+    this.snackbar.open(status, text, {
+      duration: 3000
+    });
+  }
+
+  public handleResponse(text) {
+    this.notify(text, ' ');
   }
 
 }

@@ -24,6 +24,8 @@ import { BaseUrlInterceptor } from './shared/authentication/http-interceptors/ba
 import { AuthorizationInterceptor } from './shared/authentication/http-interceptors/authorization.interceptor';
 import { IssuesComponent } from './main/issues/issues.component';
 import { IssuesService } from './main/issues.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { IssuesService } from './main/issues.service';
     MatIconModule,
     HttpClientModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [
     AuthService,
