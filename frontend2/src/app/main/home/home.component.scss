@@ -11,6 +11,38 @@
         height: inherit;
         width: inherit;
     }
+    .saying{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -290.5px;
+        margin-top: 55px;
+        color: white;
+        font-size: 26px;
+        text-align: center;
+    }
+
+    .buttons{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -290.5px;
+        margin-top: 160px;
+        color: white;
+        font-size: 26px;
+        text-align: center;
+        margin-left: -203px;
+        button{
+            width: 200px;
+            text-align: center;
+            font-size: 19px;
+            padding: 10px;
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+    }
+
     .mask{
         position: absolute;
         height: 100vh;

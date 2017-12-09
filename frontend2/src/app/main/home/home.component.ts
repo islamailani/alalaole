@@ -33,7 +33,6 @@ export class HomeComponent implements OnInit {
                 this.initialLocation.latitude = place.geometry.location.lat();
                 this.initialLocation.longitude = place.geometry.location.lng();
                 this.agmMap.triggerResize();
-                window.scroll(1233, 23);
                 // console.log(this.agmMarker.longitude);
             });
         });

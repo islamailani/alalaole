@@ -1,6 +1,6 @@
 <div class="container">
     <div class="logo-cont">
-            ala alaʻole
+        ala alaʻole
     </div>
     <input class="colored-text map-input" #search placeholder="Location" />
     <agm-map class="map big-map no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
@@ -10,6 +10,20 @@
 
     <div class="mask">
 
+    </div>
+
+    <div class="saying">
+        <p>For those moments when you just feel
+            <i>ala alaʻole</i>
+        </p>
+        <p>
+            <i>Become a contribuitor now.</i>
+        </p>
+    </div>
+
+    <div class="buttons">
+        <button [routerLink]="['login']">Login</button>
+        <button [routerLink]="['register']">Register</button>
     </div>
 
     <div class="col-md-12 issue-container">
