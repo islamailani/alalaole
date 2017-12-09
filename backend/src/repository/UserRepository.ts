@@ -32,7 +32,7 @@ export class UserRepositoryImplDb implements UserRepository {
     }
 
     public async findByEmail(email: string): Promise<User> {
-        return await this.userRepository.findOne({ email });
+        return await this.userRepository.findOne({ where: { email }, relations: ['location'] });
     }
 
     public async update(user: User): Promise<User> {
