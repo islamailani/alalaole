@@ -1,0 +1,117 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import "variables";
+
+body{
+    font-family: 'Ubuntu', sans-serif !important;
+}
+.full-width{
+    width: 100%;
+}
+
+.button-gradient {
+	background: $primary_color;
+	background: linear-gradient(to right, $primary_color , $secondary_color);
+	border: none;
+	color: white;
+	text-align: left;
+	padding: 5px 20px;
+	margin-top: 20px;
+
+    border-radius: 0px;
+    outline: none;
+    font-size: 17px;
+    padding: 4px 26px 4px 26px;
+    cursor: pointer;
+
+    mat-icon{
+        font-size: 20px;
+    }
+}
+
+.colored-text{
+    color: $primary_color;
+}
+
+.clickable{
+    cursor: pointer;
+}
+
+.main-holder{
+    padding-left:50px !important;
+    padding-right:50px !important;
+}
+
+.no-padding{
+    padding:0px !important;
+}
+
+.display-inline{
+    display: inline !important;
+}
+
+.display-inline-block{
+    display: inline-block !important;
+}
+
+.voted{
+    font-weight: 900;
+    color: green;
+}
+
+.simple-button-style{
+    border: 1px solid $primary_color;
+    color: $primary_color;
+    background-color: transparent;
+    border-radius: 0px;
+    outline: none;
+    font-size: 17px;
+    padding: 4px 26px 4px 26px;
+    cursor: pointer;
+    &:focus{
+        outline: none;
+    }
+    mat-icon{
+        font-size: 18px;
+        width: 18px;
+        height: 22px;
+        vertical-align: bottom;
+        padding-left: 5px;
+        padding-right: 5px;
+        margin-top: 3px;
+    
+    }
+}
+
+.green{
+    color: green !important;
+}
+
+.red{
+    color:red !important;
+}
+
+.grey{
+    color: grey !important;
+}
+
+.grey-text{
+    color:grey;
+}
+
+.logo{
+    padding: 0px !important;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+button{
+    &:focus{
+        outline: none;
+    }
+}
+
+li{
+    &:focus{
+        outline:none;
+    }
+}
