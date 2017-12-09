@@ -8,9 +8,11 @@ import { Controller } from './Controller';
 
 import authorize from '../middlewares/AuthorizationMiddleware';
 
+import { Comment } from '../models/Comment';
 import { Issue, VoteStatus } from '../models/Issue';
 import { Photo } from '../models/Photo';
 
+import { CommentService } from '../services/CommentService';
 import { IssueService } from '../services/IssueService';
 import { VoteService } from '../services/VoteService';
 import { HttpError } from '../utils/HttpError';
@@ -19,12 +21,15 @@ import { HttpError } from '../utils/HttpError';
 export class IssueController implements Controller {
     private issueService: IssueService;
     private voteService: VoteService;
+    private commentService: CommentService;
 
     constructor(
         @inject(TYPES.IssueService) issueService: IssueService,
-        @inject(TYPES.VoteService) voteService: VoteService) {
+        @inject(TYPES.VoteService) voteService: VoteService,
+        @inject(TYPES.CommentService) commentService: CommentService) {
         this.issueService = issueService;
         this.voteService = voteService;
+        this.commentService = commentService;
     }
 
     public register(app: express.Application): void {
@@ -66,12 +71,19 @@ export class IssueController implements Controller {
                 issues.map((issue) => {
                     if (issue.votes.length > 0) {
                         issue.score = issue.votes.reduce((acc, current) => acc += current.score, 0);
-                        issue.voteStatus = issue.votes.find((vote) => vote.user.id === req.user.id).score;
+                        const userVote = issue.votes.find((vote) => vote.user.id === req.user.id);
+                        issue.voteStatus = userVote ? userVote.score : VoteStatus.NotVoted;
                     } else {
                         issue.score = 0;
                         issue.voteStatus = VoteStatus.NotVoted;
                     }
+                    if (issue.comments.length > 0) {
+                        issue.commentNumber = issue.comments.length;
+                    } else {
+                        issue.commentNumber = 0;
+                    }
                     delete issue.votes;
+                    delete issue.comments;
                     return issues;
                 });
                 res.send(issues);
@@ -122,6 +134,21 @@ export class IssueController implements Controller {
                         await this.voteService.downVoteIssue(req.user, issue).catch((err) => next(err));
                         res.send({ message: 'Ok', status: 200 });
                     }
+                } else {
+                    res.send({ message: 'Not Found', status: 404 });
+                }
+            });
+        app.route('/issues/:id/comments')
+            .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
+                if (issue) {
+                    const comment = new Comment(req.body.text);
+                    comment.user = req.user;
+                    comment.issue = issue;
+                    const createdComment = await this.commentService.addComment(comment);
+                    res.send({ id: createdComment.id, text: createdComment.text });
+                } else {
+                    res.send({ message: 'Not Found', status: 404 });
                 }
             });
     }

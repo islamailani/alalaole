@@ -23,10 +23,10 @@ createConnection(Config.ConnectionOptions).then(async (connection) => {
     app.use(bodyParser.json());
 
     app.use(authenticate);
-    app.use(jsonResponse);
     app.use(CORS);
     app.use('/public', express.static('public'));
 
+    app.use(jsonResponse);
     const controllers: Controller[] = container.getAll<Controller>(TYPES.Controller);
     controllers.forEach((controller) => controller.register(app));
 

@@ -1,4 +1,5 @@
 import { Column, Entity, JoinColumn, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Comment } from './Comment';
 import { Issue } from './Issue';
 import { UserLocation } from './UserLocation';
 import { Vote } from './Vote';
@@ -53,6 +54,9 @@ export class User {
 
     @OneToMany((type) => Vote, (vote) => vote.user)
     public votes: Vote[];
+
+    @OneToMany((type) => Comment, (comment) => comment.issue)
+    public comments: Comment[];
 
     constructor(
         password: string,

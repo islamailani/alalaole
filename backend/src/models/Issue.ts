@@ -1,5 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
+import { Comment } from './Comment';
 import { IssueLocation } from './IssueLocation';
 import { Photo } from './Photo';
 import { User } from './User';
@@ -27,6 +28,9 @@ export class Issue {
     @OneToMany((type) => Photo, (photo) => photo.issue)
     public photos: Photo[];
 
+    @OneToMany((type) => Comment, (comment) => comment.issue)
+    public comments: Comment[];
+
     @OneToOne((type) => IssueLocation, (location) => location.issue,
         {
             cascadeInsert: true
@@ -40,6 +44,8 @@ export class Issue {
     public score: number;
 
     public voteStatus: VoteStatus;
+
+    public commentNumber: number;
 
     constructor(title: string, description: string, location: IssueLocation) {
         this.title = title;

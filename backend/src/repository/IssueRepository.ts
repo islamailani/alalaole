@@ -44,6 +44,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.votes', 'votes')
             .leftJoinAndSelect('votes.user', 'u')
+            .leftJoinAndSelect('i.comments', 'comments')
             .skip(from)
             .take(30)
             .getMany();
@@ -54,6 +55,9 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .createQueryBuilder('i')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
+            .leftJoinAndSelect('i.votes', 'votes')
+            .leftJoinAndSelect('votes.user', 'u')
+            .leftJoinAndSelect('i.comments', 'comments')
             .where(`
                 (acos(
                     sin(radians(location.latitude))
