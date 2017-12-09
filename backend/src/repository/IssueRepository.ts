@@ -5,6 +5,7 @@ import { Config } from '../config/Config';
 
 import { Issue } from '../models/Issue';
 import { Photo } from '../models/Photo';
+import { User } from '../models/User';
 
 export interface IssueRepository {
     create(issue: Issue): Promise<Issue>;
@@ -13,6 +14,7 @@ export interface IssueRepository {
     getAllInProximity(from: number, centerX: number, centerY: number, km: number): Promise<Issue[]>;
     getById(id: number): Promise<Issue>;
     getPhotoById(id: number): Promise<Photo>;
+    getByUser(user: User): Promise<Issue[]>;
 }
 
 @injectable()
@@ -94,6 +96,25 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .leftJoinAndSelect('votes.user', 'u')
             .orderBy('comments.createdAt', 'DESC')
             .getOne();
+    }
+
+    public async getByUser(user: User): Promise<Issue[]> {
+        return await this.issueRepository
+            .createQueryBuilder('i')
+            .leftJoinAndSelect('i.location', 'location')
+            .leftJoinAndSelect('i.photos', 'photo')
+            .leftJoinAndSelect('i.comments', 'comments')
+            .leftJoin('comments.user', 'commentUser')
+            .addSelect('commentUser.name')
+            .leftJoin('i.user', 'user')
+            .where('user.id = :id', { id: user.id })
+            .addSelect('user.name')
+            .leftJoinAndSelect('i.votes', 'votes')
+            .leftJoin('votes.user', 'voteUser')
+            .addSelect('voteUser.name')
+            .leftJoinAndSelect('votes.user', 'u')
+            .orderBy('comments.createdAt', 'DESC')
+            .getMany();
     }
 
 }

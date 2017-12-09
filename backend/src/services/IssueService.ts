@@ -20,6 +20,7 @@ export interface IssueService {
     getIssuesInProximity(from: number, user: User): Promise<Issue[]>;
     getIssue(id: number): Promise<Issue>;
     getPhoto(id: number): Promise<Photo>;
+    getUserIssues(user: User): Promise<Issue[]>;
 }
 
 @injectable()
@@ -50,5 +51,9 @@ export class IssueServiceImpl implements IssueService {
 
     public async getIssue(id: number): Promise<Issue> {
         return await this.issueRepository.getById(id);
+    }
+
+    public async getUserIssues(user: User): Promise<Issue[]> {
+        return await this.issueRepository.getByUser(user);
     }
 }
