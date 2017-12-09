@@ -1,8 +1,8 @@
 <div class="login-box">
   <div class="col-md-12">
-      <p class="display-inline col-sm-8 col-8 colored-text logo clickable" [routerLink]="['']"> ala alaʻole</p>
-      <p class="display-inline col-sm-8 col-8 colored-text"> - Login</p>
-      <div class="login-form-group">
+    <p class="display-inline col-sm-8 col-8 colored-text logo clickable" [routerLink]="['']"> ala alaʻole</p>
+    <p class="display-inline col-sm-8 col-8 colored-text"> - Login</p>
+    <div class="login-form-group">
       <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
         <mat-form-field class="full-width cl">
           <input class="colored-text" matInput formControlName="email" placeholder="Email" />
@@ -12,11 +12,11 @@
           <input type="password" class="colored-text" matInput formControlName="password" placeholder="Password" />
           <mat-error>This field is required</mat-error>
         </mat-form-field>
-        <button type="submit" md-button class="full-width button-gradient">Sign in
+        <button type="submit" md-button class="full-width button-gradient clickable">Sign in
           <mat-icon class=" float-right">arrow_forward</mat-icon>
         </button>
       </form>
     </div>
-    <p class="colored-text forgot-password-text">Forgot Password?</p>
+    <!-- <p class="colored-text forgot-password-text ">Forgot Password?</p> -->
   </div>
 </div>

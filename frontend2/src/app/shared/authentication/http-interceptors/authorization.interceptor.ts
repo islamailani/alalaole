@@ -14,7 +14,6 @@ export class AuthorizationInterceptor implements HttpInterceptor {
             return next.handle(req);
         }
 
-
         const auth: AuthService = this.injector.get(AuthService);
         const authRequest = req.clone({
             headers: req.headers.set('x-api-token', auth.getToken())

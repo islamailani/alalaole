@@ -1,22 +1,31 @@
-<h2 class="colored-text headline">Issue passajul Jiu;</h2>
+<h2 class="colored-text headline">Issue Viewer</h2>
 <button class="float-right simple-button-style save-btn">Save
     <mat-icon> check</mat-icon>
 </button>
 
 <div class="col-md-12 issue row ">
     <div class="col-md-6 issue-info-container">
-        <mat-icon class="upvote">keyboard_arrow_up</mat-icon>
-        <p class="display-inline score">{{issue.score}}</p>
-        <mat-icon class="downvote">keyboard_arrow_down</mat-icon>
+        <mat-icon [ngClass]="{'green': issue.voteStatus === 1}" class="clickable upvote" (click)="upVoteIssue(issue)">keyboard_arrow_up</mat-icon>
+        <p [ngClass]="{'green': issue.voteStatus === 1, 'red':issue.voteStatus === -1}" class="display-inline score">{{issue.score}}</p>
+        <mat-icon [ngClass]="{'red': issue.voteStatus === -1, 'grey':issue.voteStatus === 0}" class="clickable downvote" (click)="downVoteIssue(issue)">keyboard_arrow_down</mat-icon>
         <h2 class="colored-text display-inline">{{issue.title}}</h2>
         <p class="description"> {{issue.description}}
         </p>
         <div class="col-md-12 comments-container">
+            <p class="colored-text">Add comment</p>
+            <mat-form-field class="full-width">
+                <textarea minlength="5" [(ngModel)]="comment" matInput name="description" placeholder="Comment"
+                    required></textarea>
+                <mat-error>Please enter a valid description</mat-error>
+            </mat-form-field>
+            <button class="button-gradient float-right" (click)="postComment()">
+                Post
+            </button>
             <p class="colored-text">Comments</p>
-            <div class="comment">
-                <p>Raul Gherasim</p>
-                <p class="date"> 9:00 12.02.2015</p>
-                <p class="text"> e foarte fain acilea, deventure</p>
+            <div class="comment" *ngFor="let comment of issue.comments">
+                <p>{{comment.user.name}} - </p>
+                <p class="date"> {{comment.createdAt}}</p>
+                <p class="text">{{comment.text}}</p>
                 <mat-icon class="float-right">delete</mat-icon>
                 <mat-icon class="float-right">edit</mat-icon>
             </div>

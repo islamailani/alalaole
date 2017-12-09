@@ -40,7 +40,9 @@ export interface IssueView {
             id: number;
             text: string;
             createdAt: string;
-            userName: string;
+            user: {
+                name: string;
+            }
         }
     ];
     photos: [

@@ -39,4 +39,7 @@ export class IssuesService {
         return this.http.post(`/issues/${issue.id}/downvote`, {});
     }
 
+    postComment(issue: Issue, comment: string) {
+        return this.http.post(`/issues/${issue.id}/comments`, { text: comment });
+    }
 }
