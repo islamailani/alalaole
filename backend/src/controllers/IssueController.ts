@@ -65,7 +65,6 @@ export class IssueController implements Controller {
             });
         app.route('/issues')
             .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                console.log(req.query);
                 let issues: Issue[] = [];
                 if (!req.user) {
                     if (req.query.latitude && req.query.longitude) {
