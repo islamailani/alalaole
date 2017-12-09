@@ -26,6 +26,8 @@ import { IssuesComponent } from './main/issues/issues.component';
 import { IssuesService } from './main/issues.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { IssuesViewComponent } from './main/issue-view/issue-view.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 
 @NgModule({
@@ -37,7 +39,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     RegistrationComponent,
     MyIssuesComponent,
     CreateIssueComponent,
-    IssuesComponent
+    IssuesComponent,
+    IssuesViewComponent
   ],
   imports: [
     AgmCoreModule.forRoot({
@@ -55,7 +58,8 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MatInputModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatMenuModule
   ],
   providers: [
     AuthService,

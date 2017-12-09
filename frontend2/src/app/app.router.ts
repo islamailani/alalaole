@@ -6,6 +6,7 @@ import { RegistrationComponent } from './shared/authentication/registration/regi
 import { MyIssuesComponent } from './main/my-issues/my-issues.component';
 import { CreateIssueComponent } from './main/create-issue/create-issue.component';
 import { IssuesComponent } from './main/issues/issues.component';
+import { IssuesViewComponent } from './main/issue-view/issue-view.component';
 
 
 const routes: Routes = [
@@ -32,6 +33,10 @@ const routes: Routes = [
             {
                 component: IssuesComponent,
                 path: 'issues'
+            },
+            {
+                component: IssuesViewComponent,
+                path: 'issues/:id'
             }
         ]
     }

@@ -82,7 +82,6 @@ export class CreateIssueComponent implements OnInit {
   }
 
   createNewIssue() {
-    // console.log('intra');
     this.createIssue.location.latitude = this.initialLocation.latitude;
     this.createIssue.location.longitude = this.initialLocation.longitude;
     this.issuesService.createIssue(this.createIssue).subscribe((res: any) => {

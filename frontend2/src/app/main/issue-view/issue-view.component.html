@@ -1,0 +1,46 @@
+<h2 class="colored-text headline">Issue passajul Jiu;</h2>
+<button class="float-right simple-button-style save-btn">Save
+    <mat-icon> check</mat-icon>
+</button>
+
+<div class="col-md-12 issue row ">
+    <div class="col-md-6 issue-info-container">
+        <mat-icon class="upvote">keyboard_arrow_up</mat-icon>
+        <p class="display-inline score">31</p>
+        <mat-icon class="downvote">keyboard_arrow_down</mat-icon>
+        <h2 class="colored-text display-inline">first Issue</h2>
+        <p class="description"> loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
+            lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem lorem loremlorem
+        </p>
+        <div class="col-md-12 comments-container">
+            <p class="colored-text">Comments</p>
+            <div class="comment">
+                <p>Raul Gherasim</p>
+                <p class="date"> 9:00 12.02.2015</p>
+                <p class="text"> e foarte fain acilea, deventure</p>
+                <mat-icon class="float-right">delete</mat-icon>
+                <mat-icon class="float-right">edit</mat-icon>
+            </div>
+        </div>
+    </div>
+
+    <!-- right column maps and images -->
+    <input class="colored-text map-input" #search placeholder="Location" />
+
+    <div class="col-md-6 no-padding">
+        <agm-map class="map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+            <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+                [markerDraggable]="true"></agm-marker>
+        </agm-map>
+        <div class=" no-padding image-container">
+            <div class="image-holder">
+                <img src="https://maps.uiowa.edu/sites/maps.uiowa.edu/files/styles/large/public/0075.JPG?itok=IGUEOtaX" />
+            </div>
+            <div class="image-holder float-right">
+                <img src="http://www.bd.gov.hk/images/services/english/safety/01home_banner.jpg" />
+            </div>
+        </div>
+    </div>
+
+
+</div>

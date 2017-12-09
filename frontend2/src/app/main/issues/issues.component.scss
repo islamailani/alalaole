@@ -45,14 +45,17 @@
             color:white;
         }
         .description{
+            margin:25px 55px 25px 55px;
             margin-top:25px;
-            font-size:12px;
+            font-size:14px;
             color:grey;
         }
         .score{
             color: grey;
             padding: 5px;
             text-align: center;
+            margin-left: 5px;
+            margin-right: 15px;
             font-size: 23px;
             font-weight: bold;
         }
@@ -60,14 +63,14 @@
             position: absolute;
             font-size: 40px;
             top: -3px;
-            left: 22px;
+            left: 20px;
             color: grey;
         }
         .downvote{
             position: absolute;
             font-size: 40px;
             top: 55px;
-            left: 22px;
+            left: 20px;
             color: grey;
         }
         .image-container {
@@ -102,6 +105,11 @@
                 vertical-align: sub;
             }
         }
+    }
+    .info-holder{
+        position: absolute;
+        width: 94%;
+        bottom: 17px;
     }
     
 }
