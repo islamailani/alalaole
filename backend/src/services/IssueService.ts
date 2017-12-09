@@ -8,11 +8,14 @@ import { HttpError } from '../utils/HttpError';
 
 import { Issue } from '../models/Issue';
 import { Photo } from '../models/Photo';
+import { User } from '../models/User';
+
 import { IssueRepository } from '../repository/IssueRepository';
 
 export interface IssueService {
     createIssue(issue: Issue): Promise<Issue>;
     savePhoto(base64Photo: string, issue: Issue): Promise<Photo>;
+    getIssues(from?: number, user?: User): Promise<Issue[]>;
 }
 
 @injectable()
@@ -40,5 +43,13 @@ export class IssueServiceImpl implements IssueService {
         const photo = new Photo(`/public/images/${fileName}`);
         photo.issue = issue;
         return await this.issueRepository.createPhoto(photo);
+    }
+
+    public async getIssues(from: number = 0, user?: User): Promise<Issue[]> {
+        if (!user) {
+            return await this.issueRepository.getAll(from);
+        } else {
+            return await this.issueRepository.getAllInProximity(0, user.location.latitude, user.location.longitude, user.radius);
+        }
     }
 }

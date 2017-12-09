@@ -39,6 +39,6 @@ export class UserRepositoryImplDb implements UserRepository {
     }
 
     public async findByToken(token: string): Promise<User> {
-        return await this.userRepository.findOne({ token });
+        return await this.userRepository.findOne({ where: { token }, relations: ['location'] });
     }
 }

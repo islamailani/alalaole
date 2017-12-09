@@ -19,6 +19,9 @@ export class IssueController implements Controller {
 
     public register(app: express.Application): void {
         app.route('/issues')
+            .get(async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                res.send(JSON.stringify(await this.issueService.getIssues(0, req.user)));
+            })
             .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const issue = new Issue(
                     req.body.title,
