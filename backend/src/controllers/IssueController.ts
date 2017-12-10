@@ -253,6 +253,16 @@ export class IssueController implements Controller {
                     res.status(403).json({ message: 'You are not allowed to solve this issue', status: 403 });
                 }
             });
+        app.route('/issues/:id/comments/:commentId')
+            .delete(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const comment = await this.commentService.getComment(req.params.commentId);
+                if ((comment.user.id === req.user.id) || (req.user.role === Role.Admin)) {
+                    await this.commentService.removeComment(comment);
+                    res.json({ message: 'Ok', status: 200 });
+                } else {
+                    res.status(403).json({ message: 'You cant delete this', status: 403 });
+                }
+            });
         app.route('/issues/:id/comments')
             .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
@@ -270,15 +280,6 @@ export class IssueController implements Controller {
                     res.json(returnedComment);
                 } else {
                     res.json({ message: 'Not Found', status: 404 });
-                }
-            })
-            .delete(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                const comment = await this.commentService.getComment(req.params.id);
-                if ((comment.user.id === req.user.id) || (req.user.role === Role.Admin)) {
-                    await this.commentService.removeComment(comment);
-                    res.json({ message: 'Ok', status: 200 });
-                } else {
-                    res.status(403).json({ message: 'You cant delete this', status: 403 });
                 }
             });
     }
