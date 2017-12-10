@@ -33,7 +33,7 @@ import { RouterModule } from '@angular/router';
 import { AdminDashboardComponent } from './main/admin-dashboard/admin-dashboard.component';
 import { ProfileComponent } from './main/profile/profile.component';
 import { AdminService } from './main/admin-dashboard/admin.service';
-
+import { AdminStatisticsComponent } from './main/admin-statistics/admin-statistics.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +48,8 @@ import { AdminService } from './main/admin-dashboard/admin.service';
     IssuesViewComponent,
     HomeComponent,
     AdminDashboardComponent,
-    ProfileComponent
+    ProfileComponent,
+    AdminStatisticsComponent
   ],
   imports: [
     AgmCoreModule.forRoot({

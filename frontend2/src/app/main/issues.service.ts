@@ -27,6 +27,10 @@ export class IssuesService {
         return this.http.get(`/issues/${id}`);
     }
 
+    markSolved(id: number) {
+        return this.http.post(`/issues/${id}/solve`, {});
+    }
+
     uploadPhoto(formData: FormData) {
         return this.http.post(`/issues/photo/upload`, formData);
     }

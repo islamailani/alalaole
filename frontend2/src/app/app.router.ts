@@ -10,6 +10,7 @@ import { IssuesViewComponent } from './main/issue-view/issue-view.component';
 import { HomeComponent } from './main/home/home.component';
 import { AdminDashboardComponent } from './main/admin-dashboard/admin-dashboard.component';
 import { ProfileComponent } from './main/profile/profile.component';
+import { AdminStatisticsComponent } from './main/admin-statistics/admin-statistics.component';
 
 
 const routes: Routes = [
@@ -47,7 +48,11 @@ const routes: Routes = [
             },
             {
                 component: AdminDashboardComponent,
-                path: 'admin-dashboard'
+                path: 'admin-users'
+            },
+            {
+                component: AdminStatisticsComponent,
+                path: 'admin-statistics'
             },
             {
                 component: ProfileComponent,

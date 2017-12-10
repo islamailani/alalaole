@@ -24,30 +24,21 @@
     .issue-info-container{
         height: inherit;
         padding:25px;
-        .plus-one{
-            float:right;
-            font-size:25px;
-            background-color:rgb(184, 255, 184);
-            width: 50px;
-            text-align: center;
-            border:1px solid rgb(184, 255, 184);
-            border-radius: 10px 0px 0px 10px;
-            color:white;
-        }
-        .minus-one{
-            float: right;
-            background-color:rgb(255, 184, 184);
-            font-size:25px;
-            width: 50px;
-            text-align: center;
-            border:1px solid rgb(255, 184, 184);
-            border-radius: 0px 10px 10px 0px;
-            color:white;
-        }
         .description{
             margin:25px 55px 25px 55px;
             font-size:18px;
             color:grey;
+        }
+        .solved{
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
+            color:grey;
+            margin-right: 10px;
+            font-size: 30px;
+            &:hover{
+                color:green;
+            }
         }
         .score{
             color: grey;

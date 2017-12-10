@@ -22,8 +22,20 @@
     }
     
     .issue-info-container{
+        
         height: inherit;
         padding:25px;
+        .solved{
+            font-weight: bold;
+            cursor: pointer;
+            float: right;
+            color:grey;
+            margin-right: 10px;
+            font-size: 30px;
+            &:hover{
+                color:green;
+            }
+        }
         .plus-one{
             float:right;
             font-size:25px;

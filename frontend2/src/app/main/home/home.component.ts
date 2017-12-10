@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { MapsAPILoader, AgmMap } from '@agm/core';
 import { Issue } from '../../shared/models/Issues';
 import { IssuesService } from '../issues.service';
+import { root } from '../../shared/Global';
 
 @Component({
     selector: 'app-home',
@@ -39,12 +40,15 @@ export class HomeComponent implements OnInit {
                 this.initialLocation.longitude = place.geometry.location.lng();
                 this.agmMap.triggerResize();
                 this.issueService.getIssuesWithParam(this.initialLocation).subscribe((res: Issue[]) => {
-                    this.issues = res;
-                    if (!this.issues.length) {
+                    if (!res.length) {
                         this.boolIssues = true;
                     } else {
                         this.boolIssues = false;
                     }
+                    res.map(x => {
+                        x.photos.map(y => y.path = root + y.path);
+                    });
+                    this.issues = res;
                     // this.scrollPage();
                 });
             });

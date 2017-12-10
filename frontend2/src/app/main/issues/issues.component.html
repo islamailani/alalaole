@@ -6,6 +6,8 @@
         <p [ngClass]="{'green': issue.voteStatus === 1, 'red':issue.voteStatus === -1}" class="display-inline score">{{issue.score}}</p>
         <mat-icon [ngClass]="{'red': issue.voteStatus === -1, 'grey':issue.voteStatus === 0}" class="clickable downvote" (click)="downVoteIssue(issue)">keyboard_arrow_down</mat-icon>
         <h2 class="colored-text display-inline">{{issue.title}}</h2>
+        <i *ngIf="currentUser.role ===  1" style="float:right;font-size:12px;margin-top: 10px;">click to mark as solved</i>
+        <mat-icon *ngIf="currentUser.role ===  1" class="solved"(click)="markSolved(issue)">check</mat-icon>
         <!-- <mat-icon class="voted" *ngIf="issue.voteStatus === 1">check</mat-icon> -->
         <!-- <span class="minus-one display-inline">-</span>
             <span class="plus-one display-inline">+</span> -->
