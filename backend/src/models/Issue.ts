@@ -47,6 +47,9 @@ export class Issue {
     @Column({ default: false })
     public archived: boolean;
 
+    @Column({ default: false })
+    public solved: boolean;
+
     public score: number;
 
     public voteStatus: VoteStatus;

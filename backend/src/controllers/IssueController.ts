@@ -15,7 +15,7 @@ import { Photo } from '../models/Photo';
 import { User } from '../models/User';
 import { Vote } from '../models/Vote';
 
-import { BroadcastingService, SubscriptionType } from '../services/BroadcastingService';
+import { BroadcastingService, CommentMessageType, SubscriptionType } from '../services/BroadcastingService';
 import { CommentService } from '../services/CommentService';
 import { EmailService } from '../services/EmailService';
 import { IssueService } from '../services/IssueService';
@@ -243,6 +243,16 @@ export class IssueController implements Controller {
                     res.send({ message: 'Not Found', status: 404 });
                 }
             });
+        app.route('/issues/:id/solve')
+            .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
+                if ((issue as Issue).user.id === req.user.id || req.user.role === 1) {
+                    await this.issueService.solveIssue(issue as Issue);
+                    res.json({ message: 'Ok', status: 200 });
+                } else {
+                    res.status(403).json({ message: 'You are not allowed to solve this issue', status: 403 });
+                }
+            });
         app.route('/issues/:id/comments')
             .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
@@ -251,7 +261,7 @@ export class IssueController implements Controller {
                     comment.user = req.user;
                     comment.issue = issue;
                     const createdComment = await this.commentService.addComment(comment).catch((err) => next(err)) as Comment;
-                    this.broadcastingService.broadcastToSubscribers(SubscriptionType.Comments, issue.id, JSON.stringify(createdComment));
+                    this.broadcastingService.broadcastToSubscribers(SubscriptionType.Comments, issue.id, createdComment, CommentMessageType.New);
                     res.send({ id: createdComment.id, text: createdComment.text });
                 } else {
                     res.send({ message: 'Not Found', status: 404 });

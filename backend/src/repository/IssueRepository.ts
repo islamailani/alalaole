@@ -43,6 +43,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.votes', 'votes')
@@ -57,12 +58,16 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.comments', 'comments')
             .leftJoin('comments.user', 'commentUser')
             .addSelect('commentUser.name')
-            .leftJoinAndSelect('i.user', 'user')
+            .leftJoin('i.user', 'user')
+            .addSelect('user.id')
+            .addSelect('user.name')
+            .addSelect('user.email')
             .leftJoinAndSelect('i.votes', 'votes')
             .leftJoin('votes.user', 'voteUser')
             .addSelect('voteUser.name')
@@ -85,6 +90,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .andWhere('i.id = :id', { id })
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
@@ -108,6 +114,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.comments', 'comments')

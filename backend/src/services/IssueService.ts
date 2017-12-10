@@ -24,6 +24,7 @@ export interface IssueService {
     getUserIssues(user: User): Promise<Issue[]>;
     verifyIssueForArchiving(issue: Issue): Promise<boolean>;
     archiveIssue(issue: Issue): Promise<void>;
+    solveIssue(issue: Issue): Promise<void>;
 }
 
 @injectable()
@@ -78,6 +79,12 @@ export class IssueServiceImpl implements IssueService {
 
     public async archiveIssue(issue: Issue): Promise<void> {
         issue.archived = true;
+        await this.issueRepository.create(issue);
+        return;
+    }
+
+    public async solveIssue(issue: Issue): Promise<void> {
+        issue.solved = true;
         await this.issueRepository.create(issue);
         return;
     }
