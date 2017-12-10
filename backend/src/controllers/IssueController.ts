@@ -197,7 +197,6 @@ export class IssueController implements Controller {
                                 .filter((email) => email);
                             emailList = emailList
                                 .filter((item, index, inputArray) => inputArray.indexOf(item) === index);
-                            console.log(emailList);
                             emailList.forEach((email) => {
                                 this.emailService.sendMail(
                                     email,
@@ -230,7 +229,6 @@ export class IssueController implements Controller {
                                 .filter((email) => email);
                             emailList = emailList
                                 .filter((item, index, inputArray) => inputArray.indexOf(item) === index);
-                            console.log(emailList);
                             emailList.forEach((email) => {
                                 this.emailService.sendMail(
                                     email,
