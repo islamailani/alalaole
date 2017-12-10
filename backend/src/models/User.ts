@@ -62,6 +62,9 @@ export class User {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     public createdAt?: Date;
 
+    @Column({ default: false })
+    public approved?: boolean;
+
     constructor(
         password: string,
         email: string,

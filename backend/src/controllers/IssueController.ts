@@ -211,7 +211,7 @@ export class IssueController implements Controller {
                                 .map((user) => user.email)
                                 .filter((email) => email);
                             // emailList = emailList
-                            //     .filter((email) => email
+                            //     .filter((email) => emailList.indexOf(email) 
                         }
                         res.send({ message: 'Ok', status: 200 });
                     }

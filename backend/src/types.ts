@@ -8,6 +8,7 @@ const TYPES = {
     CommentService: Symbol('CommentService'),
     CommentRepository: Symbol('CommentRepository'),
     BroadcastingService: Symbol('BroadcastingService'),
+    EmailService: Symbol('EmailService'),
     Controller: Symbol('Controller')
 };
 

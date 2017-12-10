@@ -92,10 +92,13 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .leftJoin('comments.user', 'commentUser')
             .addSelect('commentUser.name')
             .leftJoin('i.user', 'user')
+            .addSelect('user.id')
             .addSelect('user.name')
+            .addSelect('user.email')
             .leftJoinAndSelect('i.votes', 'votes')
             .leftJoin('votes.user', 'voteUser')
             .addSelect('voteUser.name')
+            .addSelect('voteUser.email')
             .leftJoinAndSelect('votes.user', 'u')
             .orderBy('comments.createdAt', 'DESC')
             .getOne();

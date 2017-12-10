@@ -12,6 +12,7 @@ export interface UserRepository {
     update(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
     removeToken(user: User): Promise<void>;
+    findAdmins(): Promise<User[]>;
 }
 
 @injectable()
@@ -46,5 +47,9 @@ export class UserRepositoryImplDb implements UserRepository {
     public async removeToken(user: User): Promise<void> {
         user.token = null;
         await this.userRepository.save(user);
+    }
+
+    public async findAdmins(): Promise<User[]> {
+        return await this.userRepository.find({ role: 1 });
     }
 }

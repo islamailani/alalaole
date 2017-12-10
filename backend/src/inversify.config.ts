@@ -5,6 +5,7 @@ import TYPES from './types';
 import { Controller } from './controllers/Controller';
 
 import { BroadcastingService } from './services/BroadcastingService';
+import { EmailService } from './services/EmailService';
 
 import { UserController } from './controllers/UserController';
 import { UserRepository, UserRepositoryImplDb } from './repository/UserRepository';
@@ -23,6 +24,7 @@ import { CommentService, CommentServiceImpl } from './services/CommentService';
 const container = new Container();
 
 container.bind<BroadcastingService>(TYPES.BroadcastingService).to(BroadcastingService);
+container.bind<EmailService>(TYPES.EmailService).to(EmailService);
 
 container.bind<Controller>(TYPES.Controller).to(UserController);
 container.bind<Controller>(TYPES.Controller).to(IssueController);
