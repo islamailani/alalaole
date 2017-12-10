@@ -11,6 +11,7 @@ export interface UserRepository {
     findByEmail(email: string): Promise<User>;
     update(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
+    findById(id: number): Promise<User>;
     removeToken(user: User): Promise<void>;
     findAdmins(): Promise<User[]>;
     findPendingApproval(): Promise<User[]>;
@@ -27,8 +28,10 @@ export class UserRepositoryImplDb implements UserRepository {
     }
 
     public async save(user: User): Promise<User> {
-        const location = await this.locationRepository.save(user.location);
-        user.location = location;
+        if (user.location) {
+            const location = await this.locationRepository.save(user.location);
+            user.location = location;
+        }
         const newUser = await this.userRepository.save(user);
         return newUser;
     }
@@ -43,6 +46,10 @@ export class UserRepositoryImplDb implements UserRepository {
 
     public async findByToken(token: string): Promise<User> {
         return await this.userRepository.findOne({ where: { token }, relations: ['location'] });
+    }
+
+    public async findById(id: number): Promise<User> {
+        return await this.userRepository.findOne({ id });
     }
 
     public async removeToken(user: User): Promise<void> {

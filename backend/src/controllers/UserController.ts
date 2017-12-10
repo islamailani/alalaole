@@ -68,13 +68,15 @@ export class UserController implements Controller {
                 res.json(users);
             });
         app.route('/users/:id/approve')
-            .get([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                await this.userService.changeApprovalStatus(req.user, ApprovalStatus.Approved).catch((err) => next(err));
+            .post([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const user = await this.userService.findById(req.params.id);
+                await this.userService.changeApprovalStatus(user, ApprovalStatus.Approved).catch((err) => next(err));
                 res.json({ message: 'Ok', status: 200 });
             });
         app.route('/users/:id/dissaprove')
-            .get([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
-                await this.userService.changeApprovalStatus(req.user, ApprovalStatus.Dissaprove).catch((err) => next(err));
+            .post([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const user = await this.userService.findById(req.params.id);
+                await this.userService.changeApprovalStatus(user, ApprovalStatus.Dissaprove).catch((err) => next(err));
                 res.json({ message: 'Ok', status: 200 });
             });
     }

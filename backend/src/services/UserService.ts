@@ -13,6 +13,7 @@ import { UserRepository } from '../repository/UserRepository';
 export interface UserService {
     createUser(user: User): Promise<User>;
     loginUser(user: User): Promise<User>;
+    findById(id: number): Promise<User>;
     findByToken(token: string): Promise<User>;
     logOutUser(user: User): Promise<void>;
     getAdmins(): Promise<User[]>;
@@ -66,6 +67,10 @@ export class UserServiceImpl implements UserService {
 
     public async getAdmins(): Promise<User[]> {
         return await this.userRepository.findAdmins();
+    }
+
+    public async findById(id: number): Promise<User> {
+        return await this.userRepository.findById(id);
     }
 
     public async getPendingApprovalUsers(): Promise<User[]> {
