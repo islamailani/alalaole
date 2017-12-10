@@ -43,6 +43,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.votes', 'votes')
@@ -57,6 +58,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.comments', 'comments')
@@ -88,6 +90,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .andWhere('i.id = :id', { id })
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
@@ -111,6 +114,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
         return await this.issueRepository
             .createQueryBuilder('i')
             .where('i.archived = false')
+            .andWhere('i.solved = false')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.comments', 'comments')

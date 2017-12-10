@@ -243,6 +243,16 @@ export class IssueController implements Controller {
                     res.send({ message: 'Not Found', status: 404 });
                 }
             });
+        app.route('/issues/:id/solve')
+            .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
+                if ((issue as Issue).user.id === req.user.id || req.user.role === 1) {
+                    await this.issueService.solveIssue(issue as Issue);
+                    res.json({ message: 'Ok', status: 403 });
+                } else {
+                    res.status(403).json({ message: 'You are not allowed to solve this issue', status: 403 });
+                }
+            });
         app.route('/issues/:id/comments')
             .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
