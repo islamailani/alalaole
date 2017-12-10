@@ -262,9 +262,12 @@ export class IssueController implements Controller {
                     comment.issue = issue;
                     const createdComment = await this.commentService.addComment(comment).catch((err) => next(err)) as Comment;
                     this.broadcastingService.broadcastToSubscribers(SubscriptionType.Comments, issue.id, createdComment, CommentMessageType.New);
-                    delete createdComment.user.token;
-                    delete createdComment.user.password;
-                    res.json(createdComment);
+
+                    const returnedComment: Comment = new Comment(createdComment.text);
+                    returnedComment.id = createdComment.id;
+                    returnedComment.createdAt = createdComment.createdAt;
+                    returnedComment.user = { name: req.user.name } as User;
+                    res.json(returnedComment);
                 } else {
                     res.json({ message: 'Not Found', status: 404 });
                 }
