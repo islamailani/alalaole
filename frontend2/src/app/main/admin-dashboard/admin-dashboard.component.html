@@ -1,4 +1,4 @@
-<h2 class="colored-text headline">Admin Dashboard</h2>
+<h2 class="colored-text headline">Pending Users</h2>
 <div class="col-md-12 create-issue">
     <agm-map class="map col-md-12 no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
         <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
@@ -9,8 +9,8 @@
             <i class="colored-text">Users waiting for aproval:</i>
         </p>
         <p *ngIf="users.length===0">
-                <i class="colored-text" style="margin-bottom:0px">There are no users waiting for aproval.</i>
-            </p>
+            <i class="colored-text" style="margin-bottom:0px">There are no users waiting for aproval.</i>
+        </p>
         <div class="user-pannel col-md-12" *ngFor="let user of users">
             <p>
                 <span class="my-label">Name:</span> {{user.name}}</p>

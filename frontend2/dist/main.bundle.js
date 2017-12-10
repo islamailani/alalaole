@@ -110,12 +110,14 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__main_admin_dashboard_admin_dashboard_component__ = __webpack_require__("../../../../../src/app/main/admin-dashboard/admin-dashboard.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__main_profile_profile_component__ = __webpack_require__("../../../../../src/app/main/profile/profile.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__main_admin_dashboard_admin_service__ = __webpack_require__("../../../../../src/app/main/admin-dashboard/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_32__main_admin_statistics_admin_statistics_component__ = __webpack_require__("../../../../../src/app/main/admin-statistics/admin-statistics.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -165,7 +167,8 @@ var AppModule = (function () {
                 __WEBPACK_IMPORTED_MODULE_25__main_issue_view_issue_view_component__["a" /* IssuesViewComponent */],
                 __WEBPACK_IMPORTED_MODULE_27__main_home_home_component__["a" /* HomeComponent */],
                 __WEBPACK_IMPORTED_MODULE_29__main_admin_dashboard_admin_dashboard_component__["a" /* AdminDashboardComponent */],
-                __WEBPACK_IMPORTED_MODULE_30__main_profile_profile_component__["a" /* ProfileComponent */]
+                __WEBPACK_IMPORTED_MODULE_30__main_profile_profile_component__["a" /* ProfileComponent */],
+                __WEBPACK_IMPORTED_MODULE_32__main_admin_statistics_admin_statistics_component__["a" /* AdminStatisticsComponent */]
             ],
             imports: [
                 __WEBPACK_IMPORTED_MODULE_14__agm_core__["a" /* AgmCoreModule */].forRoot({
@@ -229,12 +232,14 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__main_home_home_component__ = __webpack_require__("../../../../../src/app/main/home/home.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__main_admin_dashboard_admin_dashboard_component__ = __webpack_require__("../../../../../src/app/main/admin-dashboard/admin-dashboard.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__main_profile_profile_component__ = __webpack_require__("../../../../../src/app/main/profile/profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__main_admin_statistics_admin_statistics_component__ = __webpack_require__("../../../../../src/app/main/admin-statistics/admin-statistics.component.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -282,7 +287,11 @@ var routes = [
             },
             {
                 component: __WEBPACK_IMPORTED_MODULE_10__main_admin_dashboard_admin_dashboard_component__["a" /* AdminDashboardComponent */],
-                path: 'admin-dashboard'
+                path: 'admin-users'
+            },
+            {
+                component: __WEBPACK_IMPORTED_MODULE_12__main_admin_statistics_admin_statistics_component__["a" /* AdminStatisticsComponent */],
+                path: 'admin-statistics'
             },
             {
                 component: __WEBPACK_IMPORTED_MODULE_11__main_profile_profile_component__["a" /* ProfileComponent */],
@@ -310,7 +319,7 @@ var AppRoutingModule = (function () {
 /***/ "../../../../../src/app/main/admin-dashboard/admin-dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"colored-text headline\">Admin Dashboard</h2>\n<div class=\"col-md-12 create-issue\">\n    <agm-map class=\"map col-md-12 no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n        <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n            [markerDraggable]=\"true\"></agm-marker>\n    </agm-map>\n    <div class=\"col-md-12 users\">\n        <p *ngIf=\"users.length!==0\">\n            <i class=\"colored-text\">Users waiting for aproval:</i>\n        </p>\n        <p *ngIf=\"users.length===0\">\n                <i class=\"colored-text\" style=\"margin-bottom:0px\">There are no users waiting for aproval.</i>\n            </p>\n        <div class=\"user-pannel col-md-12\" *ngFor=\"let user of users\">\n            <p>\n                <span class=\"my-label\">Name:</span> {{user.name}}</p>\n            <p>\n                <span class=\"my-label\">Email:</span> {{user.email}}</p>\n            <p>\n                <span class=\"my-label\">Gender:</span> {{user.gender}}</p>\n            <p>\n                <span class=\"my-label\">Age:</span> {{user.age}}</p>\n            <button class=\"simple-button-style\" (click)=\"approveUser(user.id)\">\n                Approve\n            </button>\n            <button class=\"button-gradient\" (click)=\"disapproveUser(user.id)\">\n                Disapprove\n            </button>\n            <button class=\"simple-button-style\" (click)=\"updateMap(user)\">\n                See Location\n            </button>\n        </div>\n    </div>\n</div>"
+module.exports = "<h2 class=\"colored-text headline\">Pending Users</h2>\n<div class=\"col-md-12 create-issue\">\n    <agm-map class=\"map col-md-12 no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n        <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n            [markerDraggable]=\"true\"></agm-marker>\n    </agm-map>\n    <div class=\"col-md-12 users\">\n        <p *ngIf=\"users.length!==0\">\n            <i class=\"colored-text\">Users waiting for aproval:</i>\n        </p>\n        <p *ngIf=\"users.length===0\">\n            <i class=\"colored-text\" style=\"margin-bottom:0px\">There are no users waiting for aproval.</i>\n        </p>\n        <div class=\"user-pannel col-md-12\" *ngFor=\"let user of users\">\n            <p>\n                <span class=\"my-label\">Name:</span> {{user.name}}</p>\n            <p>\n                <span class=\"my-label\">Email:</span> {{user.email}}</p>\n            <p>\n                <span class=\"my-label\">Gender:</span> {{user.gender}}</p>\n            <p>\n                <span class=\"my-label\">Age:</span> {{user.age}}</p>\n            <button class=\"simple-button-style\" (click)=\"approveUser(user.id)\">\n                Approve\n            </button>\n            <button class=\"button-gradient\" (click)=\"disapproveUser(user.id)\">\n                Disapprove\n            </button>\n            <button class=\"simple-button-style\" (click)=\"updateMap(user)\">\n                See Location\n            </button>\n        </div>\n    </div>\n</div>\n"
 
 /***/ }),
 
@@ -463,6 +472,82 @@ var AdminService = (function () {
             __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]])
     ], AdminService);
     return AdminService;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/main/admin-statistics/admin-statistics.component.html":
+/***/ (function(module, exports) {
+
+module.exports = "<h2 class=\"colored-text headline\">Statistics</h2>\n<div class=\"col-md-12 create-issue\">\n    <div class=\"col-md-12 users\">\n        <h2 class=\"colored-text\">City health index -\n            <span style=\"color:black;\">12</span>\n        </h2>\n       \n    </div>\n</div>"
+
+/***/ }),
+
+/***/ "../../../../../src/app/main/admin-statistics/admin-statistics.component.scss":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".create-issue {\n  box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n  margin-top: 50px;\n  height: auto;\n  padding: 0px; }\n  .create-issue > div, .create-issue map {\n    display: block; }\n  .create-issue .map {\n    height: 300px;\n    width: 100%;\n    float: right;\n    margin-bottom: 15px; }\n  .create-issue .users {\n    padding: 50px; }\n    .create-issue .users .user-pannel {\n      margin-top: 20px;\n      border-bottom: 1px solid #4444f0; }\n      .create-issue .users .user-pannel .my-label {\n        color: grey;\n        font-style: italic; }\n      .create-issue .users .user-pannel button {\n        float: right;\n        margin-top: -40px;\n        margin-bottom: 20px;\n        margin-right: 20px; }\n\n.headline {\n  margin-top: 50px;\n  border-top: 2px solid #4444f0;\n  padding-top: 10px; }\n", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ "../../../../../src/app/main/admin-statistics/admin-statistics.component.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminStatisticsComponent; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_material_snack_bar__ = __webpack_require__("../../../material/esm5/snack-bar.es5.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AdminStatisticsComponent = (function () {
+    function AdminStatisticsComponent(router, snackbar) {
+        this.router = router;
+        this.snackbar = snackbar;
+    }
+    AdminStatisticsComponent.prototype.ngOnInit = function () {
+    };
+    AdminStatisticsComponent.prototype.notify = function (status, text) {
+        this.snackbar.open(status, text, {
+            duration: 3000
+        });
+    };
+    AdminStatisticsComponent.prototype.handleResponse = function (text) {
+        this.notify(text, ' ');
+    };
+    AdminStatisticsComponent = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
+            selector: 'app-admin-statistics',
+            template: __webpack_require__("../../../../../src/app/main/admin-statistics/admin-statistics.component.html"),
+            styles: [__webpack_require__("../../../../../src/app/main/admin-statistics/admin-statistics.component.scss")]
+        }),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_material_snack_bar__["a" /* MatSnackBar */]])
+    ], AdminStatisticsComponent);
+    return AdminStatisticsComponent;
 }());
 
 
@@ -639,7 +724,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".container {\n  height: 100vh;\n  padding: 0px;\n  width: 100vw; }\n  .container .big-map {\n    opacity: 0.2; }\n  .container .map {\n    height: inherit;\n    width: inherit; }\n  .container .saying {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -290.5px;\n    margin-top: 55px;\n    color: white;\n    font-size: 26px;\n    text-align: center; }\n  .container .buttons {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -290.5px;\n    margin-top: 160px;\n    color: white;\n    font-size: 26px;\n    text-align: center;\n    margin-left: -203px; }\n    .container .buttons button {\n      width: 200px;\n      text-align: center;\n      font-size: 19px;\n      padding: 10px;\n      background-color: transparent;\n      border: 2px solid white;\n      color: white; }\n      .container .buttons button:focus {\n        outline: none; }\n  .container .mask {\n    position: absolute;\n    height: 100vh;\n    width: 100vw;\n    background-color: black;\n    top: 0;\n    opacity: 0.2; }\n  .container .logo-cont {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -300px;\n    margin-top: -170px;\n    z-index: 999;\n    width: 600px;\n    font-size: 133px;\n    color: white; }\n  .container .map-input {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -300px;\n    z-index: 999;\n    width: 600px;\n    padding: 10px 10px 10px 10px;\n    color: #4444f0;\n    background-color: white;\n    box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n    border: none; }\n    .container .map-input:focus {\n      outline: none; }\n  .container .issue-container .issue {\n    height: 375px;\n    box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n    margin-top: 50px; }\n    .container .issue-container .issue > div, .container .issue-container .issue .map {\n      display: inline-block; }\n    .container .issue-container .issue:nth-child(even) .issue-info-container {\n      float: right; }\n    .container .issue-container .issue:last-child {\n      margin-bottom: 50px; }\n    .container .issue-container .issue .map {\n      float: right;\n      padding: 0px;\n      height: 375px;\n      width: 100%; }\n    .container .issue-container .issue .issue-info-container {\n      padding: 45px; }\n      .container .issue-container .issue .issue-info-container .description {\n        margin: 25px 55px 25px 55px;\n        margin-top: 25px;\n        font-size: 18px;\n        color: grey; }\n      .container .issue-container .issue .issue-info-container .score {\n        color: grey;\n        padding: 5px;\n        text-align: center;\n        margin-left: 5px;\n        margin-right: 15px;\n        font-size: 23px;\n        font-weight: bold; }\n      .container .issue-container .issue .issue-info-container .info-holder {\n        position: absolute;\n        width: 94%;\n        bottom: 17px; }\n    .container .issue-container .issue .image-container {\n      width: 100%;\n      height: 100px;\n      padding: 0px; }\n      .container .issue-container .issue .image-container .image-holder {\n        display: inline-block;\n        height: inherit;\n        padding: 0px;\n        width: 50%; }\n        .container .issue-container .issue .image-container .image-holder img {\n          -o-object-fit: cover;\n             object-fit: cover;\n          height: 100%;\n          width: 100%; }\n    .container .issue-container .issue .comments {\n      font-size: 13px;\n      font-style: italic;\n      color: grey;\n      display: inline-block;\n      margin-top: 40px; }\n    .container .issue-container .issue .go-to-issue-btn {\n      margin-top: 40px;\n      display: inline-block;\n      width: 140px;\n      padding: 2px 5px 2px 5px; }\n      .container .issue-container .issue .go-to-issue-btn mat-icon {\n        vertical-align: sub; }\n", ""]);
+exports.push([module.i, ".container {\n  height: 100vh;\n  padding: 0px;\n  width: 100vw; }\n  .container .big-map {\n    opacity: 0.2; }\n  .container .map {\n    height: inherit;\n    width: inherit; }\n  .container .saying {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -290.5px;\n    margin-top: 55px;\n    color: white;\n    font-size: 26px;\n    text-align: center; }\n  .container .buttons {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -290.5px;\n    margin-top: 160px;\n    color: white;\n    font-size: 26px;\n    text-align: center;\n    margin-left: -203px; }\n    .container .buttons button {\n      width: 200px;\n      text-align: center;\n      font-size: 19px;\n      padding: 10px;\n      background-color: transparent;\n      border: 2px solid white;\n      color: white; }\n      .container .buttons button:focus {\n        outline: none; }\n  .container .mask {\n    position: absolute;\n    height: 100vh;\n    width: 100vw;\n    background-color: black;\n    top: 0;\n    opacity: 0.2; }\n  .container .logo-cont {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -300px;\n    margin-top: -170px;\n    z-index: 999;\n    width: 600px;\n    font-size: 133px;\n    color: white; }\n  .container .map-input {\n    position: absolute;\n    top: 50%;\n    left: 50%;\n    margin-left: -300px;\n    z-index: 999;\n    width: 600px;\n    padding: 10px 10px 10px 10px;\n    color: #4444f0;\n    background-color: white;\n    box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n    border: none; }\n    .container .map-input:focus {\n      outline: none; }\n  .container .issue-container .issue {\n    height: 375px;\n    box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n    margin-top: 50px; }\n    .container .issue-container .issue > div, .container .issue-container .issue .map {\n      display: inline-block; }\n    .container .issue-container .issue:nth-child(even) .issue-info-container {\n      float: right; }\n    .container .issue-container .issue:last-child {\n      margin-bottom: 50px; }\n    .container .issue-container .issue .map {\n      float: right;\n      padding: 0px;\n      height: 375px;\n      width: 100%; }\n    .container .issue-container .issue .issue-info-container {\n      height: 100%;\n      padding: 45px; }\n      .container .issue-container .issue .issue-info-container .description {\n        margin: 25px 55px 25px 55px;\n        margin-top: 25px;\n        font-size: 18px;\n        color: grey; }\n      .container .issue-container .issue .issue-info-container .score {\n        color: grey;\n        padding: 5px;\n        text-align: center;\n        margin-left: 5px;\n        margin-right: 15px;\n        font-size: 23px;\n        font-weight: bold; }\n      .container .issue-container .issue .issue-info-container .info-holder {\n        position: absolute;\n        width: 94%;\n        bottom: 17px; }\n    .container .issue-container .issue .image-container {\n      width: 100%;\n      height: 100px;\n      padding: 0px; }\n      .container .issue-container .issue .image-container .image-holder {\n        display: inline-block;\n        height: inherit;\n        padding: 0px;\n        width: 50%; }\n        .container .issue-container .issue .image-container .image-holder img {\n          -o-object-fit: cover;\n             object-fit: cover;\n          height: 100%;\n          width: 100%; }\n    .container .issue-container .issue .comments {\n      font-size: 13px;\n      font-style: italic;\n      color: grey;\n      display: inline-block;\n      margin-top: 40px; }\n    .container .issue-container .issue .go-to-issue-btn {\n      margin-top: 40px;\n      display: inline-block;\n      width: 140px;\n      padding: 2px 5px 2px 5px; }\n      .container .issue-container .issue .go-to-issue-btn mat-icon {\n        vertical-align: sub; }\n", ""]);
 
 // exports
 
@@ -658,6 +743,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__agm_core__ = __webpack_require__("../../../../@agm/core/index.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__issues_service__ = __webpack_require__("../../../../../src/app/main/issues.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__shared_Global__ = __webpack_require__("../../../../../src/app/shared/Global.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -667,6 +753,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -696,13 +783,16 @@ var HomeComponent = (function () {
                 _this.initialLocation.longitude = place.geometry.location.lng();
                 _this.agmMap.triggerResize();
                 _this.issueService.getIssuesWithParam(_this.initialLocation).subscribe(function (res) {
-                    _this.issues = res;
-                    if (!_this.issues.length) {
+                    if (!res.length) {
                         _this.boolIssues = true;
                     }
                     else {
                         _this.boolIssues = false;
                     }
+                    res.map(function (x) {
+                        x.photos.map(function (y) { return y.path = __WEBPACK_IMPORTED_MODULE_4__shared_Global__["a" /* root */] + y.path; });
+                    });
+                    _this.issues = res;
                     // this.scrollPage();
                 });
             });
@@ -833,6 +923,10 @@ var IssuesViewComponent = (function () {
     }
     IssuesViewComponent.prototype.ngOnInit = function () {
         var _this = this;
+        // const socket = new WebSocket('ws://dariuscostolas.me:8080');
+        // socket.onopen = event => {
+        //     socket.send({ type: 1, payload: 0 });
+        // };
         this.activatedRoute.params.subscribe(function (param) {
             _this.issuesService.getIssueById(param['id']).subscribe(function (res) {
                 _this.initialLocation.latitude = res.location.latitude;
@@ -951,6 +1045,9 @@ var IssuesService = (function () {
     };
     IssuesService.prototype.getIssueById = function (id) {
         return this.http.get("/issues/" + id);
+    };
+    IssuesService.prototype.markSolved = function (id) {
+        return this.http.post("/issues/" + id + "/solve", {});
     };
     IssuesService.prototype.uploadPhoto = function (formData) {
         return this.http.post("/issues/photo/upload", formData);
@@ -1157,7 +1254,7 @@ var MainComponent = (function () {
 /***/ "../../../../../src/app/main/my-issues/my-issues.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- my issues -->\n<h2 class=\"colored-text headline\">My Issues</h2>\n<div class=\"issue col-md-12 no-padding\" *ngFor=\"let issue of issues\">\n    <div class=\"col-md-6 issue-info-container\">\n        <!-- <mat-icon class=\"upvote\">keyboard_arrow_up</mat-icon> -->\n        <p class=\"display-inline score\">{{issue.score}}</p>\n        <!-- <mat-icon class=\"downvote\">keyboard_arrow_down</mat-icon> -->\n\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <!-- <span class=\"minus-one display-inline\">-</span>\n            <span class=\"plus-one display-inline\">+</span> -->\n        <p class=\"description\">{{issue.description}}\n        </p>\n        <div class=\"col-md-12 no-padding image-container\" *ngIf=\"issue.photos.length!==0\">\n            <div class=\"image-holder\" *ngIf=\"issue.photos.length!==0\">\n                <img src=\"{{issue.photos[0]?.path}}\" />\n            </div>\n            <div class=\"image-holder float-right\" *ngIf=\"issue.photos.length>=2\">\n                <img src=\"{{issue.photos[1]?.path}}\" />\n            </div>\n        </div>\n        <div class=\"info-holder\">\n            <p class=\"comments\">{{issue.commentNumber}} comments</p>\n            <button (click)=\"navigateToIssue(issue)\" class=\"float-right go-to-issue-btn simple-button-style\">See more\n                <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n            </button>\n        </div>\n    </div>\n    <agm-map [zoom]=\"15\" class=\"map col-md-6 no-padding\" [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\">\n        <agm-marker [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\" [markerDraggable]=\"false\"></agm-marker>\n    </agm-map>\n\n</div>"
+module.exports = "<!-- my issues -->\n<h2 class=\"colored-text headline\">My Issues</h2>\n<div class=\"issue col-md-12 no-padding\" *ngFor=\"let issue of issues\">\n    <div class=\"col-md-6 issue-info-container\">\n        <!-- <mat-icon class=\"upvote\">keyboard_arrow_up</mat-icon> -->\n        <p class=\"display-inline score\">{{issue.score}}</p>\n        <!-- <mat-icon class=\"downvote\">keyboard_arrow_down</mat-icon> -->\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <i style=\"float:right;font-size:12px;margin-top: 10px;\">click to mark as solved</i>\n        <mat-icon class=\"solved\"(click)=\"markSolved(issue)\">check</mat-icon>\n        <!-- <span class=\"minus-one display-inline\">-</span>\n            <span class=\"plus-one display-inline\">+</span> -->\n        <p class=\"description\">{{issue.description}}\n        </p>\n        <div class=\"col-md-12 no-padding image-container\" *ngIf=\"issue.photos.length!==0\">\n            <div class=\"image-holder\" *ngIf=\"issue.photos.length!==0\">\n                <img src=\"{{issue.photos[0]?.path}}\" />\n            </div>\n            <div class=\"image-holder float-right\" *ngIf=\"issue.photos.length>=2\">\n                <img src=\"{{issue.photos[1]?.path}}\" />\n            </div>\n        </div>\n        <div class=\"info-holder\">\n            <p class=\"comments\">{{issue.commentNumber}} comments</p>\n            <button (click)=\"navigateToIssue(issue)\" class=\"float-right go-to-issue-btn simple-button-style\">See more\n                <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n            </button>\n        </div>\n    </div>\n    <agm-map [zoom]=\"15\" class=\"map col-md-6 no-padding\" [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\">\n        <agm-marker [latitude]=\"issue.location.latitude\" [longitude]=\"issue.location.longitude\" [markerDraggable]=\"false\"></agm-marker>\n    </agm-map>\n\n</div>"
 
 /***/ }),
 
@@ -1169,7 +1266,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".issue {\n  box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n  height: 375px;\n  margin-top: 50px; }\n  .issue > div, .issue .map {\n    display: inline-block; }\n  .issue .map {\n    height: inherit;\n    float: right; }\n  .issue:nth-child(even) .issue-info-container {\n    float: right; }\n  .issue:last-child {\n    margin-bottom: 50px; }\n  .issue .issue-info-container {\n    height: inherit;\n    padding: 25px; }\n    .issue .issue-info-container .plus-one {\n      float: right;\n      font-size: 25px;\n      background-color: #b8ffb8;\n      width: 50px;\n      text-align: center;\n      border: 1px solid #b8ffb8;\n      border-radius: 10px 0px 0px 10px;\n      color: white; }\n    .issue .issue-info-container .minus-one {\n      float: right;\n      background-color: #ffb8b8;\n      font-size: 25px;\n      width: 50px;\n      text-align: center;\n      border: 1px solid #ffb8b8;\n      border-radius: 0px 10px 10px 0px;\n      color: white; }\n    .issue .issue-info-container .description {\n      margin: 25px 55px 25px 55px;\n      font-size: 18px;\n      color: grey; }\n    .issue .issue-info-container .score {\n      color: grey;\n      padding: 5px;\n      text-align: center;\n      margin-right: 15px;\n      font-size: 23px;\n      font-weight: bold; }\n    .issue .issue-info-container .upvote {\n      position: absolute;\n      font-size: 40px;\n      top: -3px;\n      left: 18px;\n      color: grey; }\n    .issue .issue-info-container .downvote {\n      position: absolute;\n      font-size: 40px;\n      top: 55px;\n      left: 18px;\n      color: grey; }\n    .issue .issue-info-container .image-container {\n      width: 100%;\n      height: 100px;\n      padding: 0px; }\n      .issue .issue-info-container .image-container .image-holder {\n        display: inline-block;\n        height: inherit;\n        padding: 0px;\n        width: 50%; }\n        .issue .issue-info-container .image-container .image-holder img {\n          -o-object-fit: cover;\n             object-fit: cover;\n          height: 100%;\n          width: 100%; }\n    .issue .issue-info-container .comments {\n      font-size: 13px;\n      font-style: italic;\n      color: grey;\n      display: inline-block;\n      margin-top: 40px; }\n    .issue .issue-info-container .go-to-issue-btn {\n      margin-top: 40px;\n      display: inline-block;\n      width: 140px;\n      padding: 2px 5px 2px 5px; }\n      .issue .issue-info-container .go-to-issue-btn mat-icon {\n        vertical-align: sub; }\n  .issue .info-holder {\n    position: absolute;\n    width: 94%;\n    bottom: 17px; }\n\n@media screen and (max-width: 767px) {\n  .issue {\n    height: 600px; }\n    .issue:nth-child(even) .issue-info-container {\n      float: none; }\n    .issue .issue-info-container {\n      height: auto; }\n    .issue .map {\n      height: 300px !important;\n      margin-bottom: 50px; } }\n\n.headline {\n  margin-top: 50px;\n  border-top: 2px solid #4444f0;\n  padding-top: 10px; }\n", ""]);
+exports.push([module.i, ".issue {\n  box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n  height: 375px;\n  margin-top: 50px; }\n  .issue > div, .issue .map {\n    display: inline-block; }\n  .issue .map {\n    height: inherit;\n    float: right; }\n  .issue:nth-child(even) .issue-info-container {\n    float: right; }\n  .issue:last-child {\n    margin-bottom: 50px; }\n  .issue .issue-info-container {\n    height: inherit;\n    padding: 25px; }\n    .issue .issue-info-container .description {\n      margin: 25px 55px 25px 55px;\n      font-size: 18px;\n      color: grey; }\n    .issue .issue-info-container .solved {\n      font-weight: bold;\n      cursor: pointer;\n      float: right;\n      color: grey;\n      margin-right: 10px;\n      font-size: 30px; }\n      .issue .issue-info-container .solved:hover {\n        color: green; }\n    .issue .issue-info-container .score {\n      color: grey;\n      padding: 5px;\n      text-align: center;\n      margin-right: 15px;\n      font-size: 23px;\n      font-weight: bold; }\n    .issue .issue-info-container .upvote {\n      position: absolute;\n      font-size: 40px;\n      top: -3px;\n      left: 18px;\n      color: grey; }\n    .issue .issue-info-container .downvote {\n      position: absolute;\n      font-size: 40px;\n      top: 55px;\n      left: 18px;\n      color: grey; }\n    .issue .issue-info-container .image-container {\n      width: 100%;\n      height: 100px;\n      padding: 0px; }\n      .issue .issue-info-container .image-container .image-holder {\n        display: inline-block;\n        height: inherit;\n        padding: 0px;\n        width: 50%; }\n        .issue .issue-info-container .image-container .image-holder img {\n          -o-object-fit: cover;\n             object-fit: cover;\n          height: 100%;\n          width: 100%; }\n    .issue .issue-info-container .comments {\n      font-size: 13px;\n      font-style: italic;\n      color: grey;\n      display: inline-block;\n      margin-top: 40px; }\n    .issue .issue-info-container .go-to-issue-btn {\n      margin-top: 40px;\n      display: inline-block;\n      width: 140px;\n      padding: 2px 5px 2px 5px; }\n      .issue .issue-info-container .go-to-issue-btn mat-icon {\n        vertical-align: sub; }\n  .issue .info-holder {\n    position: absolute;\n    width: 94%;\n    bottom: 17px; }\n\n@media screen and (max-width: 767px) {\n  .issue {\n    height: 600px; }\n    .issue:nth-child(even) .issue-info-container {\n      float: none; }\n    .issue .issue-info-container {\n      height: auto; }\n    .issue .map {\n      height: 300px !important;\n      margin-bottom: 50px; } }\n\n.headline {\n  margin-top: 50px;\n  border-top: 2px solid #4444f0;\n  padding-top: 10px; }\n", ""]);
 
 // exports
 
@@ -1188,6 +1285,7 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__issues_service__ = __webpack_require__("../../../../../src/app/main/issues.service.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__shared_Global__ = __webpack_require__("../../../../../src/app/shared/Global.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material_snack_bar__ = __webpack_require__("../../../material/esm5/snack-bar.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1201,9 +1299,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var MyIssuesComponent = (function () {
-    function MyIssuesComponent(router, issuesService) {
+    function MyIssuesComponent(router, snackbar, issuesService) {
         this.router = router;
+        this.snackbar = snackbar;
         this.issuesService = issuesService;
     }
     MyIssuesComponent.prototype.ngOnInit = function () {
@@ -1215,6 +1315,24 @@ var MyIssuesComponent = (function () {
             _this.issues = res;
         });
     };
+    MyIssuesComponent.prototype.navigateToIssue = function (issue) {
+        this.router.navigate(['issues', issue.id]);
+    };
+    MyIssuesComponent.prototype.markSolved = function (issue) {
+        var _this = this;
+        this.issuesService.markSolved(issue.id).subscribe(function (res) {
+            _this.issues = _this.issues.filter(function (x) { return x.id !== issue.id; });
+            _this.handleResponse('Issue marked as solved!');
+        });
+    };
+    MyIssuesComponent.prototype.notify = function (status, text) {
+        this.snackbar.open(status, text, {
+            duration: 3000
+        });
+    };
+    MyIssuesComponent.prototype.handleResponse = function (text) {
+        this.notify(text, ' ');
+    };
     MyIssuesComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-my-issues',
@@ -1222,6 +1340,7 @@ var MyIssuesComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/main/my-issues/my-issues.component.scss")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material_snack_bar__["a" /* MatSnackBar */],
             __WEBPACK_IMPORTED_MODULE_2__issues_service__["a" /* IssuesService */]])
     ], MyIssuesComponent);
     return MyIssuesComponent;
@@ -1329,7 +1448,7 @@ var ProfileComponent = (function () {
 /***/ "../../../../../src/app/main/top-bar/top-bar.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"col-md-12 top-bar-container\" *ngIf=\"!visitor\">\n    <div>\n        <ul class=\"menu-list\">\n            <li class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','issues']\">\n                ISSUES\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','my-issues']\">\n                MY ISSUES\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','create-issue']\">\n                + ADD NEW ISSUE\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','admin-dashboard']\" *ngIf=\"currentUser.role === 1\">\n                ADMIN DASHBOARD\n            </li>\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <p>{{currentUser.email}}</p>\n        <mat-icon [matMenuTriggerFor]=\"appMenu\" class=\"clickable\">more_vert</mat-icon>\n        <mat-menu #appMenu=\"matMenu\">\n            <button mat-menu-item [routerLink]=\"['','profile']\"> PROFILE </button>\n            <button mat-menu-item (click)=\"signOut()\"> SIGN OUT </button>\n        </mat-menu>\n    </div>\n</div>\n\n<div class=\"col-md-12 top-bar-container\" *ngIf=\"visitor\">\n    <div>\n        <ul class=\"menu-list\">\n            <li [routerLink]=\"['']\" class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <ul class=\"menu-list-visitor\">\n            <li [routerLink]=\"['','login']\" class=\"clickable \" style=\"margin-right:10px;\">\n                LOGIN\n            </li>\n            <li [routerLink]=\"['','register']\" class=\"clickable \" style=\"margin-right:10px;\">\n                REGISTER\n            </li>\n        </ul>\n    </div>\n</div>"
+module.exports = "<div class=\"col-md-12 top-bar-container\" *ngIf=\"!visitor\">\n    <div>\n        <ul class=\"menu-list\">\n            <li class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','issues']\">\n                ISSUES\n            </li>\n            <li class=\"clickable\" [routerLink]=\"['','my-issues']\">\n                MY ISSUES\n            </li>\n            <li class=\"clickable \" [routerLink]=\"['','create-issue']\">\n                + ADD NEW ISSUE\n            </li>\n            <li class=\"clickable \" [matMenuTriggerFor]=\"appMenu2\" *ngIf=\"currentUser.role === 1\">\n                ADMIN DASHBOARD\n            </li>\n            <mat-menu #appMenu2=\"matMenu\">\n                <button mat-menu-item [routerLink]=\"['','admin-users']\"> PENDING USERS </button>\n                <button mat-menu-item [routerLink]=\"['','admin-statistics']\"> STATISTICS </button>\n            </mat-menu>\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <p>{{currentUser.email}}</p>\n        <mat-icon [matMenuTriggerFor]=\"appMenu\" class=\"clickable\">more_vert</mat-icon>\n        <mat-menu #appMenu=\"matMenu\">\n            <button mat-menu-item [routerLink]=\"['','profile']\"> PROFILE </button>\n            <button mat-menu-item (click)=\"signOut()\"> SIGN OUT </button>\n        </mat-menu>\n    </div>\n</div>\n\n<div class=\"col-md-12 top-bar-container\" *ngIf=\"visitor\">\n    <div>\n        <ul class=\"menu-list\">\n            <li [routerLink]=\"['']\" class=\"clickable logo\" style=\"margin-right:10px;\">\n                ala alaʻole\n            </li>\n\n        </ul>\n    </div>\n    <div class=\"profile-icons-holder float-right\">\n        <ul class=\"menu-list-visitor\">\n            <li [routerLink]=\"['','login']\" class=\"clickable \" style=\"margin-right:10px;\">\n                LOGIN\n            </li>\n            <li [routerLink]=\"['','register']\" class=\"clickable \" style=\"margin-right:10px;\">\n                REGISTER\n            </li>\n        </ul>\n    </div>\n</div>"
 
 /***/ }),
 

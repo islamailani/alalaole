@@ -55,6 +55,10 @@ export class IssuesViewComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        // const socket = new WebSocket('ws://dariuscostolas.me:8080');
+        // socket.onopen = event => {
+        //     socket.send({ type: 1, payload: 0 });
+        // };
         this.activatedRoute.params.subscribe(param => {
             this.issuesService.getIssueById(param['id']).subscribe((res: IssueView) => {
                 this.initialLocation.latitude = res.location.latitude;
