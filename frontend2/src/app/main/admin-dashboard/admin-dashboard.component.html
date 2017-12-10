@@ -1,33 +1,31 @@
 <h2 class="colored-text headline">Admin Dashboard</h2>
-
 <div class="col-md-12 create-issue">
-    <div class="col-md-6 users">
-        <p>
-            <i class="colored-text">Users waiting for aproval:</i>
-        </p>
-        <div class="user-pannel col-md-12">
-            <p>
-                <span class="my-label">Name:</span> Raul boosu</p>
-            <p>
-                <span class="my-label">Email:</span> Raul@google.com</p>
-            <p>
-                <span class="my-label">Gender:</span> om</p>
-            <p>
-                <span class="my-label">Age:</span> 12</p>
-            <button class="simple-button-style">
-                See Location
-            </button>
-            <button class="button-gradient">
-                Decline
-            </button>
-            <button class="simple-button-style">
-                Approve
-            </button>
-        </div>
-    </div>
-    <agm-map class="map col-md-6 no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+    <agm-map class="map col-md-12 no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
         <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
             [markerDraggable]="true"></agm-marker>
     </agm-map>
+    <div class="col-md-12 users">
+        <p>
+            <i class="colored-text">Users waiting for aproval:</i>
+        </p>
+        <div class="user-pannel col-md-12" *ngFor="let user of users">
+            <p>
+                <span class="my-label">Name:</span> {{user.name}}</p>
+            <p>
+                <span class="my-label">Email:</span> {{user.email}}</p>
+            <p>
+                <span class="my-label">Gender:</span> {{user.gender}}</p>
+            <p>
+                <span class="my-label">Age:</span> {{user.age}}</p>
+            <button class="simple-button-style" (click)="approveUser(user.id)">
+                Approve
+            </button>
+            <button class="button-gradient" (click)="disapproveUser(user.id)">
+                Disapprove
+            </button>
+            <button class="simple-button-style" (click)="updateMap(user)">
+                See Location
+            </button>
+        </div>
+    </div>
 </div>
-

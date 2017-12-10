@@ -5,7 +5,7 @@
         <div class="login-form-group">
             <form name="form" (ngSubmit)="f.form.valid && register()" #f="ngForm" novalidate>
                 <mat-form-field class="full-width cl">
-                    <input class="colored-text" matInput [(ngModel)]="registerUser.email" name="email" placeholder="Email" required/>
+                    <input type="email" class="colored-text" matInput [(ngModel)]="registerUser.email" name="email" placeholder="Email" required/>
                     <mat-error>Please enter a valid email address</mat-error>
                 </mat-form-field>
                 <mat-form-field class="full-width">

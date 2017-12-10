@@ -109,12 +109,14 @@ var AppComponent = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_28__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_29__main_admin_dashboard_admin_dashboard_component__ = __webpack_require__("../../../../../src/app/main/admin-dashboard/admin-dashboard.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_30__main_profile_profile_component__ = __webpack_require__("../../../../../src/app/main/profile/profile.component.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_31__main_admin_dashboard_admin_service__ = __webpack_require__("../../../../../src/app/main/admin-dashboard/admin.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -188,6 +190,7 @@ var AppModule = (function () {
             providers: [
                 __WEBPACK_IMPORTED_MODULE_17__shared_authentication_auth_service__["a" /* AuthService */],
                 __WEBPACK_IMPORTED_MODULE_22__main_issues_service__["a" /* IssuesService */],
+                __WEBPACK_IMPORTED_MODULE_31__main_admin_dashboard_admin_service__["a" /* AdminService */],
                 {
                     provide: __WEBPACK_IMPORTED_MODULE_18__angular_common_http__["a" /* HTTP_INTERCEPTORS */],
                     useClass: __WEBPACK_IMPORTED_MODULE_19__shared_authentication_http_interceptors_base_url_interceptor__["a" /* BaseUrlInterceptor */],
@@ -307,7 +310,7 @@ var AppRoutingModule = (function () {
 /***/ "../../../../../src/app/main/admin-dashboard/admin-dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"colored-text headline\">Admin Dashboard</h2>\n\n<div class=\"col-md-12 create-issue\">\n    <div class=\"col-md-6 users\">\n        <p>\n            <i class=\"colored-text\">Users waiting for aproval:</i>\n        </p>\n        <div class=\"user-pannel col-md-12\">\n            <p>\n                <span class=\"my-label\">Name:</span> Raul boosu</p>\n            <p>\n                <span class=\"my-label\">Email:</span> Raul@google.com</p>\n            <p>\n                <span class=\"my-label\">Gender:</span> om</p>\n            <p>\n                <span class=\"my-label\">Age:</span> 12</p>\n            <button class=\"simple-button-style\">\n                See Location\n            </button>\n            <button class=\"button-gradient\">\n                Decline\n            </button>\n            <button class=\"simple-button-style\">\n                Approve\n            </button>\n        </div>\n    </div>\n    <agm-map class=\"map col-md-6 no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n        <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n            [markerDraggable]=\"true\"></agm-marker>\n    </agm-map>\n</div>\n\n"
+module.exports = "<h2 class=\"colored-text headline\">Admin Dashboard</h2>\n<div class=\"col-md-12 create-issue\">\n    <agm-map class=\"map col-md-12 no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n        <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n            [markerDraggable]=\"true\"></agm-marker>\n    </agm-map>\n    <div class=\"col-md-12 users\">\n        <p>\n            <i class=\"colored-text\">Users waiting for aproval:</i>\n        </p>\n        <div class=\"user-pannel col-md-12\" *ngFor=\"let user of users\">\n            <p>\n                <span class=\"my-label\">Name:</span> {{user.name}}</p>\n            <p>\n                <span class=\"my-label\">Email:</span> {{user.email}}</p>\n            <p>\n                <span class=\"my-label\">Gender:</span> {{user.gender}}</p>\n            <p>\n                <span class=\"my-label\">Age:</span> {{user.age}}</p>\n            <button class=\"simple-button-style\" (click)=\"approveUser(user.id)\">\n                Approve\n            </button>\n            <button class=\"button-gradient\" (click)=\"disapproveUser(user.id)\">\n                Disapprove\n            </button>\n            <button class=\"simple-button-style\" (click)=\"updateMap(user)\">\n                See Location\n            </button>\n        </div>\n    </div>\n</div>"
 
 /***/ }),
 
@@ -319,7 +322,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".create-issue {\n  box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n  margin-top: 50px;\n  height: 400px;\n  padding: 0px; }\n  .create-issue > div, .create-issue map {\n    display: inline-block; }\n  .create-issue .users {\n    padding: 50px; }\n    .create-issue .users .user-pannel {\n      border-bottom: 1px solid #4444f0; }\n      .create-issue .users .user-pannel .my-label {\n        color: grey;\n        font-style: italic; }\n      .create-issue .users .user-pannel button {\n        margin-top: 20px;\n        margin-bottom: 20px;\n        margin-right: 20px; }\n  .create-issue .map {\n    height: inherit;\n    width: 100%;\n    float: right; }\n\n.headline {\n  margin-top: 50px;\n  border-top: 2px solid #4444f0;\n  padding-top: 10px; }\n", ""]);
+exports.push([module.i, ".create-issue {\n  box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n  margin-top: 50px;\n  height: auto;\n  padding: 0px; }\n  .create-issue > div, .create-issue map {\n    display: block; }\n  .create-issue .map {\n    height: 300px;\n    width: 100%;\n    float: right;\n    margin-bottom: 15px; }\n  .create-issue .users {\n    padding: 50px; }\n    .create-issue .users .user-pannel {\n      margin-top: 20px;\n      border-bottom: 1px solid #4444f0; }\n      .create-issue .users .user-pannel .my-label {\n        color: grey;\n        font-style: italic; }\n      .create-issue .users .user-pannel button {\n        float: right;\n        margin-top: -40px;\n        margin-bottom: 20px;\n        margin-right: 20px; }\n\n.headline {\n  margin-top: 50px;\n  border-top: 2px solid #4444f0;\n  padding-top: 10px; }\n", ""]);
 
 // exports
 
@@ -337,6 +340,8 @@ module.exports = module.exports.toString();
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__agm_core__ = __webpack_require__("../../../../@agm/core/index.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__admin_service__ = __webpack_require__("../../../../../src/app/main/admin-dashboard/admin.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_material_snack_bar__ = __webpack_require__("../../../material/esm5/snack-bar.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -349,34 +354,56 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
+
 var AdminDashboardComponent = (function () {
-    function AdminDashboardComponent(mapsAPILoader, router) {
+    function AdminDashboardComponent(mapsAPILoader, router, adminService, snackbar) {
         this.mapsAPILoader = mapsAPILoader;
         this.router = router;
-        // @ViewChild('search')
-        // public searchElementRef: ElementRef;
-        // @ViewChild(AgmMap)
-        // public agmMap: AgmMap;
+        this.adminService = adminService;
+        this.snackbar = snackbar;
         this.initialLocation = {
             longitude: 21.226788,
             latitude: 45.760696
         };
     }
     AdminDashboardComponent.prototype.ngOnInit = function () {
-        // this.mapsAPILoader.load().then(() => {
-        //     const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
-        //     autocomplete.addListener('place_changed', () => {
-        //         const place: google.maps.places.PlaceResult = autocomplete.getPlace();
-        //         if (place.geometry === undefined || place.geometry === null) {
-        //             return;
-        //         }
-        //         this.initialLocation.latitude = place.geometry.location.lat();
-        //         this.initialLocation.longitude = place.geometry.location.lng();
-        //         this.agmMap.triggerResize();
-        //         // console.log(this.agmMarker.longitude);
-        //     });
-        // });
+        var _this = this;
+        this.adminService.getPendingUsers().subscribe(function (res) {
+            _this.users = res;
+        });
     };
+    AdminDashboardComponent.prototype.updateMap = function (user) {
+        this.initialLocation.latitude = user.location.latitude;
+        this.initialLocation.longitude = user.location.longitude;
+        this.agmMap.triggerResize();
+    };
+    AdminDashboardComponent.prototype.approveUser = function (id) {
+        var _this = this;
+        this.adminService.approveUser(id).subscribe(function (res) {
+            _this.users = _this.users.filter(function (x) { return x.id !== id; });
+            _this.handleResponse('Succes! User was approved');
+        });
+    };
+    AdminDashboardComponent.prototype.disapproveUser = function (id) {
+        var _this = this;
+        this.adminService.disapproveUser(id).subscribe(function (res) {
+            _this.users = _this.users.filter(function (x) { return x.id !== id; });
+            _this.handleResponse('Succes! User was disapproved');
+        });
+    };
+    AdminDashboardComponent.prototype.notify = function (status, text) {
+        this.snackbar.open(status, text, {
+            duration: 3000
+        });
+    };
+    AdminDashboardComponent.prototype.handleResponse = function (text) {
+        this.notify(text, ' ');
+    };
+    __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_10" /* ViewChild */])(__WEBPACK_IMPORTED_MODULE_2__agm_core__["b" /* AgmMap */]),
+        __metadata("design:type", __WEBPACK_IMPORTED_MODULE_2__agm_core__["b" /* AgmMap */])
+    ], AdminDashboardComponent.prototype, "agmMap", void 0);
     AdminDashboardComponent = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
             selector: 'app-admin-dashboard',
@@ -384,9 +411,57 @@ var AdminDashboardComponent = (function () {
             styles: [__webpack_require__("../../../../../src/app/main/admin-dashboard/admin-dashboard.component.scss")]
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2__agm_core__["d" /* MapsAPILoader */],
-            __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */]])
+            __WEBPACK_IMPORTED_MODULE_1__angular_router__["b" /* Router */],
+            __WEBPACK_IMPORTED_MODULE_3__admin_service__["a" /* AdminService */],
+            __WEBPACK_IMPORTED_MODULE_4__angular_material_snack_bar__["a" /* MatSnackBar */]])
     ], AdminDashboardComponent);
     return AdminDashboardComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "../../../../../src/app/main/admin-dashboard/admin.service.ts":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AdminService; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__("../../../core/esm5/core.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_common_http__ = __webpack_require__("../../../common/esm5/http.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__("../../../router/esm5/router.js");
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AdminService = (function () {
+    function AdminService(http, router) {
+        this.http = http;
+        this.router = router;
+    }
+    AdminService.prototype.getPendingUsers = function () {
+        return this.http.get("/users/pending");
+    };
+    AdminService.prototype.approveUser = function (id) {
+        return this.http.post("/users/" + id + "/approve", {});
+    };
+    AdminService.prototype.disapproveUser = function (id) {
+        return this.http.post("/users/" + id + "/disapprove", {});
+    };
+    AdminService = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["B" /* Injectable */])(),
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1__angular_common_http__["b" /* HttpClient */],
+            __WEBPACK_IMPORTED_MODULE_2__angular_router__["b" /* Router */]])
+    ], AdminService);
+    return AdminService;
 }());
 
 
@@ -408,7 +483,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".create-issue {\n  box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n  margin-top: 50px;\n  height: 400px;\n  padding: 0px; }\n  .create-issue > div, .create-issue map {\n    display: inline-block; }\n  .create-issue .form-create-issue {\n    padding: 50px; }\n  .create-issue .map {\n    height: inherit;\n    width: 100%;\n    float: right; }\n  .create-issue .map-input {\n    margin-top: -200px;\n    position: absolute;\n    top: 210px;\n    left: 25%;\n    margin-left: 400px;\n    z-index: 999;\n    width: 400px;\n    padding: 10px 10px 10px 10px;\n    color: #4444f0;\n    background-color: white;\n    box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n    border: none; }\n    .create-issue .map-input:focus {\n      outline: none; }\n  .create-issue .fileUpload {\n    position: relative;\n    overflow: hidden;\n    margin: 10px; }\n  .create-issue .fileUpload input.upload {\n    position: absolute;\n    top: 0;\n    right: 0;\n    margin: 0;\n    padding: 0;\n    font-size: 20px;\n    cursor: pointer;\n    opacity: 0;\n    filter: alpha(opacity=0); }\n  .create-issue .btn {\n    border-radius: 0px;\n    border: 1px solid #4444f0;\n    color: #4444f0;\n    padding: 5px 10px 5px 10px;\n    margin: 0px; }\n  .create-issue mat-icon {\n    font-size: 18px;\n    width: 18px;\n    height: 18px;\n    vertical-align: bottom;\n    padding-left: 5px;\n    padding-right: 5px; }\n  .create-issue .uploded-images {\n    color: grey;\n    font-size: 14px;\n    font-style: italic; }\n  .create-issue .spinner {\n    vertical-align: bottom; }\n\n.headline {\n  margin-top: 50px;\n  border-top: 2px solid #4444f0;\n  padding-top: 10px; }\n", ""]);
+exports.push([module.i, ".create-issue {\n  box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n  margin-top: 50px;\n  height: 400px;\n  padding: 0px; }\n  .create-issue > div, .create-issue map {\n    display: inline-block; }\n  .create-issue .form-create-issue {\n    padding: 50px; }\n  .create-issue .map {\n    height: inherit;\n    width: 100%;\n    float: right; }\n  .create-issue .map-input {\n    margin-top: -200px;\n    position: absolute;\n    top: 210px;\n    left: 34.3%;\n    z-index: 999;\n    width: 400px;\n    padding: 10px 10px 10px 10px;\n    color: #4444f0;\n    background-color: white;\n    box-shadow: 0px 0px 15px -5px rgba(0, 0, 0, 0.75);\n    border: none; }\n    .create-issue .map-input:focus {\n      outline: none; }\n  .create-issue .fileUpload {\n    position: relative;\n    overflow: hidden;\n    margin: 10px; }\n  .create-issue .fileUpload input.upload {\n    position: absolute;\n    top: 0;\n    right: 0;\n    margin: 0;\n    padding: 0;\n    font-size: 20px;\n    cursor: pointer;\n    opacity: 0;\n    filter: alpha(opacity=0); }\n  .create-issue .btn {\n    border-radius: 0px;\n    border: 1px solid #4444f0;\n    color: #4444f0;\n    padding: 5px 10px 5px 10px;\n    margin: 0px; }\n  .create-issue mat-icon {\n    font-size: 18px;\n    width: 18px;\n    height: 18px;\n    vertical-align: bottom;\n    padding-left: 5px;\n    padding-right: 5px; }\n  .create-issue .uploded-images {\n    color: grey;\n    font-size: 14px;\n    font-style: italic; }\n  .create-issue .spinner {\n    vertical-align: bottom; }\n\n.headline {\n  margin-top: 50px;\n  border-top: 2px solid #4444f0;\n  padding-top: 10px; }\n", ""]);
 
 // exports
 
@@ -551,7 +626,7 @@ var CreateIssueComponent = (function () {
 /***/ "../../../../../src/app/main/home/home.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n    <div class=\"logo-cont\">\n        ala alaʻole\n    </div>\n    <input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n    <agm-map class=\"map big-map no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n        <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n            [markerDraggable]=\"true\"></agm-marker>\n    </agm-map>\n\n    <div class=\"mask\">\n\n    </div>\n\n    <div class=\"saying\">\n        <p>For those moments when you just feel\n            <i>ala alaʻole</i>\n        </p>\n        <p>\n            <i>Become a contribuitor now.</i>\n        </p>\n    </div>\n\n    <div class=\"buttons\">\n        <button [routerLink]=\"['login']\" class=\"clickable\">Login</button>\n        <button [routerLink]=\"['register']\" class=\"clickable\">Register</button>\n    </div>\n\n    <div class=\"col-md-12 issue-container\" id=\"scrollTo\">\n        <div style=\"width:100%;text-align:center\">\n            <span *ngIf=\"boolIssues\" style=\"border: 1px solid black;padding: 20px;\">\n                There seems like you're living in the perfect area. There are no issues. #goals\n                <span style=\"color:red\">&#10084;</span>\n            </span>\n        </div>\n\n        <div class=\"col-md-12 issue no-padding\" *ngFor=\"let issue of issues\">\n            <div class=\"col-md-6 issue-info-container\">\n                <p class=\"display-inline score\">{{issue.score}}</p>\n                <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n                <p class=\"description\">{{issue.description}}\n                </p>\n                <div class=\"col-md-12 no-padding image-container\" *ngIf=\"issue.photos.length!==0\">\n                    <div class=\"image-holder\">\n                        <img src=\"{{issue.photos[0]?.path}}\" />\n                    </div>\n                    <div class=\"image-holder float-right\">\n                        <img src=\"{{issue.photos[1]?.path}}\" />\n                    </div>\n                </div>\n                <div class=\"info-holder\">\n                    <p class=\"comments\">{{issue.commentNumber}} comments</p>\n                    <button (click)=\"navigateToIssue(issue)\" class=\"float-right go-to-issue-btn simple-button-style\">See more\n                        <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n                    </button>\n                </div>\n            </div>\n            <agm-map class=\" col-md-6 map  no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n                <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n                    [markerDraggable]=\"true\"></agm-marker>\n            </agm-map>\n        </div>\n\n    </div>\n\n</div>"
+module.exports = "<div class=\"container\">\n    <div class=\"logo-cont\">\n        ala alaʻole\n    </div>\n    <input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n    <agm-map class=\"map big-map no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n        <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n            [markerDraggable]=\"true\"></agm-marker>\n    </agm-map>\n\n    <div class=\"mask\">\n\n    </div>\n\n    <div class=\"saying\">\n        <p>For those moments when you just feel\n            <i>ala alaʻole</i>\n        </p>\n        <p>\n            <i>Become a contribuitor now.</i>\n        </p>\n    </div>\n\n    <div class=\"buttons\">\n        <button [routerLink]=\"['login']\" class=\"clickable\">Login</button>\n        <button [routerLink]=\"['register']\" class=\"clickable\">Register</button>\n    </div>\n\n    <div class=\"col-md-12 issue-container\" id=\"scrollTo\">\n        <div *ngIf=\"boolIssues\" style=\"width:100%;text-align:center;padding:50px;\">\n            <span  style=\"border: 1px solid black;padding: 20px\">\n                There seems like you're living in the perfect area. There are no issues. #goals\n                <span style=\"color:red\">&#10084;</span>\n            </span>\n        </div>\n\n        <div class=\"col-md-12 issue no-padding\" *ngFor=\"let issue of issues\">\n            <div class=\"col-md-6 issue-info-container\">\n                <p class=\"display-inline score\">{{issue.score}}</p>\n                <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n                <p class=\"description\">{{issue.description}}\n                </p>\n                <div class=\"col-md-12 no-padding image-container\" *ngIf=\"issue.photos.length!==0\">\n                    <div class=\"image-holder\">\n                        <img src=\"{{issue.photos[0]?.path}}\" />\n                    </div>\n                    <div class=\"image-holder float-right\">\n                        <img src=\"{{issue.photos[1]?.path}}\" />\n                    </div>\n                </div>\n                <div class=\"info-holder\">\n                    <p class=\"comments\">{{issue.commentNumber}} comments</p>\n                    <button (click)=\"navigateToIssue(issue)\" class=\"float-right go-to-issue-btn simple-button-style\">See more\n                        <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n                    </button>\n                </div>\n            </div>\n            <agm-map class=\" col-md-6 map  no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n                <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n                    [markerDraggable]=\"true\"></agm-marker>\n            </agm-map>\n        </div>\n\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -667,7 +742,7 @@ var HomeComponent = (function () {
 /***/ "../../../../../src/app/main/issue-view/issue-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"colored-text headline\">Issue Viewer</h2>\n<button class=\"float-right simple-button-style save-btn\" *ngIf=\"!visitor\">Save\n    <mat-icon> check</mat-icon>\n</button>\n\n<div class=\"col-md-12 issue row \">\n    <div class=\"col-md-6 issue-info-container\">\n        <mat-icon [ngClass]=\"{'green': issue.voteStatus === 1}\" class=\"clickable upvote\" (click)=\"upVoteIssue(issue)\">keyboard_arrow_up</mat-icon>\n        <p [ngClass]=\"{'green': issue.voteStatus === 1, 'red':issue.voteStatus === -1}\" class=\"display-inline score\">{{issue.score}}</p>\n        <mat-icon [ngClass]=\"{'red': issue.voteStatus === -1, 'grey':issue.voteStatus === 0}\" class=\"clickable downvote\" (click)=\"downVoteIssue(issue)\">keyboard_arrow_down</mat-icon>\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <p class=\"description\"> {{issue.description}}\n        </p>\n        <div class=\"col-md-12 comments-container\">\n            <p class=\"colored-text\" *ngIf=\"!visitor\">Add comment</p>\n            <mat-form-field class=\"full-width\" *ngIf=\"!visitor\">\n                <textarea minlength=\"5\" [(ngModel)]=\"comment\" matInput name=\"description\" placeholder=\"Comment\"\n                    required></textarea>\n                <mat-error>Please enter a valid description</mat-error>\n            </mat-form-field>\n            <button class=\"button-gradient float-right\" (click)=\"postComment()\" *ngIf=\"!visitor\">\n                Post\n            </button>\n            <p class=\"colored-text\">Comments</p>\n            <div class=\"comment\" *ngFor=\"let comment of issue.comments\">\n                <p>{{comment.user.name}} - </p>\n                <p class=\"date\"> {{comment.createdAt}}</p>\n                <p class=\"text\">{{comment.text}}</p>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\">delete</mat-icon>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\">edit</mat-icon>\n            </div>\n        </div>\n    </div>\n\n    <!-- right column maps and images -->\n    <input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n\n    <div class=\"col-md-6 no-padding\">\n        <agm-map class=\"map  no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n            <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" ></agm-marker>\n        </agm-map>\n        <div class=\" no-padding image-container\">\n            <div class=\"image-holder\" *ngFor=\"let photo of issue.photos\">\n                <img src=\"{{photo.path}}\" />\n            </div>\n        </div>\n    </div>\n\n\n</div>"
+module.exports = "<h2 class=\"colored-text headline\">Issue Viewer</h2>\n<button class=\"float-right simple-button-style save-btn\" *ngIf=\"!visitor\">Save\n    <mat-icon> check</mat-icon>\n</button>\n\n<div class=\"col-md-12 issue row \">\n    <div class=\"col-md-6 issue-info-container\">\n        <mat-icon [ngClass]=\"{'green': issue.voteStatus === 1}\" class=\"clickable upvote\" (click)=\"upVoteIssue(issue)\">keyboard_arrow_up</mat-icon>\n        <p [ngClass]=\"{'green': issue.voteStatus === 1, 'red':issue.voteStatus === -1}\" class=\"display-inline score\">{{issue.score}}</p>\n        <mat-icon [ngClass]=\"{'red': issue.voteStatus === -1, 'grey':issue.voteStatus === 0}\" class=\"clickable downvote\" (click)=\"downVoteIssue(issue)\">keyboard_arrow_down</mat-icon>\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <p class=\"description\"> {{issue.description}}\n        </p>\n        <div class=\"col-md-12 comments-container\">\n            <p class=\"colored-text\" *ngIf=\"!visitor\">Add comment</p>\n            <mat-form-field class=\"full-width\" *ngIf=\"!visitor\">\n                <textarea minlength=\"5\" [(ngModel)]=\"comment\" matInput name=\"description\" placeholder=\"Comment\" required></textarea>\n                <mat-error>Please enter a valid description</mat-error>\n            </mat-form-field>\n            <button class=\"button-gradient float-right\" (click)=\"postComment()\" *ngIf=\"!visitor\">\n                Post\n            </button>\n            <p class=\"colored-text\">Comments</p>\n            <div class=\"comment\" *ngFor=\"let comment of issue.comments\">\n                <p>{{comment.user.name}} - </p>\n                <p class=\"date\"> {{comment.createdAt}}</p>\n                <p class=\"text\">{{comment.text}}</p>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\">delete</mat-icon>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\">edit</mat-icon>\n            </div>\n        </div>\n    </div>\n\n    <!-- right column maps and images -->\n    <input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n\n    <div class=\"col-md-6 no-padding\">\n        <agm-map class=\"map  no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n            <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\"></agm-marker>\n        </agm-map>\n        <div class=\" no-padding image-container\">\n            <div class=\"image-holder\" *ngFor=\"let photo of issue.photos\">\n                <img src=\"{{photo.path}}\" />\n            </div>\n        </div>\n    </div>\n\n\n</div>"
 
 /***/ }),
 
@@ -1451,7 +1526,7 @@ var BaseUrlInterceptor = (function () {
 /***/ "../../../../../src/app/shared/authentication/login/login.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n  <div class=\"col-md-12\">\n    <p class=\"display-inline col-sm-8 col-8 colored-text logo clickable\" [routerLink]=\"['']\"> ala alaʻole</p>\n    <p class=\"display-inline col-sm-8 col-8 colored-text\"> - Login</p>\n    <div class=\"login-form-group\">\n      <form [formGroup]=\"loginForm\" (ngSubmit)=\"loginForm.valid && login()\">\n        <mat-form-field class=\"full-width\" style=\"margin-top:60px;\">\n          <input class=\"colored-text\" matInput formControlName=\"email\" placeholder=\"Email\" />\n          <mat-error>Please enter a valid email address</mat-error>\n        </mat-form-field>\n        <mat-form-field class=\"full-width\">\n          <input type=\"password\" class=\"colored-text\" matInput formControlName=\"password\" placeholder=\"Password\" />\n          <mat-error>This field is required</mat-error>\n        </mat-form-field>\n        <button type=\"submit\" md-button class=\"full-width button-gradient clickable\">Sign in\n          <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n        </button>\n      </form>\n    </div>\n    <!-- <p class=\"colored-text forgot-password-text \">Forgot Password?</p> -->\n  </div>\n</div>"
+module.exports = "<div class=\"login-box\">\n  <div class=\"col-md-12 display-inline \">\n    <p class=\"display-inline col-sm-8 col-8 colored-text logo clickable\" [routerLink]=\"['']\"> ala alaʻole</p>\n    <p class=\"display-inline col-sm-8 col-8 colored-text\"> - Login</p>\n    <div class=\"login-form-group\">\n      <form [formGroup]=\"loginForm\" (ngSubmit)=\"loginForm.valid && login()\">\n        <mat-form-field class=\"full-width\" style=\"margin-top:60px;\">\n          <input class=\"colored-text\" matInput formControlName=\"email\" placeholder=\"Email\" />\n          <mat-error>Please enter a valid email address</mat-error>\n        </mat-form-field>\n        <mat-form-field class=\"full-width\">\n          <input type=\"password\" class=\"colored-text\" matInput formControlName=\"password\" placeholder=\"Password\" />\n          <mat-error>This field is required</mat-error>\n        </mat-form-field>\n        <button type=\"submit\" md-button class=\"full-width button-gradient clickable\">Sign in\n          <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n        </button>\n      </form>\n    </div>\n    <!-- <p class=\"colored-text forgot-password-text \">Forgot Password?</p> -->\n  </div>\n\n</div>"
 
 /***/ }),
 
@@ -1561,7 +1636,7 @@ var LoginComponent = (function () {
 /***/ "../../../../../src/app/shared/authentication/registration/registration.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"login-box\">\n    <div class=\"col-md-12\">\n        <p class=\"display-inline col-sm-8 col-8 colored-text logo clickable\" [routerLink]=\"['/']\"> ala alaʻole</p>\n        <p class=\"display-inline col-sm-8 col-8 colored-text\"> - Register</p>\n        <div class=\"login-form-group\">\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && register()\" #f=\"ngForm\" novalidate>\n                <mat-form-field class=\"full-width cl\">\n                    <input class=\"colored-text\" matInput [(ngModel)]=\"registerUser.email\" name=\"email\" placeholder=\"Email\" required/>\n                    <mat-error>Please enter a valid email address</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width\">\n                    <input type=\"password\" class=\"colored-text\" matInput [(ngModel)]=\"registerUser.password\" name=\"password\" placeholder=\"Password\"\n                        required />\n                    <mat-error>This field is required</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width cl\">\n                    <input class=\"colored-text\" matInput [(ngModel)]=\"registerUser.name\" name=\"name\" placeholder=\"Name\" required />\n                    <mat-error>Please enter a valid name</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width\">\n                    <mat-select [(ngModel)]=\"selectedGender\" name=\"gender\" placeholder=\"Gender\" required>\n                        <mat-option *ngFor=\"let gender of genders\" [value]=\"gender.name\">{{gender.name}}</mat-option>\n                    </mat-select>\n                    <mat-error>Please select a gender</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width cl\">\n                    <input class=\"colored-text\" matInput [(ngModel)]=\"registerUser.age\" name=\"age\" placeholder=\"Age\" required type=\"number\" />\n                    <mat-error>Please enter a valid age</mat-error>\n                </mat-form-field>\n                <button type=\"submit\" md-button class=\"full-width button-gradient\">Sign up\n                    <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n                </button>\n            </form>\n        </div>\n        <p class=\"colored-text forgot-password-text clickable\" [routerLink]=\"['/login']\">Already have an acount? Back to Login</p>\n    </div>\n</div>\n<input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n<agm-map class=\"map\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n    <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n        [markerDraggable]=\"true\"></agm-marker>\n    <agm-circle (dragEnd)=\"radiusMoved($event)\" (radiusChange)=\"radiusChanged($event)\" [latitude]=\"initialLocation.latitude\"\n        [longitude]=\"initialLocation.longitude\" [radius]=\"500\" [circleDraggable]=\"true\" [editable]=\"true\"></agm-circle>\n</agm-map>"
+module.exports = "<div class=\"login-box\">\n    <div class=\"col-md-12\">\n        <p class=\"display-inline col-sm-8 col-8 colored-text logo clickable\" [routerLink]=\"['/']\"> ala alaʻole</p>\n        <p class=\"display-inline col-sm-8 col-8 colored-text\"> - Register</p>\n        <div class=\"login-form-group\">\n            <form name=\"form\" (ngSubmit)=\"f.form.valid && register()\" #f=\"ngForm\" novalidate>\n                <mat-form-field class=\"full-width cl\">\n                    <input type=\"email\" class=\"colored-text\" matInput [(ngModel)]=\"registerUser.email\" name=\"email\" placeholder=\"Email\" required/>\n                    <mat-error>Please enter a valid email address</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width\">\n                    <input type=\"password\" class=\"colored-text\" matInput [(ngModel)]=\"registerUser.password\" name=\"password\" placeholder=\"Password\"\n                        required />\n                    <mat-error>This field is required</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width cl\">\n                    <input class=\"colored-text\" matInput [(ngModel)]=\"registerUser.name\" name=\"name\" placeholder=\"Name\" required />\n                    <mat-error>Please enter a valid name</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width\">\n                    <mat-select [(ngModel)]=\"selectedGender\" name=\"gender\" placeholder=\"Gender\" required>\n                        <mat-option *ngFor=\"let gender of genders\" [value]=\"gender.name\">{{gender.name}}</mat-option>\n                    </mat-select>\n                    <mat-error>Please select a gender</mat-error>\n                </mat-form-field>\n                <mat-form-field class=\"full-width cl\">\n                    <input class=\"colored-text\" matInput [(ngModel)]=\"registerUser.age\" name=\"age\" placeholder=\"Age\" required type=\"number\" />\n                    <mat-error>Please enter a valid age</mat-error>\n                </mat-form-field>\n                <button type=\"submit\" md-button class=\"full-width button-gradient\">Sign up\n                    <mat-icon class=\" float-right\">arrow_forward</mat-icon>\n                </button>\n            </form>\n        </div>\n        <p class=\"colored-text forgot-password-text clickable\" [routerLink]=\"['/login']\">Already have an acount? Back to Login</p>\n    </div>\n</div>\n<input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n<agm-map class=\"map\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n    <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\" (dragEnd)=\"markerClicked($event)\"\n        [markerDraggable]=\"true\"></agm-marker>\n    <agm-circle (dragEnd)=\"radiusMoved($event)\" (radiusChange)=\"radiusChanged($event)\" [latitude]=\"initialLocation.latitude\"\n        [longitude]=\"initialLocation.longitude\" [radius]=\"500\" [circleDraggable]=\"true\" [editable]=\"true\"></agm-circle>\n</agm-map>"
 
 /***/ }),
 
