@@ -15,6 +15,7 @@ export interface UserService {
     loginUser(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
     logOutUser(user: User): Promise<void>;
+    getAdmins(): Promise<User[]>;
 }
 
 @injectable()
@@ -35,17 +36,21 @@ export class UserServiceImpl implements UserService {
     public async loginUser(user: User): Promise<User> {
         const foundUser = await this.userRepository.findByEmail(user.email);
         if (foundUser) {
-            if (bcrypt.compareSync(user.password, foundUser.password)) {
-                const token = this.generateToken();
-                foundUser.token = token;
-                const loggedUser = await this.userRepository.update(foundUser);
-                delete loggedUser.password;
-                return loggedUser;
+            if (foundUser.approved) {
+                if (bcrypt.compareSync(user.password, foundUser.password)) {
+                    const token = this.generateToken();
+                    foundUser.token = token;
+                    const loggedUser = await this.userRepository.update(foundUser);
+                    delete loggedUser.password;
+                    return loggedUser;
+                } else {
+                    throw new HttpError('Wrong credentials', 401);
+                }
             } else {
-                throw new HttpError('Wrong credentials !', 401);
+                throw new HttpError('Account not approved', 400);
             }
         } else {
-            throw new HttpError('Wrong credentials !', 401);
+            throw new HttpError('Wrong credentials', 401);
         }
     }
     public async findByToken(token: string): Promise<User> {
@@ -55,6 +60,10 @@ export class UserServiceImpl implements UserService {
 
     public async logOutUser(user: User): Promise<void> {
         return await this.userRepository.removeToken(user);
+    }
+
+    public async getAdmins(): Promise<User[]> {
+        return await this.userRepository.findAdmins();
     }
 
     private generateToken(): string {

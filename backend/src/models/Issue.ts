@@ -44,6 +44,9 @@ export class Issue {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     public createdAt: Date;
 
+    @Column({ default: false })
+    public archived: boolean;
+
     public score: number;
 
     public voteStatus: VoteStatus;

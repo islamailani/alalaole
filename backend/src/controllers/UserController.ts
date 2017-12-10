@@ -6,14 +6,21 @@ import { Controller } from './Controller';
 
 import authorize from '../middlewares/AuthorizationMiddleware';
 import { User } from '../models/User';
+
+import { EmailService } from '../services/EmailService';
 import { UserService } from '../services/UserService';
 
 @injectable()
 export class UserController implements Controller {
     private userService: UserService;
+    private emailService: EmailService;
 
-    constructor( @inject(TYPES.UserService) userService: UserService) {
+    constructor(
+        @inject(TYPES.UserService) userService: UserService,
+        @inject(TYPES.EmailService) emailService: EmailService
+    ) {
         this.userService = userService;
+        this.emailService = emailService;
     }
 
     public register(app: express.Application): void {
@@ -29,6 +36,14 @@ export class UserController implements Controller {
                     req.body.gender
                 );
                 const createdUser = await this.userService.createUser(user).catch((err) => next(err));
+                const admins = await this.userService.getAdmins();
+                admins.forEach((admin) => {
+                    this.emailService.sendMail(
+                        admin.email,
+                        'New user registration request',
+                        'There is a new user that wants to register, you can approve him here:'
+                    );
+                });
                 res.json(createdUser);
             });
         app.route('/auth/login')

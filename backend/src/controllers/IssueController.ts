@@ -7,17 +7,20 @@ import TYPES from '../types';
 import { Controller } from './Controller';
 
 import authorize from '../middlewares/AuthorizationMiddleware';
+import { HttpError } from '../utils/HttpError';
 
 import { Comment } from '../models/Comment';
 import { Issue, VoteStatus } from '../models/Issue';
 import { Photo } from '../models/Photo';
+import { User } from '../models/User';
+import { Vote } from '../models/Vote';
 
 import { BroadcastingService, SubscriptionType } from '../services/BroadcastingService';
 import { CommentService } from '../services/CommentService';
+import { EmailService } from '../services/EmailService';
 import { IssueService } from '../services/IssueService';
+import { UserService } from '../services/UserService';
 import { VoteService } from '../services/VoteService';
-import { HttpError } from '../utils/HttpError';
-import { Vote } from '../models/Vote';
 
 @injectable()
 export class IssueController implements Controller {
@@ -25,16 +28,23 @@ export class IssueController implements Controller {
     private voteService: VoteService;
     private commentService: CommentService;
     private broadcastingService: BroadcastingService;
+    private emailService: EmailService;
+    private userService: UserService;
 
     constructor(
         @inject(TYPES.IssueService) issueService: IssueService,
         @inject(TYPES.VoteService) voteService: VoteService,
         @inject(TYPES.CommentService) commentService: CommentService,
-        @inject(TYPES.BroadcastingService) broadcastingService: BroadcastingService) {
+        @inject(TYPES.BroadcastingService) broadcastingService: BroadcastingService,
+        @inject(TYPES.EmailService) emailService: EmailService,
+        @inject(TYPES.UserService) userService: UserService
+    ) {
         this.issueService = issueService;
         this.voteService = voteService;
         this.commentService = commentService;
         this.broadcastingService = broadcastingService;
+        this.emailService = emailService;
+        this.userService = userService;
     }
 
     public register(app: express.Application): void {
@@ -149,7 +159,10 @@ export class IssueController implements Controller {
                 if (issue) {
                     if (issue.votes.length > 0) {
                         issue.score = issue.votes.reduce((acc, current) => acc += current.score, 0);
-                        const userVote = issue.votes.find((vote) => vote.user.id === req.user.id);
+                        let userVote: Vote = null;
+                        if (req.user) {
+                            userVote = issue.votes.find((vote) => vote.user.id === req.user.id);
+                        }
                         issue.voteStatus = userVote ? userVote.score : VoteStatus.NotVoted;
                     } else {
                         issue.score = 0;
@@ -174,8 +187,29 @@ export class IssueController implements Controller {
                         next(new HttpError('You canot vote on your own issue', 400));
                     } else {
                         await this.voteService.upVoteIssue(req.user, issue).catch((err) => next(err));
+                        const archived = await this.issueService.verifyIssueForArchiving(issue);
+                        if (archived) {
+                            let issueInvestedUsers: User[] = issue.comments.map((comment) => comment.user);
+                            issueInvestedUsers.push(issue.user);
+                            issueInvestedUsers = issueInvestedUsers.concat(await this.userService.getAdmins());
+                            let emailList: string[] = issueInvestedUsers
+                                .map((user) => user.email)
+                                .filter((email) => email);
+                            emailList = emailList
+                                .filter((item, index, inputArray) => inputArray.indexOf(item) === index);
+                            console.log(emailList);
+                            emailList.forEach((email) => {
+                                this.emailService.sendMail(
+                                    email,
+                                    'Issue Archived',
+                                    `An issue that you were interested in has been archived because it received too much downvotes<br>Title:${issue.title}`
+                                );
+                            });
+                        }
                         res.send({ message: 'Ok', status: 200 });
                     }
+                } else {
+                    res.send({ message: 'Not Found', status: 404 });
                 }
             });
         app.route('/issues/:id/downvote')
@@ -186,6 +220,25 @@ export class IssueController implements Controller {
                         next(new HttpError('You canot vote on your own issue', 400));
                     } else {
                         await this.voteService.downVoteIssue(req.user, issue).catch((err) => next(err));
+                        const archived = await this.issueService.verifyIssueForArchiving(issue);
+                        if (archived) {
+                            let issueInvestedUsers: User[] = issue.comments.map((comment) => comment.user);
+                            issueInvestedUsers.push(issue.user);
+                            issueInvestedUsers = issueInvestedUsers.concat(await this.userService.getAdmins());
+                            let emailList: string[] = issueInvestedUsers
+                                .map((user) => user.email)
+                                .filter((email) => email);
+                            emailList = emailList
+                                .filter((item, index, inputArray) => inputArray.indexOf(item) === index);
+                            console.log(emailList);
+                            emailList.forEach((email) => {
+                                this.emailService.sendMail(
+                                    email,
+                                    'Issue Archived',
+                                    `An issue that you were interested in has been archived because it received too much downvotes<br>Title:${issue.title}`
+                                );
+                            });
+                        }
                         res.send({ message: 'Ok', status: 200 });
                     }
                 } else {

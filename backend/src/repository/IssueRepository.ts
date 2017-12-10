@@ -42,6 +42,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
     public async getAll(from: number): Promise<Issue[]> {
         return await this.issueRepository
             .createQueryBuilder('i')
+            .where('i.archived = false')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.votes', 'votes')
@@ -55,6 +56,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
     public async getAllInProximity(from: number, lat: number, long: number, km: number): Promise<Issue[]> {
         return await this.issueRepository
             .createQueryBuilder('i')
+            .where('i.archived = false')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.comments', 'comments')
@@ -65,7 +67,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .leftJoin('votes.user', 'voteUser')
             .addSelect('voteUser.name')
             .leftJoinAndSelect('votes.user', 'u')
-            .where(`
+            .andWhere(`
                 (acos(
                     sin(radians(location.latitude))
                      * sin(radians(:lat))
@@ -82,17 +84,21 @@ export class IssueRepositoryImplDb implements IssueRepository {
     public async getById(id: number): Promise<Issue> {
         return await this.issueRepository
             .createQueryBuilder('i')
-            .where('i.id = :id', { id })
+            .where('i.archived = false')
+            .andWhere('i.id = :id', { id })
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.comments', 'comments')
             .leftJoin('comments.user', 'commentUser')
             .addSelect('commentUser.name')
             .leftJoin('i.user', 'user')
+            .addSelect('user.id')
             .addSelect('user.name')
+            .addSelect('user.email')
             .leftJoinAndSelect('i.votes', 'votes')
             .leftJoin('votes.user', 'voteUser')
             .addSelect('voteUser.name')
+            .addSelect('voteUser.email')
             .leftJoinAndSelect('votes.user', 'u')
             .orderBy('comments.createdAt', 'DESC')
             .getOne();
@@ -101,6 +107,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
     public async getByUser(user: User): Promise<Issue[]> {
         return await this.issueRepository
             .createQueryBuilder('i')
+            .where('i.archived = false')
             .leftJoinAndSelect('i.location', 'location')
             .leftJoinAndSelect('i.photos', 'photo')
             .leftJoinAndSelect('i.comments', 'comments')
