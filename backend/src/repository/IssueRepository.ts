@@ -121,7 +121,7 @@ export class IssueRepositoryImplDb implements IssueRepository {
             .leftJoin('comments.user', 'commentUser')
             .addSelect('commentUser.name')
             .leftJoin('i.user', 'user')
-            .where('user.id = :id', { id: user.id })
+            .andWhere('user.id = :id', { id: user.id })
             .addSelect('user.name')
             .leftJoinAndSelect('i.votes', 'votes')
             .leftJoin('votes.user', 'voteUser')

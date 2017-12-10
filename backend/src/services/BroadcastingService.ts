@@ -44,11 +44,8 @@ export class BroadcastingService {
 
     constructor() {
         this.webSocketServer = new WebSocket.Server({ port: 1111 });
-        console.log('test');
         this.webSocketServer.on('connection', (ws) => {
-            console.log('test');
             ws.on('message', (message) => {
-                console.log(message);
                 this.handleMessage(ws, message);
             });
         });
