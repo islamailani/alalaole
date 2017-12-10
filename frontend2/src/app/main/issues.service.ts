@@ -27,6 +27,10 @@ export class IssuesService {
         return this.http.get(`/issues/${id}`);
     }
 
+    deleteComment(id: number, commId: number) {
+        return this.http.delete(`/issues/${id}/comments/${commId}`);
+    }
+
     markSolved(id: number) {
         return this.http.post(`/issues/${id}/solve`, {});
     }

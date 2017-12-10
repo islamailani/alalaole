@@ -81,6 +81,17 @@ export class IssuesViewComponent implements OnInit {
         });
     }
 
+    deleteComment(comment: any) {
+        this.issuesService.deleteComment(this.issue.id, comment.id).subscribe(res => {
+            for (let i = 0; i < this.issue.comments.length; i++) {
+                if (this.issue.comments[i].id === comment.id) {
+                    this.issue.comments.splice(i, 1);
+                }
+            }
+
+        });
+    }
+
     upVoteIssue(issue: Issue) {
         this.issuesService.upVoteIssue(issue).subscribe(res => {
             if (issue.voteStatus === -1) {

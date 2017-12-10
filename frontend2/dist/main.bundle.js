@@ -833,7 +833,7 @@ var HomeComponent = (function () {
 /***/ "../../../../../src/app/main/issue-view/issue-view.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h2 class=\"colored-text headline\">Issue Viewer</h2>\n<!-- <button class=\"float-right simple-button-style save-btn\" *ngIf=\"!visitor\">Save\n    <mat-icon> check</mat-icon>\n</button> -->\n\n<div class=\"col-md-12 issue row \">\n    <div class=\"col-md-6 issue-info-container\">\n        <mat-icon [ngClass]=\"{'green': issue.voteStatus === 1}\" class=\"clickable upvote\" (click)=\"upVoteIssue(issue)\">keyboard_arrow_up</mat-icon>\n        <p [ngClass]=\"{'green': issue.voteStatus === 1, 'red':issue.voteStatus === -1}\" class=\"display-inline score\">{{issue.score}}</p>\n        <mat-icon [ngClass]=\"{'red': issue.voteStatus === -1, 'grey':issue.voteStatus === 0}\" class=\"clickable downvote\" (click)=\"downVoteIssue(issue)\">keyboard_arrow_down</mat-icon>\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <p class=\"description\"> {{issue.description}}\n        </p>\n        <div class=\"col-md-12 comments-container\">\n            <p class=\"colored-text\" *ngIf=\"!visitor\">Add comment</p>\n            <mat-form-field class=\"full-width\" *ngIf=\"!visitor\">\n                <textarea minlength=\"5\" [(ngModel)]=\"comment\" matInput name=\"description\" placeholder=\"Comment\" required></textarea>\n                <mat-error>Please enter a valid description</mat-error>\n            </mat-form-field>\n            <button style=\"margin-top:-10px\"class=\"button-gradient float-right\" (click)=\"postComment()\" *ngIf=\"!visitor\">\n                Post\n            </button>\n            <p class=\"colored-text\" style=\"margin-top:40px\">Comments</p>\n            <div class=\"comment\" *ngFor=\"let comment of issue.comments\">\n                <p>{{comment.user.name}} - </p>\n                <p class=\"date\"> {{comment.createdAt}}</p>\n                <p class=\"text\">{{comment.text}}</p>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\">delete</mat-icon>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\">edit</mat-icon>\n            </div>\n        </div>\n    </div>\n\n    <!-- right column maps and images -->\n    <input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n\n    <div class=\"col-md-6 no-padding\">\n        <agm-map [zoom]=\"15\" class=\"map  no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n            <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\"></agm-marker>\n        </agm-map>\n        <div class=\" no-padding image-container\">\n            <div class=\"image-holder\" *ngFor=\"let photo of issue.photos\">\n                <img src=\"{{photo.path}}\" />\n            </div>\n        </div>\n    </div>\n\n\n</div>"
+module.exports = "<h2 class=\"colored-text headline\">Issue Viewer</h2>\n<!-- <button class=\"float-right simple-button-style save-btn\" *ngIf=\"!visitor\">Save\n    <mat-icon> check</mat-icon>\n</button> -->\n\n<div class=\"col-md-12 issue row \">\n    <div class=\"col-md-6 issue-info-container\">\n        <mat-icon [ngClass]=\"{'green': issue.voteStatus === 1}\" class=\"clickable upvote\" (click)=\"upVoteIssue(issue)\">keyboard_arrow_up</mat-icon>\n        <p [ngClass]=\"{'green': issue.voteStatus === 1, 'red':issue.voteStatus === -1}\" class=\"display-inline score\">{{issue.score}}</p>\n        <mat-icon [ngClass]=\"{'red': issue.voteStatus === -1, 'grey':issue.voteStatus === 0}\" class=\"clickable downvote\" (click)=\"downVoteIssue(issue)\">keyboard_arrow_down</mat-icon>\n        <h2 class=\"colored-text display-inline\">{{issue.title}}</h2>\n        <p class=\"description\"> {{issue.description}}\n        </p>\n        <div class=\"col-md-12 comments-container\">\n            <p class=\"colored-text\" *ngIf=\"!visitor\">Add comment</p>\n            <mat-form-field class=\"full-width\" *ngIf=\"!visitor\">\n                <textarea minlength=\"5\" [(ngModel)]=\"comment\" matInput name=\"description\" placeholder=\"Comment\" required></textarea>\n                <mat-error>Please enter a valid description</mat-error>\n            </mat-form-field>\n            <button style=\"margin-top:-10px\"class=\"button-gradient float-right\" (click)=\"postComment()\" *ngIf=\"!visitor\">\n                Post\n            </button>\n            <p class=\"colored-text\" style=\"margin-top:40px\">Comments</p>\n            <div class=\"comment\" *ngFor=\"let comment of issue.comments\">\n                <p>{{comment.user.name}} - </p>\n                <p class=\"date\"> {{comment.createdAt}}</p>\n                <p class=\"text\">{{comment.text}}</p>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\" (click)=\"deleteComment(comment)\">delete</mat-icon>\n                <mat-icon class=\"float-right\" *ngIf=\"!visitor\">edit</mat-icon>\n            </div>\n        </div>\n    </div>\n\n    <!-- right column maps and images -->\n    <input class=\"colored-text map-input\" #search placeholder=\"Location\" />\n\n    <div class=\"col-md-6 no-padding\">\n        <agm-map [zoom]=\"15\" class=\"map  no-padding\" [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\">\n            <agm-marker [latitude]=\"initialLocation.latitude\" [longitude]=\"initialLocation.longitude\"></agm-marker>\n        </agm-map>\n        <div class=\" no-padding image-container\">\n            <div class=\"image-holder\" *ngFor=\"let photo of issue.photos\">\n                <img src=\"{{photo.path}}\" />\n            </div>\n        </div>\n    </div>\n\n\n</div>"
 
 /***/ }),
 
@@ -948,6 +948,16 @@ var IssuesViewComponent = (function () {
                 .push({ id: res.id, text: res.text, createdAt: res.createdAt, user: { name: res.user.name } });
         });
     };
+    IssuesViewComponent.prototype.deleteComment = function (comment) {
+        var _this = this;
+        this.issuesService.deleteComment(this.issue.id, comment.id).subscribe(function (res) {
+            for (var i = 0; i < _this.issue.comments.length; i++) {
+                if (_this.issue.comments[i].id === comment.id) {
+                    _this.issue.comments.splice(i, 1);
+                }
+            }
+        });
+    };
     IssuesViewComponent.prototype.upVoteIssue = function (issue) {
         var _this = this;
         this.issuesService.upVoteIssue(issue).subscribe(function (res) {
@@ -1048,6 +1058,9 @@ var IssuesService = (function () {
     };
     IssuesService.prototype.getIssueById = function (id) {
         return this.http.get("/issues/" + id);
+    };
+    IssuesService.prototype.deleteComment = function (id, commId) {
+        return this.http.delete("/issues/" + id + "/comments/" + commId);
     };
     IssuesService.prototype.markSolved = function (id) {
         return this.http.post("/issues/" + id + "/solve", {});

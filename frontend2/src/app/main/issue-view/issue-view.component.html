@@ -25,7 +25,7 @@
                 <p>{{comment.user.name}} - </p>
                 <p class="date"> {{comment.createdAt}}</p>
                 <p class="text">{{comment.text}}</p>
-                <mat-icon class="float-right" *ngIf="!visitor">delete</mat-icon>
+                <mat-icon class="float-right" *ngIf="!visitor" (click)="deleteComment(comment)">delete</mat-icon>
                 <mat-icon class="float-right" *ngIf="!visitor">edit</mat-icon>
             </div>
         </div>
