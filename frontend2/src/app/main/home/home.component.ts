@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
+        this.agmMap.zoom = 13;
         this.mapsAPILoader.load().then(() => {
             const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
             autocomplete.addListener('place_changed', () => {
