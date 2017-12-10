@@ -7,7 +7,7 @@ import { ApprovalStatus, User } from '../models/User';
 import { UserLocation } from '../models/UserLocation';
 
 export interface UserRepository {
-    create(user: User): Promise<User>;
+    save(user: User): Promise<User>;
     findByEmail(email: string): Promise<User>;
     update(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
@@ -26,7 +26,7 @@ export class UserRepositoryImplDb implements UserRepository {
         this.locationRepository = getManager().getRepository(UserLocation);
     }
 
-    public async create(user: User): Promise<User> {
+    public async save(user: User): Promise<User> {
         const location = await this.locationRepository.save(user.location);
         user.location = location;
         const newUser = await this.userRepository.save(user);
@@ -55,6 +55,6 @@ export class UserRepositoryImplDb implements UserRepository {
     }
 
     public async findPendingApproval(): Promise<User[]> {
-        return await this.userRepository.find({ approvalStatus: ApprovalStatus.Pending });
+        return await this.userRepository.find({ where: { approvalStatus: ApprovalStatus.Pending }, relations: ['location'] });
     }
 }

@@ -17,6 +17,7 @@ export interface UserService {
     logOutUser(user: User): Promise<void>;
     getAdmins(): Promise<User[]>;
     getPendingApprovalUsers(): Promise<User[]>;
+    changeApprovalStatus(user: User, approvalStatus: ApprovalStatus): Promise<User>;
 }
 
 @injectable()
@@ -29,7 +30,7 @@ export class UserServiceImpl implements UserService {
             throw new HttpError('User already existent', 409);
         }
         user.password = bcrypt.hashSync(user.password);
-        const newUser = await this.userRepository.create(user);
+        const newUser = await this.userRepository.save(user);
         delete newUser.password;
         return newUser;
     }
@@ -74,6 +75,11 @@ export class UserServiceImpl implements UserService {
             delete user.token;
         });
         return users;
+    }
+
+    public async changeApprovalStatus(user: User, approvalStatus: ApprovalStatus): Promise<User> {
+        user.approvalStatus = approvalStatus;
+        return await this.userRepository.save(user);
     }
 
     private generateToken(): string {

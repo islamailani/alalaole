@@ -7,7 +7,7 @@ import { Controller } from './Controller';
 import admin from '../middlewares/AdminMiddleware';
 import authorize from '../middlewares/AuthorizationMiddleware';
 
-import { User } from '../models/User';
+import { ApprovalStatus, User } from '../models/User';
 
 import { EmailService } from '../services/EmailService';
 import { UserService } from '../services/UserService';
@@ -66,6 +66,16 @@ export class UserController implements Controller {
             .get([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const users = await this.userService.getPendingApprovalUsers().catch((err) => next(err));
                 res.json(users);
+            });
+        app.route('/users/:id/approve')
+            .get([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                await this.userService.changeApprovalStatus(req.user, ApprovalStatus.Approved).catch((err) => next(err));
+                res.json({ message: 'Ok', status: 200 });
+            });
+        app.route('/users/:id/dissaprove')
+            .get([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                await this.userService.changeApprovalStatus(req.user, ApprovalStatus.Dissaprove).catch((err) => next(err));
+                res.json({ message: 'Ok', status: 200 });
             });
     }
 }
