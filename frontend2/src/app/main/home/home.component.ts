@@ -2,6 +2,8 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { MapsAPILoader, AgmMap } from '@agm/core';
+import { Issue } from '../../shared/models/Issues';
+import { IssuesService } from '../issues.service';
 
 @Component({
     selector: 'app-home',
@@ -17,9 +19,12 @@ export class HomeComponent implements OnInit {
         longitude: 21.226788,
         latitude: 45.760696
     };
+    issues: Issue[] = [];
+    boolIssues = false;
     constructor(
         private mapsAPILoader: MapsAPILoader,
         public router: Router,
+        private issueService: IssuesService
     ) { }
 
     ngOnInit() {
@@ -33,9 +38,26 @@ export class HomeComponent implements OnInit {
                 this.initialLocation.latitude = place.geometry.location.lat();
                 this.initialLocation.longitude = place.geometry.location.lng();
                 this.agmMap.triggerResize();
-                // console.log(this.agmMarker.longitude);
+                this.issueService.getIssuesWithParam(this.initialLocation).subscribe((res: Issue[]) => {
+                    this.issues = res;
+                    if (!this.issues.length) {
+                        this.boolIssues = true;
+                    } else {
+                        this.boolIssues = false;
+                    }
+                    // this.scrollPage();
+                });
             });
         });
+    }
+
+    // scrollPage() {
+    //     const element = document.querySelector('#scrollTo');
+    //     console.log(element.scrollHeight);
+    // }
+
+    navigateToIssue(issue: Issue) {
+        this.router.navigate(['issues', issue.id]);
     }
 
 }

@@ -5,6 +5,7 @@ import { Issue, IssueView } from '../../shared/models/Issues';
 import { IssuesService } from '../issues.service';
 import { ActivatedRoute } from '@angular/router';
 import { root } from '../../shared/Global';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-issue-view',
@@ -45,10 +46,12 @@ export class IssuesViewComponent implements OnInit {
         createdAt: ''
     };
     comment: string;
+    visitor = false;
     constructor(
         public router: Router,
         private activatedRoute: ActivatedRoute,
-        private issuesService: IssuesService
+        private issuesService: IssuesService,
+        private snackbar: MatSnackBar
     ) { }
 
     ngOnInit() {
@@ -61,13 +64,25 @@ export class IssuesViewComponent implements OnInit {
                 this.issue = res;
             });
         });
-        // this.issuesService.
+        if (localStorage.length === 0) {
+            this.visitor = true;
+        }
     }
 
     postComment() {
         this.issuesService.postComment(this.issue, this.comment).subscribe(res => {
             console.log(res);
         });
+    }
+
+    notify(status: any, text: any) {
+        this.snackbar.open(status, text, {
+            duration: 3000
+        });
+    }
+
+    public handleResponse(text) {
+        this.notify(text, ' ');
     }
 
 }

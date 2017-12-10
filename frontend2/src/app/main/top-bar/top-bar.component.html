@@ -1,4 +1,4 @@
-<div class="col-md-12 top-bar-container">
+<div class="col-md-12 top-bar-container" *ngIf="!visitor">
     <div>
         <ul class="menu-list">
             <li class="clickable logo" style="margin-right:10px;">
@@ -25,7 +25,26 @@
             <button mat-menu-item [routerLink]="['','profile']"> PROFILE </button>
             <button mat-menu-item (click)="signOut()"> SIGN OUT </button>
         </mat-menu>
-
     </div>
+</div>
 
+<div class="col-md-12 top-bar-container" *ngIf="visitor">
+    <div>
+        <ul class="menu-list">
+            <li [routerLink]="['']" class="clickable logo" style="margin-right:10px;">
+                ala alaʻole
+            </li>
+
+        </ul>
+    </div>
+    <div class="profile-icons-holder float-right">
+        <ul class="menu-list-visitor">
+            <li [routerLink]="['','login']" class="clickable " style="margin-right:10px;">
+                LOGIN
+            </li>
+            <li [routerLink]="['','register']" class="clickable " style="margin-right:10px;">
+                REGISTER
+            </li>
+        </ul>
+    </div>
 </div>

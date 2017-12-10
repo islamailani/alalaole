@@ -4,7 +4,7 @@
     <p class="display-inline col-sm-8 col-8 colored-text"> - Login</p>
     <div class="login-form-group">
       <form [formGroup]="loginForm" (ngSubmit)="loginForm.valid && login()">
-        <mat-form-field class="full-width cl">
+        <mat-form-field class="full-width" style="margin-top:60px;">
           <input class="colored-text" matInput formControlName="email" placeholder="Email" />
           <mat-error>Please enter a valid email address</mat-error>
         </mat-form-field>

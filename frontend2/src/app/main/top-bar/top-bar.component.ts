@@ -11,20 +11,26 @@ import { LoginUser } from '../../shared/models/User';
 })
 export class TopBarComponent implements OnInit {
   currentUser: LoginUser;
+  visitor = false;
   constructor(
     public router: Router,
     private authService: AuthService
   ) { }
 
   ngOnInit() {
-    this.currentUser = JSON.parse(localStorage.getItem('user'));
+    if (localStorage.length !== 0) {
+      this.currentUser = JSON.parse(localStorage.getItem('user'));
+    } else {
+      this.visitor = true;
+    }
     // console.log(this.currentUser);
   }
 
   public signOut() {
     this.authService.signOut().subscribe(res => {
+      localStorage.clear();
+      this.router.navigate(['']);
     });
-    this.router.navigate(['']);
   }
 
 

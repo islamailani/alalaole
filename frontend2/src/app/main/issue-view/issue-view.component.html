@@ -1,5 +1,5 @@
 <h2 class="colored-text headline">Issue Viewer</h2>
-<button class="float-right simple-button-style save-btn">Save
+<button class="float-right simple-button-style save-btn" *ngIf="!visitor">Save
     <mat-icon> check</mat-icon>
 </button>
 
@@ -12,13 +12,13 @@
         <p class="description"> {{issue.description}}
         </p>
         <div class="col-md-12 comments-container">
-            <p class="colored-text">Add comment</p>
-            <mat-form-field class="full-width">
+            <p class="colored-text" *ngIf="!visitor">Add comment</p>
+            <mat-form-field class="full-width" *ngIf="!visitor">
                 <textarea minlength="5" [(ngModel)]="comment" matInput name="description" placeholder="Comment"
                     required></textarea>
                 <mat-error>Please enter a valid description</mat-error>
             </mat-form-field>
-            <button class="button-gradient float-right" (click)="postComment()">
+            <button class="button-gradient float-right" (click)="postComment()" *ngIf="!visitor">
                 Post
             </button>
             <p class="colored-text">Comments</p>
@@ -26,8 +26,8 @@
                 <p>{{comment.user.name}} - </p>
                 <p class="date"> {{comment.createdAt}}</p>
                 <p class="text">{{comment.text}}</p>
-                <mat-icon class="float-right">delete</mat-icon>
-                <mat-icon class="float-right">edit</mat-icon>
+                <mat-icon class="float-right" *ngIf="!visitor">delete</mat-icon>
+                <mat-icon class="float-right" *ngIf="!visitor">edit</mat-icon>
             </div>
         </div>
     </div>
@@ -37,8 +37,7 @@
 
     <div class="col-md-6 no-padding">
         <agm-map class="map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
-            <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
-                [markerDraggable]="true"></agm-marker>
+            <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" ></agm-marker>
         </agm-map>
         <div class=" no-padding image-container">
             <div class="image-holder" *ngFor="let photo of issue.photos">
