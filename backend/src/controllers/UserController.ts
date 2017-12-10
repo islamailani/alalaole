@@ -44,7 +44,7 @@ export class UserController implements Controller {
                         adm.email,
                         'New user registration request',
                         `There is a new user that wants to register, you can approve him here:
-                         <a href="http://dariuscostolas.me/admin-dashboard">http://dariuscostolas.me/admin-dashboard</a>`
+                         <a href="http://dariuscostolas.me/admin-users">http://dariuscostolas.me/admin-users</a>`
                     );
                 });
                 res.json(createdUser);

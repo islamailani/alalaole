@@ -18,6 +18,7 @@ export interface CommentService {
     addComment(comment: Comment): Promise<Comment>;
     updateComment(comment: Comment): Promise<Comment>;
     removeComment(comment: Comment): Promise<void>;
+    getComment(commentId: number): Promise<Comment>;
 }
 
 @injectable()
@@ -32,7 +33,12 @@ export class CommentServiceImpl implements CommentService {
     public async updateComment(comment: Comment): Promise<Comment> {
         return await this.commentRepository.update(comment);
     }
+
     public async removeComment(comment: Comment): Promise<void> {
         return await this.commentRepository.delete(comment);
+    }
+
+    public async getComment(commentId: number): Promise<Comment> {
+        return await this.commentRepository.getById(commentId);
     }
 }
