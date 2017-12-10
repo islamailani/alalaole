@@ -3,9 +3,9 @@
         ala alaʻole
     </div>
     <input class="colored-text map-input" #search placeholder="Location" />
-    <agm-map class="map big-map no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
-        <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
-            [markerDraggable]="true"></agm-marker>
+    <agm-map [zoom]="15"class="map big-map no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
+        <!-- <agm-marker class="display-none"[latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+            [markerDraggable]="true"></agm-marker> -->
     </agm-map>
 
     <div class="mask">
@@ -55,9 +55,9 @@
                     </button>
                 </div>
             </div>
-            <agm-map class=" col-md-6 map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
-                <!-- <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
-                    [markerDraggable]="true"></agm-marker> -->
+            <agm-map class=" col-md-6 map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" [zoom]="15">
+                <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
+                    [markerDraggable]="true"></agm-marker>
             </agm-map>
         </div>
 
