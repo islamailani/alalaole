@@ -43,7 +43,7 @@ export class BroadcastingService {
     private webSocketServer: WebSocket.Server;
 
     constructor() {
-        this.webSocketServer = new WebSocket.Server({ port: 8080 });
+        this.webSocketServer = new WebSocket.Server({ port: 1111 });
         console.log('test');
         this.webSocketServer.on('connection', (ws) => {
             console.log('test');
