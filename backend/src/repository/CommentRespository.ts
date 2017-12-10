@@ -32,7 +32,8 @@ export class CommentRespositoryImpl implements CommentRepository {
     }
 
     public async delete(comment: Comment): Promise<void> {
-        return await this.commentRespostory.delete(comment);
+        await this.commentRespostory.delete(comment);
+        return;
     }
 
     public async getById(commentId: number): Promise<Comment> {
