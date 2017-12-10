@@ -12,6 +12,7 @@ export interface CommentRepository {
     create(comment: Comment): Promise<Comment>;
     update(comment: Comment): Promise<Comment>;
     delete(comment: Comment): Promise<void>;
+    getById(commentId: number): Promise<Comment>;
 }
 
 @injectable()
@@ -21,13 +22,20 @@ export class CommentRespositoryImpl implements CommentRepository {
     constructor() {
         this.commentRespostory = getManager().getRepository(Comment);
     }
+
     public async create(comment: Comment): Promise<Comment> {
         return await this.commentRespostory.save(comment);
     }
+
     public async update(comment: Comment): Promise<Comment> {
         return await this.commentRespostory.save(comment);
     }
+
     public async delete(comment: Comment): Promise<void> {
         return await this.commentRespostory.delete(comment);
+    }
+
+    public async getById(commentId: number): Promise<Comment> {
+        return await this.commentRespostory.findOne({ where: { id: commentId }, relations: ['user'] });
     }
 }

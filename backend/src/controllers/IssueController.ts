@@ -12,7 +12,7 @@ import { HttpError } from '../utils/HttpError';
 import { Comment } from '../models/Comment';
 import { Issue, VoteStatus } from '../models/Issue';
 import { Photo } from '../models/Photo';
-import { User } from '../models/User';
+import { Role, User } from '../models/User';
 import { Vote } from '../models/Vote';
 
 import { BroadcastingService, CommentMessageType, SubscriptionType } from '../services/BroadcastingService';
@@ -262,9 +262,20 @@ export class IssueController implements Controller {
                     comment.issue = issue;
                     const createdComment = await this.commentService.addComment(comment).catch((err) => next(err)) as Comment;
                     this.broadcastingService.broadcastToSubscribers(SubscriptionType.Comments, issue.id, createdComment, CommentMessageType.New);
-                    res.send({ id: createdComment.id, text: createdComment.text });
+                    delete createdComment.user.token;
+                    delete createdComment.user.password;
+                    res.json(createdComment);
                 } else {
-                    res.send({ message: 'Not Found', status: 404 });
+                    res.json({ message: 'Not Found', status: 404 });
+                }
+            })
+            .delete(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const comment = await this.commentService.getComment(req.params.id);
+                if ((comment.user.id === req.user.id) || (req.user.role === Role.Admin)) {
+                    await this.commentService.removeComment(comment);
+                    res.json({ message: 'Ok', status: 200 });
+                } else {
+                    res.status(403).json({ message: 'You cant delete this', status: 403 });
                 }
             });
     }
