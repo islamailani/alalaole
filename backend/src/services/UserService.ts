@@ -6,7 +6,7 @@ import TYPES from '../types';
 import { HttpError } from '../utils/HttpError';
 
 import { LoginDetails } from '../models/LoginDetails';
-import { User } from '../models/User';
+import { ApprovalStatus, User } from '../models/User';
 
 import { UserRepository } from '../repository/UserRepository';
 
@@ -16,6 +16,7 @@ export interface UserService {
     findByToken(token: string): Promise<User>;
     logOutUser(user: User): Promise<void>;
     getAdmins(): Promise<User[]>;
+    getPendingApprovalUsers(): Promise<User[]>;
 }
 
 @injectable()
@@ -36,7 +37,7 @@ export class UserServiceImpl implements UserService {
     public async loginUser(user: User): Promise<User> {
         const foundUser = await this.userRepository.findByEmail(user.email);
         if (foundUser) {
-            if (foundUser.approved) {
+            if (foundUser.approvalStatus === ApprovalStatus.Approved) {
                 if (bcrypt.compareSync(user.password, foundUser.password)) {
                     const token = this.generateToken();
                     foundUser.token = token;
@@ -64,6 +65,15 @@ export class UserServiceImpl implements UserService {
 
     public async getAdmins(): Promise<User[]> {
         return await this.userRepository.findAdmins();
+    }
+
+    public async getPendingApprovalUsers(): Promise<User[]> {
+        const users = await this.userRepository.findPendingApproval();
+        users.map((user) => {
+            delete user.password;
+            delete user.token;
+        });
+        return users;
     }
 
     private generateToken(): string {

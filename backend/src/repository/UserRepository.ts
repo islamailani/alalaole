@@ -3,7 +3,7 @@ import { createConnection, getManager, Repository } from 'typeorm';
 
 import { Config } from '../config/Config';
 
-import { User } from '../models/User';
+import { ApprovalStatus, User } from '../models/User';
 import { UserLocation } from '../models/UserLocation';
 
 export interface UserRepository {
@@ -13,6 +13,7 @@ export interface UserRepository {
     findByToken(token: string): Promise<User>;
     removeToken(user: User): Promise<void>;
     findAdmins(): Promise<User[]>;
+    findPendingApproval(): Promise<User[]>;
 }
 
 @injectable()
@@ -51,5 +52,9 @@ export class UserRepositoryImplDb implements UserRepository {
 
     public async findAdmins(): Promise<User[]> {
         return await this.userRepository.find({ role: 1 });
+    }
+
+    public async findPendingApproval(): Promise<User[]> {
+        return await this.userRepository.find({ approvalStatus: ApprovalStatus.Pending });
     }
 }

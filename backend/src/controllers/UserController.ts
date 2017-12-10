@@ -4,7 +4,9 @@ import { inject, injectable } from 'inversify';
 import TYPES from '../types';
 import { Controller } from './Controller';
 
+import admin from '../middlewares/AdminMiddleware';
 import authorize from '../middlewares/AuthorizationMiddleware';
+
 import { User } from '../models/User';
 
 import { EmailService } from '../services/EmailService';
@@ -37,9 +39,9 @@ export class UserController implements Controller {
                 );
                 const createdUser = await this.userService.createUser(user).catch((err) => next(err));
                 const admins = await this.userService.getAdmins();
-                admins.forEach((admin) => {
+                admins.forEach((adm) => {
                     this.emailService.sendMail(
-                        admin.email,
+                        adm.email,
                         'New user registration request',
                         'There is a new user that wants to register, you can approve him here:'
                     );
@@ -59,6 +61,11 @@ export class UserController implements Controller {
             .post(authorize, async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 await this.userService.logOutUser(req.user);
                 res.json({ message: 'Ok', status: 200 });
+            });
+        app.route('/users/pending')
+            .get([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+                const users = await this.userService.getPendingApprovalUsers().catch((err) => next(err));
+                res.json(users);
             });
     }
 }
