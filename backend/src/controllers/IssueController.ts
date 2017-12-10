@@ -15,7 +15,7 @@ import { Photo } from '../models/Photo';
 import { User } from '../models/User';
 import { Vote } from '../models/Vote';
 
-import { BroadcastingService, SubscriptionType } from '../services/BroadcastingService';
+import { BroadcastingService, CommentMessageType, SubscriptionType } from '../services/BroadcastingService';
 import { CommentService } from '../services/CommentService';
 import { EmailService } from '../services/EmailService';
 import { IssueService } from '../services/IssueService';
@@ -251,7 +251,7 @@ export class IssueController implements Controller {
                     comment.user = req.user;
                     comment.issue = issue;
                     const createdComment = await this.commentService.addComment(comment).catch((err) => next(err)) as Comment;
-                    this.broadcastingService.broadcastToSubscribers(SubscriptionType.Comments, issue.id, JSON.stringify(createdComment));
+                    this.broadcastingService.broadcastToSubscribers(SubscriptionType.Comments, issue.id, createdComment, CommentMessageType.New);
                     res.send({ id: createdComment.id, text: createdComment.text });
                 } else {
                     res.send({ message: 'Not Found', status: 404 });

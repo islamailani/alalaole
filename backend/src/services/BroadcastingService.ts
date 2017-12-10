@@ -5,6 +5,8 @@ import TYPES from '../types';
 
 import { UserRepository } from '../repository/UserRepository';
 
+import { Comment } from '../models/Comment';
+
 enum PacketType {
     Authentication, Subscribe
 }
@@ -24,6 +26,15 @@ interface Packet {
     payload: any;
 }
 
+export enum CommentMessageType {
+    New, Edit, Delete
+}
+
+interface CommentMessage {
+    comment: Comment;
+    type: CommentMessageType;
+}
+
 @injectable()
 export class BroadcastingService {
     private clients: WebSocket[] = [];
@@ -36,15 +47,30 @@ export class BroadcastingService {
 
         this.webSocketServer.on('connection', (ws) => {
             ws.on('message', (message) => {
+                console.log(message);
                 this.handleMessage(ws, message);
             });
         });
     }
 
-    public async broadcastToSubscribers(subscriptionType: SubscriptionType, issue: number, message: string): Promise<void> {
+    public async broadcastToSubscribers(
+        subscriptionType: SubscriptionType,
+        issue: number,
+        comment: Comment,
+        commentMessageType: CommentMessageType
+    ): Promise<void> {
+
+        const commentMessage: CommentMessage = {
+            comment, type: commentMessageType
+        };
+
         this.subscriptions
             .filter((subscription) => subscription.subscriptionType === subscriptionType && subscription.issueId === issue)
-            .forEach((sub) => sub.client.send(message));
+            .forEach((sub) => this.send(sub.client, commentMessage));
+    }
+
+    private async send(socket: WebSocket, message: any) {
+        socket.send(JSON.stringify(message));
     }
 
     private async handleMessage(sender: WebSocket, message: WebSocket.Data): Promise<void> {
