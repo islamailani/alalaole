@@ -248,7 +248,7 @@ export class IssueController implements Controller {
                 const issue = await this.issueService.getIssue(req.params.id).catch((err) => next(err));
                 if ((issue as Issue).user.id === req.user.id || req.user.role === 1) {
                     await this.issueService.solveIssue(issue as Issue);
-                    res.json({ message: 'Ok', status: 403 });
+                    res.json({ message: 'Ok', status: 200 });
                 } else {
                     res.status(403).json({ message: 'You are not allowed to solve this issue', status: 403 });
                 }
