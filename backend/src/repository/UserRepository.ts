@@ -3,16 +3,18 @@ import { createConnection, getManager, Repository } from 'typeorm';
 
 import { Config } from '../config/Config';
 
-import { User } from '../models/User';
+import { ApprovalStatus, User } from '../models/User';
 import { UserLocation } from '../models/UserLocation';
 
 export interface UserRepository {
-    create(user: User): Promise<User>;
+    save(user: User): Promise<User>;
     findByEmail(email: string): Promise<User>;
     update(user: User): Promise<User>;
     findByToken(token: string): Promise<User>;
+    findById(id: number): Promise<User>;
     removeToken(user: User): Promise<void>;
     findAdmins(): Promise<User[]>;
+    findPendingApproval(): Promise<User[]>;
 }
 
 @injectable()
@@ -25,9 +27,11 @@ export class UserRepositoryImplDb implements UserRepository {
         this.locationRepository = getManager().getRepository(UserLocation);
     }
 
-    public async create(user: User): Promise<User> {
-        const location = await this.locationRepository.save(user.location);
-        user.location = location;
+    public async save(user: User): Promise<User> {
+        if (user.location) {
+            const location = await this.locationRepository.save(user.location);
+            user.location = location;
+        }
         const newUser = await this.userRepository.save(user);
         return newUser;
     }
@@ -44,6 +48,10 @@ export class UserRepositoryImplDb implements UserRepository {
         return await this.userRepository.findOne({ where: { token }, relations: ['location'] });
     }
 
+    public async findById(id: number): Promise<User> {
+        return await this.userRepository.findOne({ id });
+    }
+
     public async removeToken(user: User): Promise<void> {
         user.token = null;
         await this.userRepository.save(user);
@@ -51,5 +59,9 @@ export class UserRepositoryImplDb implements UserRepository {
 
     public async findAdmins(): Promise<User[]> {
         return await this.userRepository.find({ role: 1 });
+    }
+
+    public async findPendingApproval(): Promise<User[]> {
+        return await this.userRepository.find({ where: { approvalStatus: ApprovalStatus.Pending }, relations: ['location'] });
     }
 }

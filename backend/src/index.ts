@@ -16,6 +16,7 @@ import authenticate from './middlewares/AuthenticationMiddleware';
 import CORS from './middlewares/CORSMiddleware';
 import handleErrors from './middlewares/ErrorHandlingMiddleware';
 import jsonResponse from './middlewares/JsonResponseMiddleware';
+import notFound from './middlewares/NotFoundMiddleware';
 
 createConnection(Config.ConnectionOptions).then(async (connection) => {
 
@@ -31,6 +32,7 @@ createConnection(Config.ConnectionOptions).then(async (connection) => {
     const controllers: Controller[] = container.getAll<Controller>(TYPES.Controller);
     controllers.forEach((controller) => controller.register(app));
 
+    // app.use(notFound);
     app.use(handleErrors);
 
     app.listen(3000, () => {

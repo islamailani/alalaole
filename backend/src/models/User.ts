@@ -12,6 +12,10 @@ export enum Role {
     User, Admin
 }
 
+export enum ApprovalStatus {
+    Pending, Approved, Disapprove
+}
+
 @Entity()
 export class User {
 
@@ -62,8 +66,8 @@ export class User {
     @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
     public createdAt?: Date;
 
-    @Column({ default: false })
-    public approved?: boolean;
+    @Column({ default: ApprovalStatus.Pending })
+    public approvalStatus?: ApprovalStatus;
 
     constructor(
         password: string,
