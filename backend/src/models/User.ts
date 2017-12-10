@@ -13,7 +13,7 @@ export enum Role {
 }
 
 export enum ApprovalStatus {
-    Pending, Approved, Dissaprove
+    Pending, Approved, Disapprove
 }
 
 @Entity()
