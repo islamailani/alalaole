@@ -71,6 +71,11 @@ export class UserController implements Controller {
             .post([authorize, admin], async (req: express.Request, res: express.Response, next: express.NextFunction) => {
                 const user = await this.userService.findById(req.params.id);
                 await this.userService.changeApprovalStatus(user, ApprovalStatus.Approved).catch((err) => next(err));
+                this.emailService.sendMail(
+                    user.email,
+                    'Account Approved',
+                    'Your accout has been approved. You can log in now at <a href="dariuscostolas.me/login">http://dariuscostolas.me/login</a>'
+                );
                 res.json({ message: 'Ok', status: 200 });
             });
         app.route('/users/:id/disapprove')
@@ -80,7 +85,7 @@ export class UserController implements Controller {
                 this.emailService.sendMail(
                     user.email,
                     'Account Dissaproved',
-                    'There is a new user that wants to register, you can approve him here:'
+                    'Your account has been disapproved.'
                 );
                 res.json({ message: 'Ok', status: 200 });
             });
