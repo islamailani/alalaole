@@ -5,6 +5,7 @@ import { IssuesService } from '../issues.service';
 import { Issue } from '../../shared/models/Issues';
 import { root } from '../../shared/Global';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { LoginUser } from '../../shared/models/User';
 
 @Component({
   selector: 'app-issues',
@@ -13,6 +14,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class IssuesComponent implements OnInit {
   issues: Issue[];
+  currentUser: LoginUser;
   constructor(
     public router: Router,
     private issuesService: IssuesService,
@@ -20,6 +22,7 @@ export class IssuesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.currentUser = JSON.parse(localStorage.getItem('user'));
     this.issuesService.getIssues().subscribe((res: Issue[]) => {
       console.log(res);
       res.map(x => {
@@ -73,6 +76,13 @@ export class IssuesComponent implements OnInit {
         }
       }
     );
+  }
+
+  markSolved(issue: Issue) {
+    this.issuesService.markSolved(issue.id).subscribe(res => {
+      this.issues = this.issues.filter(x => x.id !== issue.id);
+      this.handleResponse('Issue marked as solved!');
+    });
   }
 
   notify(status: any, text: any) {
