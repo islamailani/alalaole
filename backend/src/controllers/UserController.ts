@@ -43,7 +43,8 @@ export class UserController implements Controller {
                     this.emailService.sendMail(
                         adm.email,
                         'New user registration request',
-                        'There is a new user that wants to register, you can approve him here:'
+                        `There is a new user that wants to register, you can approve him here:
+                         <a href="http://dariuscostolas.me/admin-dashboard">http://dariuscostolas.me/admin-dashboard</a>`
                     );
                 });
                 res.json(createdUser);
