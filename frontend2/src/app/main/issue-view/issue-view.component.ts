@@ -74,8 +74,10 @@ export class IssuesViewComponent implements OnInit {
     }
 
     postComment() {
-        this.issuesService.postComment(this.issue, this.comment).subscribe(res => {
+        this.issuesService.postComment(this.issue, this.comment).subscribe((res: any) => {
             console.log(res);
+            this.issue.comments
+                .push({ id: res.id, text: res.text, createdAt: res.createdAt, user: { name: res.user.name } });
         });
     }
 

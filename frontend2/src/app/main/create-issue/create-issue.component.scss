@@ -32,6 +32,9 @@
             outline: none;
         }    
     }
+    .form-textarea{
+        height: 100px;
+    }
     .fileUpload {
         position: relative;
         overflow: hidden;
@@ -80,3 +83,4 @@
     border-top:2px solid $primary_color;
     padding-top:10px; 
 }
+
