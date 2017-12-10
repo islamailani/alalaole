@@ -14,8 +14,7 @@
         <div class="col-md-12 comments-container">
             <p class="colored-text" *ngIf="!visitor">Add comment</p>
             <mat-form-field class="full-width" *ngIf="!visitor">
-                <textarea minlength="5" [(ngModel)]="comment" matInput name="description" placeholder="Comment"
-                    required></textarea>
+                <textarea minlength="5" [(ngModel)]="comment" matInput name="description" placeholder="Comment" required></textarea>
                 <mat-error>Please enter a valid description</mat-error>
             </mat-form-field>
             <button class="button-gradient float-right" (click)="postComment()" *ngIf="!visitor">
@@ -37,7 +36,7 @@
 
     <div class="col-md-6 no-padding">
         <agm-map class="map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
-            <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" ></agm-marker>
+            <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude"></agm-marker>
         </agm-map>
         <div class=" no-padding image-container">
             <div class="image-holder" *ngFor="let photo of issue.photos">

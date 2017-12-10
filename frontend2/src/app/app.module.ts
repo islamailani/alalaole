@@ -32,6 +32,7 @@ import { HomeComponent } from './main/home/home.component';
 import { RouterModule } from '@angular/router';
 import { AdminDashboardComponent } from './main/admin-dashboard/admin-dashboard.component';
 import { ProfileComponent } from './main/profile/profile.component';
+import { AdminService } from './main/admin-dashboard/admin.service';
 
 
 @NgModule({
@@ -72,6 +73,7 @@ import { ProfileComponent } from './main/profile/profile.component';
   providers: [
     AuthService,
     IssuesService,
+    AdminService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: BaseUrlInterceptor,
