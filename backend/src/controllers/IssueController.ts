@@ -187,7 +187,25 @@ export class IssueController implements Controller {
                         next(new HttpError('You canot vote on your own issue', 400));
                     } else {
                         await this.voteService.upVoteIssue(req.user, issue).catch((err) => next(err));
-                        await this.issueService.verifyIssueForArchiving(issue);
+                        const archived = await this.issueService.verifyIssueForArchiving(issue);
+                        if (archived) {
+                            let issueInvestedUsers: User[] = issue.comments.map((comment) => comment.user);
+                            issueInvestedUsers.push(issue.user);
+                            issueInvestedUsers = issueInvestedUsers.concat(await this.userService.getAdmins());
+                            let emailList: string[] = issueInvestedUsers
+                                .map((user) => user.email)
+                                .filter((email) => email);
+                            emailList = emailList
+                                .filter((item, index, inputArray) => inputArray.indexOf(item) === index);
+                            console.log(emailList);
+                            emailList.forEach((email) => {
+                                this.emailService.sendMail(
+                                    email,
+                                    'Issue Archived',
+                                    `An issue that you were interested in has been archived because it received too much downvotes<br>Title:${issue.title}`
+                                );
+                            });
+                        }
                         res.send({ message: 'Ok', status: 200 });
                     }
                 } else {
@@ -203,15 +221,23 @@ export class IssueController implements Controller {
                     } else {
                         await this.voteService.downVoteIssue(req.user, issue).catch((err) => next(err));
                         const archived = await this.issueService.verifyIssueForArchiving(issue);
-                        if (true) {
+                        if (archived) {
                             let issueInvestedUsers: User[] = issue.comments.map((comment) => comment.user);
                             issueInvestedUsers.push(issue.user);
                             issueInvestedUsers = issueInvestedUsers.concat(await this.userService.getAdmins());
-                            const emailList: string[] = issueInvestedUsers
+                            let emailList: string[] = issueInvestedUsers
                                 .map((user) => user.email)
                                 .filter((email) => email);
-                            // emailList = emailList
-                            //     .filter((email) => emailList.indexOf(email) 
+                            emailList = emailList
+                                .filter((item, index, inputArray) => inputArray.indexOf(item) === index);
+                            console.log(emailList);
+                            emailList.forEach((email) => {
+                                this.emailService.sendMail(
+                                    email,
+                                    'Issue Archived',
+                                    `An issue that you were interested in has been archived because it received too much downvotes<br>Title:${issue.title}`
+                                );
+                            });
                         }
                         res.send({ message: 'Ok', status: 200 });
                     }
