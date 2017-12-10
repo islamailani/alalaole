@@ -772,7 +772,6 @@ var HomeComponent = (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.agmMap.zoom = 13;
         this.mapsAPILoader.load().then(function () {
             var autocomplete = new google.maps.places.Autocomplete(_this.searchElementRef.nativeElement);
             autocomplete.addListener('place_changed', function () {

@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-        this.agmMap.zoom = 13;
         this.mapsAPILoader.load().then(() => {
             const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement);
             autocomplete.addListener('place_changed', () => {
@@ -47,7 +46,7 @@ export class HomeComponent implements OnInit {
                         this.boolIssues = false;
                     }
                     res.map(x => {
-                        x.photos.map(y => y.path = root + y.path)
+                        x.photos.map(y => y.path = root + y.path);
                     });
                     this.issues = res;
                     // this.scrollPage();
