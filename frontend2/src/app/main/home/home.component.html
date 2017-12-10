@@ -26,24 +26,34 @@
         <button [routerLink]="['register']" class="clickable">Register</button>
     </div>
 
-    <div class="col-md-12 issue-container">
-        <div class="col-md-12 issue no-padding">
+    <div class="col-md-12 issue-container" id="scrollTo">
+        <div style="width:100%;text-align:center">
+            <span *ngIf="boolIssues" style="border: 1px solid black;padding: 20px;">
+                There seems like you're living in the perfect area. There are no issues. #goals
+                <span style="color:red">&#10084;</span>
+            </span>
+        </div>
+
+        <div class="col-md-12 issue no-padding" *ngFor="let issue of issues">
             <div class="col-md-6 issue-info-container">
-                <p class="display-inline score">22</p>
-                <h2 class="colored-text display-inline">titlus</h2>
-                <!-- <mat-icon class="voted" *ngIf="issue.voteStatus === 1">check</mat-icon> -->
-                <!-- <span class="minus-one display-inline">-</span>
-                        <span class="plus-one display-inline">+</span> -->
-                <p class="description">descriere
+                <p class="display-inline score">{{issue.score}}</p>
+                <h2 class="colored-text display-inline">{{issue.title}}</h2>
+                <p class="description">{{issue.description}}
                 </p>
-                <!-- <div class="col-md-12 no-padding image-container" *ngIf="issue.photos.length!==0">
+                <div class="col-md-12 no-padding image-container" *ngIf="issue.photos.length!==0">
                     <div class="image-holder">
                         <img src="{{issue.photos[0]?.path}}" />
                     </div>
                     <div class="image-holder float-right">
                         <img src="{{issue.photos[1]?.path}}" />
                     </div>
-                </div> -->
+                </div>
+                <div class="info-holder">
+                    <p class="comments">{{issue.commentNumber}} comments</p>
+                    <button (click)="navigateToIssue(issue)" class="float-right go-to-issue-btn simple-button-style">See more
+                        <mat-icon class=" float-right">arrow_forward</mat-icon>
+                    </button>
+                </div>
             </div>
             <agm-map class=" col-md-6 map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
                 <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
@@ -51,31 +61,6 @@
             </agm-map>
         </div>
 
-        <div class="col-md-12 issue no-padding">
-            <div class="col-md-6 issue-info-container">
-                <p class="display-inline score">22</p>
-                <h2 class="colored-text display-inline">titlus</h2>
-                <!-- <mat-icon class="voted" *ngIf="issue.voteStatus === 1">check</mat-icon> -->
-                <!-- <span class="minus-one display-inline">-</span>
-                        <span class="plus-one display-inline">+</span> -->
-                <p class="description">descriere
-                </p>
-                <!-- <div class="col-md-12 no-padding image-container" *ngIf="issue.photos.length!==0">
-                    <div class="image-holder">
-                        <img src="{{issue.photos[0]?.path}}" />
-                    </div>
-                    <div class="image-holder float-right">
-                        <img src="{{issue.photos[1]?.path}}" />
-                    </div>
-                </div> -->
-            </div>
-            <div class="col-md-6 no-padding map-container">
-                <agm-map class="map  no-padding" [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude">
-                    <agm-marker [latitude]="initialLocation.latitude" [longitude]="initialLocation.longitude" (dragEnd)="markerClicked($event)"
-                        [markerDraggable]="true"></agm-marker>
-                </agm-map>
-            </div>
-        </div>
     </div>
 
 </div>

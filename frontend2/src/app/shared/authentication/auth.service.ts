@@ -19,7 +19,7 @@ export class AuthService {
     }
 
     signOut() {
-        return this.http.post(`/auth/logout`, {  });
+        return this.http.post(`/auth/logout`, {});
     }
 
     register(registerUser: RegisterUser) {

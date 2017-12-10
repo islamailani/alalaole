@@ -15,6 +15,10 @@ export class IssuesService {
         return this.http.get(`/issues`);
     }
 
+    getIssuesWithParam(location?) {
+        return this.http.get(`/issues?latitude=${location.latitude}&longitude=${location.longitude}`);
+    }
+
     getMyIssues() {
         return this.http.get(`/myissues`);
     }

@@ -16,13 +16,14 @@ body{
 	text-align: left;
 	padding: 5px 20px;
 	margin-top: 20px;
-
     border-radius: 0px;
     outline: none;
     font-size: 17px;
     padding: 4px 26px 4px 26px;
     cursor: pointer;
-
+    &:focus{
+        outline: none;
+    }
     mat-icon{
         font-size: 20px;
     }

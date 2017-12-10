@@ -39,4 +39,16 @@
             padding:0px;
         }
     }
+    .menu-list-visitor{
+        li{
+            letter-spacing: 2px;
+            display: inline;
+            color:white;
+            padding-right:20px;
+            font-size:18px;
+            &:focus{
+                outline: none;
+            }
+        }
+    }
 }
