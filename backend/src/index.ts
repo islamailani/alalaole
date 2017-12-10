@@ -32,7 +32,7 @@ createConnection(Config.ConnectionOptions).then(async (connection) => {
     const controllers: Controller[] = container.getAll<Controller>(TYPES.Controller);
     controllers.forEach((controller) => controller.register(app));
 
-    app.use(notFound);
+    // app.use(notFound);
     app.use(handleErrors);
 
     app.listen(3000, () => {
