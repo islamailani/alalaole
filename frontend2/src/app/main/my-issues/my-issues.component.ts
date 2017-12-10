@@ -34,6 +34,7 @@ export class MyIssuesComponent implements OnInit {
 
   markSolved(issue: Issue) {
     this.issuesService.markSolved(issue.id).subscribe(res => {
+      console.log('asd');
       this.issues = this.issues.filter(x => x.id !== issue.id);
       this.handleResponse('Issue marked as solved!');
     });
