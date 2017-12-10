@@ -18,7 +18,7 @@ export class AdminDashboardComponent implements OnInit {
         longitude: 21.226788,
         latitude: 45.760696
     };
-    users: PendingUser[];
+    users: PendingUser[] = [];
     constructor(
         private mapsAPILoader: MapsAPILoader,
         public router: Router,

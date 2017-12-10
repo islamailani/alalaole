@@ -5,9 +5,12 @@
             [markerDraggable]="true"></agm-marker>
     </agm-map>
     <div class="col-md-12 users">
-        <p>
+        <p *ngIf="users.length!==0">
             <i class="colored-text">Users waiting for aproval:</i>
         </p>
+        <p *ngIf="users.length===0">
+                <i class="colored-text" style="margin-bottom:0px">There are no users waiting for aproval.</i>
+            </p>
         <div class="user-pannel col-md-12" *ngFor="let user of users">
             <p>
                 <span class="my-label">Name:</span> {{user.name}}</p>
