@@ -12,12 +12,12 @@ import { Comment } from '../models/Comment';
 import { Issue, VoteStatus } from '../models/Issue';
 import { Photo } from '../models/Photo';
 
+import { Vote } from '../models/Vote';
 import { BroadcastingService, SubscriptionType } from '../services/BroadcastingService';
 import { CommentService } from '../services/CommentService';
 import { IssueService } from '../services/IssueService';
 import { VoteService } from '../services/VoteService';
 import { HttpError } from '../utils/HttpError';
-import { Vote } from '../models/Vote';
 
 @injectable()
 export class IssueController implements Controller {

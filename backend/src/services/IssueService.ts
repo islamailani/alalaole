@@ -68,7 +68,8 @@ export class IssueServiceImpl implements IssueService {
         issue = await this.getIssue(issue.id);
         const upvotes = issue.votes.filter((vote) => vote.score === 1).length;
         const downvotes = issue.votes.filter((vote) => vote.score === -1).length;
-        const shouldArchive = (downvotes * 2 > upvotes) || (downvotes === 2 && upvotes === 0);
+        const shouldArchive = ((downvotes > (upvotes * 2)) && upvotes !== 0) || (downvotes === 2 && upvotes === 0);
+        console.log(upvotes, downvotes, shouldArchive);
         if (shouldArchive) {
             this.archiveIssue(issue);
         }
